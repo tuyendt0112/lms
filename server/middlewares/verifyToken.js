@@ -29,7 +29,17 @@ const isAdmin = asyncHandler((req, res, next) => {
         })
     next()
 })
+const isAdminAndPitchOwn = asyncHandler((req, res, next) => {
+    const { role } = req.user
+    if (role !== 'po' && role !== 'admin')
+        return res.status(401).json({
+            success: false,
+            mes: 'REQUIRE ROLE'
+        })
+    next()
+})
 module.exports = {
     verifyAccessToken,
-    isAdmin
+    isAdmin,
+    isAdminAndPitchOwn
 }
