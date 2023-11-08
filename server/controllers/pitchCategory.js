@@ -31,7 +31,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     const response = await PitchCategory.findByIdAndDelete(pcid)
     return res.json({
         success: response ? true : false,
-        updateCategory: response ? response : 'Can not delete pitch - category'
+        deleteCategory: response ? response : 'Can not delete pitch - category'
     })
 
 })

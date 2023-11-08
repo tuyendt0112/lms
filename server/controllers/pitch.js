@@ -126,8 +126,14 @@ const ratings = asyncHandler(async (req, res) => {
     })
 
 })
-const uploadImagesPitch = asyncHandler(async(req,res)=>{
-    console.log(req.file)
+const uploadImagesPitch = asyncHandler(async (req, res) => {
+    const { pid } = req.params
+    if (!req.files) throw new Error('Missing inputs')
+    const response = await Pitch.findByIdAndUpdate(pid, { $push: { images: { $each: req.files.map(el => el.path) } } })
+    return res.status(200).json({
+        status: response ? true : false,
+        updatedPitch: response ? response : 'Cannot upload images pitches'
+    })
     return res.json('OKE')
 })
 
