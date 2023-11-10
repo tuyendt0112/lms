@@ -2,8 +2,6 @@ import React from 'react'
 import { navigation } from '../ultils/constant'
 import { NavLink } from 'react-router-dom'
 
-const notActivedStyle = ''
-const activedStyle = ''
 
 const Navigation = () => {
   return (
