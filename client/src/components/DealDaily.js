@@ -20,7 +20,14 @@ const DealDaily = () => {
         const response = await apiGetPitches({ limit: 1, page: Math.round(Math.random() * 6) })
         if (response.success) {
             setdealdaily(response.pitches[0])
-            sethour(24)
+            const h = 24 - new Date().getHours()
+            const m = 60 - new Date().getMinutes()
+            const s = 60 - new Date().getSeconds()
+            sethour(h)
+            setminute(m)
+            setsecond(s)
+        } else {
+            sethour(0)
             setminute(59)
             setsecond(59)
         }
@@ -39,12 +46,12 @@ const DealDaily = () => {
             else {
                 if (minute > 0) {
                     setminute(prev => prev - 1)
-                    setsecond(60)
+                    setsecond(59)
                 } else {
                     if (hour > 0) {
                         sethour(prev => prev - 1)
-                        setminute(60)
-                        setsecond(60)
+                        setminute(59)
+                        setsecond(59)
                     } else {
                         setexpireTime(!expireTime)
                     }
@@ -67,7 +74,9 @@ const DealDaily = () => {
             <div className='w-full flex flex-col items-center pt-8 px-4 gap-2'>
                 <img src={dealdaily?.images[0] || defaultt} alt="" className='w-full object-contain'></img>
                 <span className='line-clamp-1 text-center'>{dealdaily?.title}</span>
-                <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRatings, 20)}</span>
+                <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRatings)?.map((el, index) => (
+                    <span key={index}>{el}</span>
+                ))}</span>
                 <span>{`${formatMoney(dealdaily?.price)} VNĐ`}</span>
             </div>
             <div className='px-4 mt-8'>

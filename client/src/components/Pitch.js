@@ -3,11 +3,11 @@ import defaultt from '../assets/default.png'
 import { formatMoney } from '../ultils/helper'
 import label from '../assets/label.png'
 import label2 from '../assets/label2.png'
-
-
 import { renderStarFromNumber } from '../ultils/helper'
 import { SelectOption } from './'
 import icons from '../ultils/icons'
+import { Link } from 'react-router-dom'
+import path from '../ultils/path'
 
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons
 
@@ -16,7 +16,8 @@ const Pitch = ({ pitchData, isNew }) => {
     const [isShowOption, setisShowOption] = useState(false)
     return (
         <div className='w-full text-base pr-[10px]'>
-            <div className='w-full border p-[15px] flex flex-col items-center'
+            <Link className='w-full border p-[15px] flex flex-col items-center'
+                to={`/${path.DETAIL_PITCH}/${pitchData?._id}/${pitchData?.title}`}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setisShowOption(true)
@@ -37,11 +38,13 @@ const Pitch = ({ pitchData, isNew }) => {
                     <span className='font-bold  top-[-12px] left-[-10px] text-white absolute'>{isNew ? 'New' : 'Best'}</span>
                 </div>
                 <div className='flex flex-col mt-[15px] items-start gap-1 w-full'>
-                    <span className='flex h-4'>{renderStarFromNumber(pitchData?.totalRatings)}</span>
+                    <span className='flex h-4'>{renderStarFromNumber(pitchData?.totalRatings)?.map((el, index) => (
+                        <span key={index}>{el}</span>
+                    ))}</span>
                     <span className='line-clamp-1'>{pitchData?.title}</span>
                     <span>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }

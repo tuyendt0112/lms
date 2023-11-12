@@ -8,6 +8,13 @@ var pitchCategorySchema = new mongoose.Schema({
         unique: true,
         index: true,
     },
+    brand: {
+        type: Array,
+        require: true
+    },
+    images: {
+        type: Array
+    },
 
 }, {
     timestamps: true
