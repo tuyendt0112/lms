@@ -12,6 +12,10 @@ export { default as PitchCard } from './PitchCard';
 export { default as CustomSlider } from './CustomSlider';
 export { default as TopHeader } from './TopHeader';
 export { default as Footer } from './Footer';
+export { default as InputFields } from './InputFields';
+export { default as Button } from './Button';
+
+
 
 
 
