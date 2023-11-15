@@ -7,7 +7,8 @@ const { IoIosArrowForward } = icons
 const Home = () => {
     const { newPitches } = useSelector(state => state.pitch)
     const { categories } = useSelector(state => state.app)
-    console.log(categories)
+    const { isLoggedIn, current } = useSelector(state => state.user)
+    console.log({ isLoggedIn, current })
     return (
         <>
 
@@ -46,9 +47,9 @@ const Home = () => {
                                     <h4 className='font-semibold uppercase'>{el.title}</h4>
                                     <ul className='text-sm'>
                                         {el?.brand?.map(item => (
-                                            <span className='flex gap-1 items-center'>
+                                            <span key={item} className='flex gap-1 items-center'>
                                                 <IoIosArrowForward size={14}></IoIosArrowForward>
-                                                <li key={item}>{item}</li>
+                                                <li>{item}</li>
                                             </span>
                                         ))}
                                     </ul>

@@ -4,27 +4,70 @@ const { generateAccessToken, generateRefreshToken } = require('../middlewares/jw
 const jwt = require('jsonwebtoken')
 const sendMail = require('../ultils/sendMail')
 const crypto = require('crypto')
+const makeToken = require('uniqid')
 
+// const register = asyncHandler(async (req, res) => {
+//     const { email, password, firstname, lastname } = req.body
+//     if (!email || !password || !lastname || !firstname)
+//         return res.status(400).json({
+//             success: false,
+//             mes: 'Missing inputs'
+//         })
+
+//     const user = await User.findOne({ email })
+//     if (user)
+//         throw new Error('User has existed')
+//     else {
+//         const newUser = await User.create(req.body)
+//         return res.status(200).json({
+//             success: newUser ? true : false,
+//             mes: newUser ? 'Register is sucessfully. Please login' : 'Something went wrong'
+//         })
+
+//     }
+// })
 
 const register = asyncHandler(async (req, res) => {
-    const { email, password, firstname, lastname, mobile } = req.body
-    if (!email || !password || !lastname || !firstname || !mobile)
+    const { email, password, firstname, lastname } = req.body
+    if (!email || !password || !lastname || !firstname)
         return res.status(400).json({
             success: false,
             mes: 'Missing inputs'
         })
-
     const user = await User.findOne({ email })
     if (user)
         throw new Error('User has existed')
     else {
-        const newUser = await User.create(req.body)
-        return res.status(200).json({
-            sucess: newUser ? true : false,
-            mes: newUser ? 'Register is sucessfully. Please login' : 'Something went wrong'
+        const token = makeToken()
+        const emailedited = btoa(email) + '@' + token
+        const newUser = await User.create({
+            email: emailedited, password, firstname, lastname
         })
-
+        if (newUser) {
+            const html = `<h2>Register code:</h2><br /><blockquote>${token}</blockquote>`
+            await sendMail({ email, html, subject: 'Complete Register Debug Boy' })
+        }
+        setTimeout(async () => {
+            await User.deleteOne({ email: emailedited })
+        }, [600000])
+        return res.json({
+            success: newUser ? true : false,
+            mes: newUser ? 'Please check your email to active account' : 'Something went wrong, please try again'
+        })
     }
+})
+const finalRegister = asyncHandler(async (req, res) => {
+    //const cookie = req.cookies
+    const { token } = req.params
+    const notActivedEmail = await User.findOne({ email: new RegExp(`${token}$`) })
+    if (notActivedEmail) {
+        notActivedEmail.email = atob(notActivedEmail?.email?.split('@')[0])
+        notActivedEmail.save()
+    }
+    return res.json({
+        success: notActivedEmail ? true : false,
+        mes: notActivedEmail ? 'Register is succesfully. Please go login' : 'Something went wrong, please try again'
+    })
 })
 
 const login = asyncHandler(async (req, res) => {
@@ -42,7 +85,7 @@ const login = asyncHandler(async (req, res) => {
         // tách password và role ra khỏi response
         const { password, role, refreshToken, ...userData } = response.toObject()
         //tạo accesstoken
-        const acessToken = generateAccessToken(response._id, role)
+        const accessToken = generateAccessToken(response._id, role)
         //tạo refreshtoken
         const newrefreshToken = generateRefreshToken(response._id)
         // lưu refreshtoken vào database
@@ -50,13 +93,13 @@ const login = asyncHandler(async (req, res) => {
         // lưu refresh token vào cookie
         res.cookie('refreshToken', newrefreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
         return res.status(200).json({
-            sucess: true,
-            acessToken,
+            success: true,
+            accessToken,
             userData
         })
 
     } else {
-        throw new Error('Invalid password')
+        throw new Error('Invalid credentials')
     }
 })
 const getCurrent = asyncHandler(async (req, res) => {
@@ -104,23 +147,25 @@ const logout = asyncHandler(async (req, res) => {
 //check token có giống với server gửi 0
 //change password
 const forgotPassword = asyncHandler(async (req, res) => {
-    const { email } = req.query
+    const { email } = req.body
     if (!email) throw new Error('Missing email')
     const user = await User.findOne({ email })
     if (!user) throw new Error('User not found')
     const resetToken = user.createPasswordChangedToken()
     await user.save()
 
-    const html = `Please click to this link to reset your password. <a href=${process.env.URL_SERVER}/api/user/reset-password/${resetToken}>Click here</a>`
+    const html = `Please click to this link to reset your password. 
+    <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Click here</a>`
 
     const data = {
         email,
-        html
+        html,
+        subject: "Forgot password"
     }
     const rs = await sendMail(data)
     return res.status(200).json({
-        sucess: true,
-        rs
+        success: rs.response?.includes('OK') ? true : false,
+        mes: rs.response?.includes('OK') ? 'Please check your email' : 'Somthing went wrong , try again'
     })
 })
 const resetPassword = asyncHandler(async (req, res) => {
@@ -135,7 +180,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     user.passwordResetExpires = undefined
     await user.save()
     return res.status(200).json({
-        sucess: user ? true : false,
+        success: user ? true : false,
         mes: user ? 'Update password' : 'Something went wrong'
     })
 })
@@ -187,4 +232,5 @@ module.exports = {
     deleteUsers,
     updateUsers,
     updateUsersByAdmin,
+    finalRegister
 }
