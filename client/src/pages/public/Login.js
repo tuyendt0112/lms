@@ -9,6 +9,7 @@ import { login } from '../../store/user/userSlice'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { validate } from '../../ultils/helper'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -169,6 +170,7 @@ const Login = () => {
             {!isRegister && <span className='text-blue-500 hover:underline cursor-pointer' onClick={() => setisRegister(true)}>Sign Up</span>}
             {isRegister && <span className='text-blue-500 hover:underline cursor-pointer w-full text-center' onClick={() => setisRegister(false)}>Back to Login</span>}
           </div>
+          <Link className='text-blue-500 hover:underline cursor-pointer' to={`/${path.HOME}`}>Homepage</Link>
         </div>
       </div>
     </div>

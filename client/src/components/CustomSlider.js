@@ -11,8 +11,8 @@ const settings = {
 };
 const CustomSlider = ({ pitches, activedTab }) => {
     return (
-        <div>
-            <Slider {...settings}>
+        <>
+            {pitches && <Slider className='custom-slider' {...settings}>
                 {pitches?.map((el, index) => (
                     <Pitch
                         key={index}
@@ -22,8 +22,8 @@ const CustomSlider = ({ pitches, activedTab }) => {
                     >
                     </Pitch>
                 ))}
-            </Slider>
-        </div>
+            </Slider>}
+        </>
     )
 }
 

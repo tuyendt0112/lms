@@ -16,7 +16,7 @@ const getPitch = asyncHandler(async (req, res) => {
     const pitch = await Pitch.findById(pid)
     return res.status(200).json({
         success: pitch ? true : false,
-        createPitch: pitch ? pitch : 'Can not get pitch'
+        pitchData: pitch ? pitch : 'Can not get pitch'
     })
 })
 

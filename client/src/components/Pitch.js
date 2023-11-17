@@ -17,7 +17,7 @@ const Pitch = ({ pitchData, isNew }) => {
     return (
         <div className='w-full text-base pr-[10px]'>
             <Link className='w-full border p-[15px] flex flex-col items-center'
-                to={`/${path.DETAIL_PITCH}/${pitchData?._id}/${pitchData?.title}`}
+                to={`/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setisShowOption(true)

@@ -22,10 +22,10 @@ const Home = () => {
                     <BestPrice></BestPrice>
                 </div>
             </div>
-            <div className='my-8'>
+            <div className='w-main my-8'>
                 <FeaturePitch></FeaturePitch>
             </div>
-            <div className='my-8 w-full'>
+            <div className='my-8 w-main'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>NEW ARRIVALS</h3>
                 <div className='mt-4 mx-[-10px]'>
                     <CustomSlider
@@ -33,7 +33,7 @@ const Home = () => {
                     ></CustomSlider>
                 </div>
             </div>
-            <div className='my-8 w-full'>
+            <div className='my-8 w-main'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>HOT PITCHES</h3>
                 <div className='flex flex-wrap gap-x-24 gap-y-8 mt-4 min-h-[190px]'>
                     {categories?.filter(el => el.brand.length > 0).map(el => (
