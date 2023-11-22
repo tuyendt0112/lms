@@ -15,6 +15,10 @@ export { default as Footer } from './Footer';
 export { default as InputFields } from './InputFields';
 export { default as Button } from './Button';
 export { default as Breadcrumb } from './Breadcrumb';
+export { default as PitchExtraInfo } from './PitchExtraInfo';
+export { default as PitchInformation } from './PitchInformation';
+export { default as SearchItem } from './SearchItem';
+export { default as InputSelect } from './InputSelect';
 
 
 

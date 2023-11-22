@@ -9,7 +9,7 @@ const settings = {
     slidesToShow: 3,
     slidesToScroll: 1
 };
-const CustomSlider = ({ pitches, activedTab }) => {
+const CustomSlider = ({ pitches, activedTab, normal }) => {
     return (
         <>
             {pitches && <Slider className='custom-slider' {...settings}>
@@ -19,6 +19,7 @@ const CustomSlider = ({ pitches, activedTab }) => {
                         pid={el.id}
                         pitchData={el}
                         isNew={activedTab === 1 ? false : true}
+                        normal={normal}
                     >
                     </Pitch>
                 ))}

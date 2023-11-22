@@ -1,3 +1,4 @@
+import { number } from "yup"
 import icons from "./icons"
 const { AiOutlineStar, AiFillStar } = icons
 
@@ -44,3 +45,4 @@ export const validate = (payload, setInvalidFields) => {
     }
     return invalids
 }
+export const formatPrice = number => Math.round(number / 1000) * 1000
