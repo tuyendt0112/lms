@@ -9,6 +9,10 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    studentId: {
+      type: String,
+      unique: true,
+    },
     dateOfBirth: {
       type: Date,
     },
@@ -27,12 +31,11 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "Student",
-      enum: ["Student", "Teacher", "TBM"],
+      default: "2",
+      enum: ["2", "3", "4"], // 2=> student, 3=>teacher , 4=>tbm ,
     },
     phoneNumber: {
       type: String,
-      required: true,
       unique: true,
     },
     position: {
@@ -43,6 +46,11 @@ var userSchema = new mongoose.Schema(
     major: {
       type: mongoose.Types.ObjectId,
       ref: "Major",
+      require: true,
+    },
+    department: {
+      type: mongoose.Types.ObjectId,
+      ref: "Department",
       require: true,
     },
     isBlocked: {

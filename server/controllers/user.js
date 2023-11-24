@@ -10,12 +10,18 @@ const crypto = require("crypto");
 const makeToken = require("uniqid");
 
 const createUser = asyncHandler(async (req, res) => {
-  const { email, password, name, role } = req.body;
-  if (!email || !password || !name)
+  const { email, password, name, role, major, department } = req.body;
+  if (!email || !password || !name || !role || !major || !department)
     return res.status(400).json({
       success: false,
       mes: "Missing inputs",
     });
+
+  if (!role === "2") {
+    req.body.schoolYear = "";
+  } else {
+    if (!req.body.studentId) throw new Error("Missing studentID");
+  }
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
   else {
@@ -69,7 +75,10 @@ const login = asyncHandler(async (req, res) => {
 });
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-refreshToken -password -role");
+  const user = await User.findById(_id)
+    .select("-refreshToken -password -role")
+    .populate("major", "title -_id")
+    .populate("department", "title -_id");
   return res.status(200).json({
     success: user ? true : false,
     rs: user ? user : "User not found",
@@ -180,8 +189,8 @@ const deleteUsers = asyncHandler(async (req, res) => {
   const response = await User.findByIdAndDelete(_id);
   return res.status(200).json({
     success: response ? true : false,
-    deletedUsers: response
-      ? `User with email ${response.email} has been deleted `
+    deletedUser: response
+      ? `User with role ${response.role} has email ${response.email} , name : ${response.name} has been deleted `
       : "No user deleted",
   });
 });
@@ -206,7 +215,7 @@ const updateUsersByAdmin = asyncHandler(async (req, res) => {
   }).select("-password -role -refreshToken");
   return res.status(200).json({
     success: response ? true : false,
-    updateddUsers: response ? response : "Can not update",
+    updatedUser: response ? response : "Can not update",
   });
 });
 
