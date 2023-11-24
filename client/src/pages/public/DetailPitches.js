@@ -20,10 +20,14 @@ const DetailPitches = () => {
 
   const { pid, title, category } = useParams()
   const [pitch, setpitch] = useState(null)
+  const [currentImage, setcurrentImage] = useState(null)
   const [realtedPitches, setrealtedPitches] = useState(null)
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pid)
-    if (response.success) setpitch(response.pitchData)
+    if (response.success) {
+      setpitch(response.pitchData)
+      setcurrentImage(response.pitchData?.images[0])
+    }
   }
   const fetchPitches = async () => {
     const response = await apiGetPitches()
@@ -35,6 +39,10 @@ const DetailPitches = () => {
       fetchPitches()
     }
   }, [pid])
+  const handleClickimage = (e, el) => {
+    e.stopPropagation()
+    setcurrentImage(el)
+  }
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
@@ -45,12 +53,12 @@ const DetailPitches = () => {
       </div>
       <div className='w-main m-auto mt-4 flex'>
         <div className='flex flex-col gap-3 w-2/5 '>
-          <img src={pitch?.images[0]} alt='pitch' className='border h-[458px] w-[470px] object-cover'></img>
+          <img src={currentImage} alt='pitch' className='border h-[458px] w-[470px] object-cover'></img>
           <div className='w-[458px]'>
             <Slider className='image-slider' {...settings}>
               {pitch?.images?.map(el => (
                 <div className='flex w-full gap-2' key={el}>
-                  <img src={el} alt='sub-pitch' className='h-[143px] w-[150px] border object-cover'></img>
+                  <img onClick={e => handleClickimage(e, el)} src={el} alt='sub-pitch' className='h-[143px] w-[150px] cursor-pointer border object-cover'></img>
                 </div>
               ))}
             </Slider>
@@ -91,7 +99,7 @@ const DetailPitches = () => {
         </div>
       </div>
       <div className='w-main m-auto mt-8'>
-        <PitchInformation></PitchInformation>
+        <PitchInformation totalRatings={pitch?.totalRatings} totalCount={18}></PitchInformation>
       </div>
       <div className='w-main m-auto mt-8'>
         <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>

@@ -89,10 +89,7 @@ export const pitchInforTabs = [
         BANKING
         `
     },
-    {
-        id: 5,
-        name: 'CUSTOMER REVIEW'
-    },
+  
 ]
 export const sorts = [
     {
