@@ -9,17 +9,23 @@ var topicSchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
-    students: {
-      type: Array,
-    },
-    instructor: {
+    topicId: {
       type: String,
+    },
+    instructors: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+    students: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+    // instructor: {
+    //   type: Array,
+    // },
+    major: {
+      type: mongoose.Types.ObjectId,
+      ref: "Major",
+      require: true,
     },
     department: {
-      type: String,
-    },
-    major: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: "Department",
+      require: true,
     },
     timeEnd: {
       type: Date,
@@ -35,6 +41,11 @@ var topicSchema = new mongoose.Schema(
     },
     description: {
       type: Array,
+    },
+    status: {
+      type: String,
+      enum: ["Wait", "Cancel", "Approve", "Pending"], //Pending:chờ phản biện , Wait : chờ chấp thuận , Cancel: hủy,  Approve : chấp thuận, Success: done
+      default: "Wait",
     },
   },
   {
