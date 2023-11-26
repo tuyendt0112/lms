@@ -3,9 +3,12 @@ import logo from '../assets/logo.png'
 import icons from '../ultils/icons'
 import { Link } from 'react-router-dom'
 import path from '..//ultils/path'
+import { useSelector } from 'react-redux'
 
+const { RiPhoneFill, MdEmail, FaUserCircle } = icons
 const Header = () => {
-    const { RiPhoneFill, MdEmail, FaUserCircle } = icons
+    const { current } = useSelector(state => state.user)
+    console.log("CURRENT", current)
     return (
         <div className='w-main flex justify-between h-[110px] py-[35px]'>
             <Link to={`/${path.HOME}`}>
@@ -26,11 +29,15 @@ const Header = () => {
                     </span>
                     <span>Online Support 24/7</span>
                 </div>
-                <div className='flex cursor-pointer items-center justify-center px-6 gap-2'>
-                    <FaUserCircle size={24}></FaUserCircle>
-                    <span>Profile</span>
-                </div>
-                <div></div>
+                {current &&
+                    <Link
+                        to={+current?.role === 1 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`}
+                        className='flex cursor-pointer items-center justify-center px-6 gap-2'
+                    >
+                        <FaUserCircle size={24}></FaUserCircle>
+                        <span>Profile</span>
+                    </Link>
+                }
             </div>
         </div>
     )

@@ -11,7 +11,7 @@ const commonConfig = {
 }
 const userConfig = {
   ...commonConfig,
-  whitelist: ['isLoggedIn', 'token']
+  whitelist: ['isLoggedIn', 'token', 'current']
 }
 export const store = configureStore({
   reducer: {
@@ -21,4 +21,4 @@ export const store = configureStore({
   },
 
 });
-export const persistor =  persistStore(store)
+export const persistor = persistStore(store)

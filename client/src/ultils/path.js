@@ -1,4 +1,6 @@
 const path = {
+
+    // Public Route 
     PUBLIC: '/',
     HOME: '',
     ALL: '*',
@@ -9,6 +11,18 @@ const path = {
     FAQ: 'faqs',
     DETAIL_PITCH__CATEGORY__PID__TITLE: ':category/:pid/:title',
     FINAL_REGISTER: 'finalregister/:status',
-    RESET_PASSWORD: 'reset-password/:token'
+    RESET_PASSWORD: 'reset-password/:token',
+
+    // Admin Route
+    ADMIN: 'admin',
+    DASHBOARD: 'dashboard',
+    MANAGE_USER: 'manage-user',
+    MANAGE_PITCH: 'manage-pitch',
+    MANAGE_ORDER: 'manage-order',
+    CREATE_PITCH: 'create-pitch',
+
+    // Member Route
+    MEMBER: 'member',
+    PERSONAL: 'personal',
 }
 export default path
