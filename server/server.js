@@ -22,5 +22,5 @@ initRoutes(app)
 //app.use('/', (req, res) => { res.send('SERVER ONNN') })
 
 app.listen(port, () => {
-    console.log('Server is running on port :' + port)
+    console.log('Server is running on port: ' + port)
 })

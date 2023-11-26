@@ -25,7 +25,8 @@ var userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'user',
+        enum: [1, 2, 3],
+        default: 1,
     },
     address: [{ type: mongoose.Types.ObjectId, ref: 'Address' }],
     isBlocked: {

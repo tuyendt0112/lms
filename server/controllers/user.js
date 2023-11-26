@@ -45,14 +45,14 @@ const register = asyncHandler(async (req, res) => {
         })
         if (newUser) {
             const html = `<h2>Register code:</h2><br /><blockquote>${token}</blockquote>`
-            await sendMail({ email, html, subject: 'Complete Register Debug Boy' })
+            sendMail({ email, html, subject: 'Complete Register Debug Boy' })
         }
         setTimeout(async () => {
             await User.deleteOne({ email: emailedited })
         }, [600000])
         return res.json({
             success: newUser ? true : false,
-            mes: newUser ? 'Please check your email to active account' : 'Something went wrong, please try again'
+            mes: newUser ? 'Please check your email to active account' : 'Something went wrong, please try again123123'
         })
     }
 })
@@ -104,7 +104,7 @@ const login = asyncHandler(async (req, res) => {
 })
 const getCurrent = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const user = await User.findById(_id).select('-refreshToken -password -role')
+    const user = await User.findById(_id).select('-refreshToken -password')
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : 'User not found'
