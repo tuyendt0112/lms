@@ -1,6 +1,6 @@
-import React from 'react'
-import { formatMoney } from '../ultils/helper'
-import { renderStarFromNumber } from '../ultils/helper'
+import React, { memo } from 'react'
+import { formatMoney } from 'ultils/helper'
+import { renderStarFromNumber } from 'ultils/helper'
 
 const PitchCard = ({ price, totalRatings, title, image }) => {
     return (
@@ -19,4 +19,4 @@ const PitchCard = ({ price, totalRatings, title, image }) => {
     )
 }
 
-export default PitchCard
+export default memo(PitchCard)

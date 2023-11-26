@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import defaultt from '../assets/default.png'
-import { formatMoney } from '../ultils/helper'
-import label from '../assets/label.png'
-import label2 from '../assets/label2.png'
-import { renderStarFromNumber } from '../ultils/helper'
-import { SelectOption } from './'
-import icons from '../ultils/icons'
+import React, { memo, useState } from 'react'
+import defaultt from 'assets/default.png'
+import { formatMoney } from 'ultils/helper'
+import label from 'assets/label.png'
+import label2 from 'assets/label2.png'
+import { renderStarFromNumber } from 'ultils/helper'
+import SelectOption from 'components/search/SelectOption'
+import icons from 'ultils/icons'
 import { Link } from 'react-router-dom'
-import path from '../ultils/path'
+import path from 'ultils/path'
 
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons
 
@@ -49,4 +49,4 @@ const Pitch = ({ pitchData, isNew, normal }) => {
     )
 }
 
-export default Pitch
+export default memo(Pitch)

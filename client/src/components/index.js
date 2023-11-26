@@ -1,26 +1,40 @@
-export { default as Header } from './Header';
-export { default as Banner } from './Banner';
-export { default as Navigation } from './Navigation';
-export { default as Sidebar } from './Sidebar';
-export { default as BestPrice } from './BestPrice';
-export { default as Pitch } from './Pitch';
-export { default as SelectOption } from './SelectOption';
-export { default as DealDaily } from './DealDaily';
-export { default as CountDown } from './CountDown';
-export { default as FeaturePitch } from './FeaturePitch';
-export { default as PitchCard } from './PitchCard';
-export { default as CustomSlider } from './CustomSlider';
-export { default as TopHeader } from './TopHeader';
-export { default as Footer } from './Footer';
-export { default as InputFields } from './InputFields';
-export { default as Button } from './Button';
-export { default as Breadcrumb } from './Breadcrumb';
-export { default as PitchExtraInfo } from './PitchExtraInfo';
-export { default as PitchInformation } from './PitchInformation';
-export { default as SearchItem } from './SearchItem';
-export { default as InputSelect } from './InputSelect';
-export { default as Rating } from './Rating';
-export { default as Votebar } from './Votebar';
+// Header
+export { default as Header } from './header/Header';
+export { default as TopHeader } from './header/TopHeader';
+// Common
+export { default as CountDown } from './common/CountDown';
+export { default as CustomSlider } from './common/CustomSlider';
+export { default as Breadcrumb } from './common/Breadcrumb';
+export { default as Banner } from './common/Banner';
+{/* TODO LIST
+export { default as Loading } from './common/Loading';
+export { default as Modal } from './common/Modal';
+*/}
+// Products
+export { default as BestPrice } from './products/BestPrice';
+export { default as Pitch } from './products/Pitch';
+export { default as DealDaily } from './products/DealDaily';
+export { default as FeaturePitch } from './products/FeaturePitch';
+export { default as PitchCard } from './products/PitchCard';
+export { default as PitchExtraInfo } from './products/PitchExtraInfo';
+export { default as PitchInformation } from './products/PitchInformation';
+// Seacrh
+export { default as SelectOption } from './search/SelectOption';
+export { default as SearchItem } from './search/SearchItem';
+// Inputs
+export { default as InputSelect } from './inputs/InputSelect';
+export { default as InputFields } from './inputs/InputFields';
+// Sidebar
+export { default as Sidebar } from './sidebar/Sidebar';
+export { default as AdminSideBar } from './sidebar/AdminSidebar';
+// Navigations
+export { default as Navigation } from './navigations/Navigation';
+// Footer
+export { default as Footer } from './footer/Footer';
+// Button
+export { default as Button } from './buttons/Button';
+// Vote
+export { default as Votebar } from './vote/Votebar';
 
 
 

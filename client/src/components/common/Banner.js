@@ -1,5 +1,5 @@
-import React from 'react'
-import banner from '../assets/banner1.jpg'
+import React, { memo } from 'react'
+import banner from 'assets/banner1.jpg'
 
 const Banner = () => {
   return (
@@ -9,4 +9,4 @@ const Banner = () => {
   )
 }
 
-export default Banner
+export default memo(Banner)

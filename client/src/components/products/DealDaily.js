@@ -1,10 +1,10 @@
 import React, { useState, useEffect, memo } from 'react'
-import icons from '../ultils/icons'
-import { apiGetPitches } from '../apis/pitch'
-import defaultt from '../assets/default.png'
-import { formatMoney } from '../ultils/helper'
-import { renderStarFromNumber } from '../ultils/helper'
-import { CountDown } from './'
+import icons from 'ultils/icons'
+import { apiGetPitches } from 'apis/pitch'
+import defaultt from 'assets/default.png'
+import { formatMoney } from 'ultils/helper'
+import { renderStarFromNumber } from 'ultils/helper'
+import CountDown from 'components/common/CountDown'
 
 const { AiFillStar, AiOutlineMenu } = icons
 let idInterval

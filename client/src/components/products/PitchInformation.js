@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react'
-import { pitchInforTabs } from '../ultils/constant'
-import { Votebar } from './'
-import { renderStarFromNumber } from '../ultils/helper'
+import { pitchInforTabs } from 'ultils/constant'
+import Votebar from 'components/vote/Votebar'
+import { renderStarFromNumber } from 'ultils/helper'
 
 const activedStyles = ''
 const notActivedStyles = ''

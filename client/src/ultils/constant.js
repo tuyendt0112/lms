@@ -35,25 +35,25 @@ export const pitchExtraInformation = [
         id: '1',
         title: 'Guarantee',
         sub: 'Quality Checked',
-        icon: <BsShieldShaded></BsShieldShaded>
+        icon: <BsShieldShaded />
     },
     {
         id: '2',
         title: 'Consultancy',
         sub: 'Online 24/7',
-        icon: <FaTty></FaTty>
+        icon: <FaTty />
     },
     {
         id: '3',
         title: 'Free Return Money',
         sub: 'Within 24 hours',
-        icon: <BsReplyFill></BsReplyFill>
+        icon: <BsReplyFill />
     },
     {
         id: '4',
         title: 'Special Deal',
         sub: 'Deals Everyday',
-        icon: <AiFillGift></AiFillGift>
+        icon: <AiFillGift />
     }
 ]
 
@@ -89,8 +89,9 @@ export const pitchInforTabs = [
         BANKING
         `
     },
-  
+
 ]
+
 export const sorts = [
     {
         id: 1,
@@ -121,5 +122,46 @@ export const sorts = [
         id: 6,
         value: 'createdAt',
         text: 'Date, old to new'
+    },
+]
+
+const { MdSpaceDashboard, MdGroups, FaProductHunt, FaMoneyBill } = icons
+export const adminSideBar = [
+    {
+        id: 1,
+        type: 'SINGLE',
+        text: 'Dashboard',
+        path: `/${path.ADMIN}/${path.DASHBOARD}`,
+        icon: <MdSpaceDashboard />
+    },
+    {
+        id: 2,
+        type: 'SINGLE',
+        text: 'Manage users',
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <MdGroups />
+    },
+    {
+        id: 3,
+        type: 'PARENT',
+        text: 'Manage pitches',
+        icon: <FaProductHunt />,
+        submenu: [
+            {
+                text: 'Create product',
+                path: `/${path.ADMIN}/${path.CREATE_PITCH}`
+            },
+            {
+                text: 'Manage product',
+                path: `/${path.ADMIN}/${path.MANAGE_PITCH}`
+            },
+        ]
+    },
+    {
+        id: 4,
+        type: 'SINGLE',
+        text: 'Manage orders',
+        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <FaMoneyBill />
     },
 ]

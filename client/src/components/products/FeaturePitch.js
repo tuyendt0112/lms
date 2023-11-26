@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { PitchCard } from './'
-import { apiGetPitches } from '../apis'
-import banner3 from '../assets/banner3.jpg'
-import banner4 from '../assets/banner4.jpg'
-import banner5 from '../assets/banner5.jpg'
-import banner6 from '../assets/banner6.jpg'
+import React, { useState, useEffect, memo } from 'react'
+import PitchCard from 'components/products/PitchCard'
+import { apiGetPitches } from 'apis'
+import banner3 from 'assets/banner3.jpg'
+import banner4 from 'assets/banner4.jpg'
+import banner5 from 'assets/banner5.jpg'
+import banner6 from 'assets/banner6.jpg'
 
 
 const FeaturePitch = () => {
@@ -57,4 +57,4 @@ const FeaturePitch = () => {
     )
 }
 
-export default FeaturePitch
+export default memo(FeaturePitch)

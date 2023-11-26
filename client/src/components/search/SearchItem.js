@@ -1,9 +1,9 @@
 import React, { memo, useState, useEffect } from 'react'
-import icons from '../ultils/icons'
-import { apiGetPitches } from '../apis'
+import icons from 'ultils/icons'
+import { apiGetPitches } from 'apis'
 import { useNavigate, useParams, createSearchParams } from 'react-router-dom'
-import path from '../ultils/path'
-import useDebounce from '../hooks/useDebounce'
+import path from 'ultils/path'
+import useDebounce from 'hooks/useDebounce'
 
 const { AiOutlineDown } = icons
 

@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react'
-import icons from '../ultils/icons'
+import React, { useRef, useEffect, memo } from 'react'
+import icons from 'ultils/icons'
 
 const { AiFillStar } = icons
 const Votebar = ({ number, ratingCount, ratingTotal }) => {
@@ -25,4 +25,4 @@ const Votebar = ({ number, ratingCount, ratingTotal }) => {
     )
 }
 
-export default Votebar
+export default memo(Votebar)

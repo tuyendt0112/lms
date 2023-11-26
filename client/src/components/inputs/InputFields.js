@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const InputFields = ({ value, setValue, nameKey, type, invalidFields, setInvalidFields }) => {
 
@@ -18,4 +18,4 @@ const InputFields = ({ value, setValue, nameKey, type, invalidFields, setInvalid
 
     )
 }
-export default InputFields
+export default memo(InputFields)

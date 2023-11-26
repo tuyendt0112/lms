@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { apiGetPitches } from '../apis/pitch'
-import { Pitch, CustomSlider } from './'
+import React, { useState, useEffect, memo } from 'react'
+import { apiGetPitches } from 'apis/pitch'
+import Pitch from 'components/products/Pitch';
+import CustomSlider from 'components/common/CustomSlider';
 import Slider from "react-slick";
-import banner from '../assets//banner.jpg'
-import banner2 from '../assets//banner2.jpg'
-import { getNewPitches } from '../store/pitch/asyncAction'
+import banner from 'assets/banner.jpg'
+import banner2 from 'assets/banner2.jpg'
+import { getNewPitches } from 'store/pitch/asyncAction'
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -64,4 +65,4 @@ const BestPrice = () => {
     )
 }
 
-export default BestPrice
+export default memo(BestPrice)

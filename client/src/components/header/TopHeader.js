@@ -1,10 +1,10 @@
 import React, { memo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import path from '../ultils/path'
-import { getCurrent } from '../store/user/asyncAction'
+import path from 'ultils/path'
+import { getCurrent } from 'store/user/asyncAction'
 import { useDispatch, useSelector } from 'react-redux'
-import icons from '../ultils/icons'
-import { logout } from '../store/user/userSlice'
+import icons from 'ultils/icons'
+import { logout } from 'store/user/userSlice'
 
 const { AiOutlineLogout } = icons
 

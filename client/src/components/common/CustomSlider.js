@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Pitch } from './'
+import Pitch from 'components/products/Pitch';
 import Slider from "react-slick";
 
 const settings = {
