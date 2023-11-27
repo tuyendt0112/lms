@@ -12,3 +12,9 @@ Video 56:
 - Chỉnh cấu trúc folder
 - Chỉnh đường dẫn
 - Thiết kế layout trang Admin
+
+Video 57: 
+- Chỉnh hàm getUsers theo kiểu phân trang
+- từ 16p40 là viết hàm tạo user (có thể không cần viết vì có thể tạo thằng trong MongoDB)
+- Tạo thêm bảng role trong models
+- Hiển thị user trong manage user

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const sendMail = require('../ultils/sendMail')
 const crypto = require('crypto')
 const makeToken = require('uniqid')
-
+const { users } = require('../ultils/constant')
 // const register = asyncHandler(async (req, res) => {
 //     const { email, password, firstname, lastname } = req.body
 //     if (!email || !password || !lastname || !firstname)
@@ -185,11 +185,54 @@ const resetPassword = asyncHandler(async (req, res) => {
     })
 })
 const getUsers = asyncHandler(async (req, res) => {
-    const response = await User.find().select('-refreshToken -password -role')
-    return res.status(200).json({
-        success: response ? true : false,
-        users: response
+    const queries = { ...req.query }
+    // tách các trường đặc biệt ra khỏi query
+    const exlcludeFields = ['limit', 'sort', 'page', 'fields']
+    exlcludeFields.forEach(el => delete queries[el])
+    //Format lại các operators cho đúng cú pháp mongoose
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
+    const formartedQueries = JSON.parse(queryString)
+
+    // Filtering
+    if (queries?.name) formartedQueries.name = { $regex: queries.name, $options: 'i' }
+    let queryCommand = User.find(formartedQueries)
+
+    //Sorting 
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    // Fields litmiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ')
+        queryCommand = queryCommand.select(fields)
+    }
+
+    //Pagination
+    //limit : số object lấy về 1 lần gọi API
+    //skip 2 (bỏ qua 2 cái đầu)
+    // +2 => 2 
+    const page = +req.query.page || 1
+    const limit = +req.query.limit || process.env.LIMIT_USERS
+    const skip = (page - 1) * limit
+    queryCommand.skip(skip).limit(limit)
+
+    // Executed query
+    // Số lượng sân thỏa điều kiện 
+    queryCommand.then(async (response) => {
+        const counts = await User.find(formartedQueries).countDocuments()
+        return res.status(200).json({
+            success: response ? true : false,
+            counts,
+            users: response ? response : 'Can not get users'
+
+        })
+    }).catch((err) => {
+        if (err) throw new Error(err, message)
     })
+
 })
 const deleteUsers = asyncHandler(async (req, res) => {
     const { _id } = req.query
@@ -219,7 +262,13 @@ const updateUsersByAdmin = asyncHandler(async (req, res) => {
         updateddUsers: response ? response : 'Can not update'
     })
 })
-
+const createUsers = asyncHandler(async (req, res) => {
+    const response = await User.create(users)
+    return res.status(200).json({
+        success: response ? true : false,
+        createUsers: response ? response : 'Can not create list of user'
+    })
+})
 module.exports = {
     register,
     login,
@@ -232,5 +281,6 @@ module.exports = {
     deleteUsers,
     updateUsers,
     updateUsersByAdmin,
-    finalRegister
+    finalRegister,
+    createUsers
 }
