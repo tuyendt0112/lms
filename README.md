@@ -26,7 +26,7 @@ Video 58:
 - Stop at 32p
 
 Video 51: 
-- Thêm pagination (phân trang) trong pitches.js
+- Thêm pagination (phân trang) trong pitches.js (folder public trên client)
 - New hook
 - Fix bug nhỏ, sort theo bảng chữ cái bị ngược giá trị
 - Hai file mới trong folder pagination
