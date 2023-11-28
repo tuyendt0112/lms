@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from 'react-router-dom'
-import { Breadcrumb, Pitch, SearchItem, InputSelect } from '../../components'
-import { apiGetPitches } from '../../apis'
+import { Breadcrumb, Pitch, SearchItem, InputSelect, Pagination } from 'components'
+import { apiGetPitches } from 'apis'
 import Masonry from 'react-masonry-css'
-import { sorts } from '../../ultils/constant'
+import { sorts } from 'ultils/constant'
 
 const breakpointColumnsObj = {
   default: 4,
@@ -13,7 +13,6 @@ const breakpointColumnsObj = {
 };
 
 const Pitches = () => {
-
   const navigate = useNavigate()
   const [pitches, setpitches] = useState(null)
   const [activeClick, setactiveClick] = useState(null)
@@ -107,6 +106,9 @@ const Pitches = () => {
             </Pitch>
           ))}
         </Masonry>
+      </div>
+      <div className='w-main m-auto my-4 flex justify-end'>
+        <Pagination />
       </div>
       <div className='w-full h-[500px]'></div>
     </div>

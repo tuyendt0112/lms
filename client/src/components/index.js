@@ -27,6 +27,9 @@ export { default as InputFields } from './inputs/InputFields';
 // Sidebar
 export { default as Sidebar } from './sidebar/Sidebar';
 export { default as AdminSideBar } from './sidebar/AdminSidebar';
+// Pagination
+export { default as Pagination } from './pagination/Pagination';
+export { default as PagintaionItem } from './pagination/PagintaionItem';
 // Navigations
 export { default as Navigation } from './navigations/Navigation';
 // Footer

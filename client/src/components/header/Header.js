@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 const { RiPhoneFill, MdEmail, FaUserCircle } = icons
 const Header = () => {
     const { current } = useSelector(state => state.user)
-    console.log("CURRENT", current)
+    // console.log("CURRENT", current)
     return (
         <div className='w-main flex justify-between h-[110px] py-[35px]'>
             <Link to={`/${path.HOME}`}>

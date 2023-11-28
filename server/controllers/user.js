@@ -189,13 +189,28 @@ const getUsers = asyncHandler(async (req, res) => {
     // tách các trường đặc biệt ra khỏi query
     const exlcludeFields = ['limit', 'sort', 'page', 'fields']
     exlcludeFields.forEach(el => delete queries[el])
+
     //Format lại các operators cho đúng cú pháp mongoose
     let queryString = JSON.stringify(queries)
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
     const formartedQueries = JSON.parse(queryString)
 
     // Filtering
+    // regex: tìm từ bắt đầu bằng chữ truyền vào
+    // options: 'i' không phân biệt viết hoa viết thường 
+    // doc: https://www.mongodb.com/docs/manual/reference/operator/query/regex/
     if (queries?.name) formartedQueries.name = { $regex: queries.name, $options: 'i' }
+
+    console.log('CHECK QUERY ', req.query.q)
+    if (req.query.q) {
+        delete formartedQueries.q
+        formartedQueries['$or'] = [
+            { firstname: { $regex: queries.q, $options: 'i' } },
+            { lastname: { $regex: queries.q, $options: 'i' } },
+            { email: { $regex: queries.q, $options: 'i' } }
+        ]
+    }
+    console.log('CHECK FORMAT: ', formartedQueries)
     let queryCommand = User.find(formartedQueries)
 
     //Sorting 

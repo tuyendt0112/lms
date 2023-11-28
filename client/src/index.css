@@ -3,81 +3,80 @@
 @tailwind utilities;
 
 .custom-slider button.slick-next {
-    right: 70px;
+    right  : 70px;
     z-index: 10;
 }
 
 .custom-slider button.slick-prev {
-    left: 20px;
+    left   : 20px;
     z-index: 10;
 
 }
 
-
 .custom-slider button.slick-next::before {
-    color: gray;
-    content: '\276F';
+    color           : gray;
+    content         : '\276F';
     background-color: #b8b5b5;
-    width: 80px;
-    height: 80px;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width           : 80px;
+    height          : 80px;
+    font-size       : 30px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
 }
 
 .custom-slider button.slick-prev::before {
-    color: gray;
-    content: '\276E';
+    color           : gray;
+    content         : '\276E';
     background-color: #b8b5b5;
-    width: 80px;
-    height: 80px;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width           : 80px;
+    height          : 80px;
+    font-size       : 30px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
 }
 
-
-
-
 .image-slider button.slick-next {
-    right: 20px;
+    right  : 20px;
     z-index: 10;
 }
 
 .image-slider button.slick-prev {
-    left: 0px;
+    left   : 0px;
     z-index: 10;
 
 }
 
-
 .image-slider button.slick-next::before {
-    color: gray;
-    content: '\276F';
+    color           : gray;
+    content         : '\276F';
     background-color: #d30808;
-    width: 40px;
-    height: 40px;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width           : 40px;
+    height          : 40px;
+    font-size       : 30px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
 }
 
 .image-slider button.slick-prev::before {
-    color: gray;
-    content: '\276E';
+    color           : gray;
+    content         : '\276E';
     background-color: #d30808;
-    width: 40px;
-    height: 40px;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width           : 40px;
+    height          : 40px;
+    font-size       : 30px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
 }
 
 .my-masonry-grid_column>div {
     /* change div to reference your elements you put in <Masonry> */
     margin-bottom: 20px;
+}
+
+.w350 {
+    width: 350px;
 }

@@ -106,12 +106,12 @@ export const sorts = [
     {
         id: 3,
         value: '-title',
-        text: 'Alphabetically, A-Z'
+        text: 'Alphabetically, Z-A'
     },
     {
         id: 4,
         value: 'title',
-        text: 'Alphabetically, Z-A'
+        text: 'Alphabetically, A-Z'
     },
     {
         id: 5,

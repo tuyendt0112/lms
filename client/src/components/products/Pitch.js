@@ -33,7 +33,7 @@ const Pitch = ({ pitchData, isNew, normal }) => {
                         <SelectOption icon={<AiOutlineMenu></AiOutlineMenu>}></SelectOption>
                         <SelectOption icon={<BsFillSuitHeartFill></BsFillSuitHeartFill>}></SelectOption>
                     </div>}
-                    <img src={pitchData?.images[0] || defaultt} alt="" className='w-[300px] h-[250px] object-cover'></img>
+                    <img src={pitchData?.images[0] || defaultt} alt="" className='w-[450px] h-[250px] object-cover'></img>
                     {!normal && <img src={isNew ? label2 : label} alt='' className={`absolute top-[-20px] left-[-20px] ${isNew ? 'w-[70px]' : 'w-[70px]'} h-[50px] object-cover`}></img>}
                     {!normal && <span className='font-bold  top-[-12px] left-[-10px] text-white absolute'>{isNew ? 'New' : 'Best'}</span>}
                 </div>

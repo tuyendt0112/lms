@@ -18,3 +18,15 @@ Video 57:
 - từ 16p40 là viết hàm tạo user (có thể không cần viết vì có thể tạo thằng trong MongoDB)
 - Tạo thêm bảng role trong models
 - Hiển thị user trong manage user
+
+Video 58:
+- Thêm Search Bar (InputFields) vào Manager User
+- Chỉnh lại css cho InputFields
+- Viết lại code để tìm kiếm bằng thanh search trong user.js (controller)
+- Stop at 32p
+
+Video 51: 
+- Thêm pagination (phân trang) trong pitches.js
+- New hook
+- Fix bug nhỏ, sort theo bảng chữ cái bị ngược giá trị
+- Hai file mới trong folder pagination

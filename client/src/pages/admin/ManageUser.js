@@ -1,22 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers } from 'apis/user'
 import { roles } from 'ultils/constant'
 import moment from 'moment'
+import { InputFields, Pagi } from 'components'
+import useDebounce from 'hooks/useDebounce'
 const ManageUser = () => {
     const [user, setUsers] = useState(null)
+    const [queries, setQueries] = useState({
+        q: ""
+    })
     const fetchUsers = async (params) => {
         const response = await apiGetUsers(params)
         if (response.success) setUsers(response)
     }
+    {/*
+    Mỗi 0.8s thì mới cập nhật 
+    Hàm dưới nghĩa là chừng nào giá trị queriesDebounce thay đổi (0.5/1 lần) thì mới gọi API,
+    */}
+    const queriesDebounce = useDebounce(queries.q, 500)
+
     useEffect(() => {
-        fetchUsers()
-    }, [])
+        const params = {}
+        if (queriesDebounce) params.q = queriesDebounce
+        fetchUsers(params)
+    }, [queriesDebounce])
+
+    // console.log('q: ', queries?.q)
     return (
         <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
                 <span>Manage User</span>
             </h1>
             <div className='w-full p-4'>
+                <div className='flex justify-end py-4'>
+                    <InputFields
+                        nameKey={'q'}
+                        value={queries.q}
+                        setValue={setQueries}
+                        style='w350'
+                        placeholder='Search by name or email...'
+                        isHideLabel
+                    />
+                </div>
                 <table className='table-auto mb-6 text-left w-full'>
                     <thead className='font-bold bg-gray-700 text-[17px] border border-gray-500 text-white'>
                         <tr>

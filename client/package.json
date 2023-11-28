@@ -8,6 +8,7 @@
     "axios": "^1.6.0",
     "btoa": "^1.2.1",
     "btoa-atob": "^0.1.2",
+    "clsx": "^2.0.0",
     "cra-template-redux": "2.0.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
