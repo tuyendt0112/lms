@@ -248,12 +248,11 @@ const getUsers = asyncHandler(async (req, res) => {
 
 })
 const deleteUsers = asyncHandler(async (req, res) => {
-    const { _id } = req.query
-    if (!_id) throw new Error('User not match')
-    const response = await User.findByIdAndDelete(_id)
+    const { uid } = req.params
+    const response = await User.findByIdAndDelete(uid)
     return res.status(200).json({
         success: response ? true : false,
-        deletedUsers: response ? `User with email ${response.email} has been deleted ` : 'No user deleted'
+        mes: response ? `User with email ${response.email} has been deleted ` : 'No user deleted'
     })
 })
 
@@ -272,7 +271,7 @@ const updateUsersByAdmin = asyncHandler(async (req, res) => {
     const response = await User.findByIdAndUpdate(uid, req.body, { new: true }).select('-password -role -refreshToken')
     return res.status(200).json({
         success: response ? true : false,
-        updateddUsers: response ? response : 'Can not update'
+        mes: response ? 'Updated' : 'Can not update'
     })
 })
 const createUsers = asyncHandler(async (req, res) => {

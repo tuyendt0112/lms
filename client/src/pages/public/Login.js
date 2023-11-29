@@ -166,10 +166,11 @@ const Login = () => {
             fullWidth
           />
           <Button
-            name={isRegister ? 'Register' : 'Login'}
             handleOnClick={handleSubmit}
             fw
-          ></Button>
+          >
+            {isRegister ? 'Register' : 'Login'}
+          </Button>
           <div className='flex items-center justify-between my-2 w-full'>
             {!isRegister && <span onClick={() => setisForgotPassword(true)} className='text-blue-500 hover:underline cursor-pointer'>Forgot password</span>}
             {!isRegister && <span className='text-blue-500 hover:underline cursor-pointer' onClick={() => setisRegister(true)}>Sign Up</span>}

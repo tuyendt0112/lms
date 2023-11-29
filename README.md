@@ -38,3 +38,9 @@ Video 52:
 - Thêm hiệu ứng scroll up cho trang pitches
 - Từ 41p là code về filter nhiều dữ liệu (trang hiện tại chỉ có filter theo giá) note lại để sau này nên xem lại để thêm filter cho trang
 - Fix code cho filter theo price kết hợp với phân trang
+
+Video 59: 
+- Tự fix bug nhỏ ở chỗ phân trang luôn hiện số 0 khi hiển thị lần đầu
+- Cài đặt và sử dụng react-hook-form
+- Từ 59p là validate cho trường mobile
+- Gọi API updateUserbyAdmin trên client

@@ -39,3 +39,15 @@ export const apiGetUsers = (params) => axios({
     method: 'get',
     params
 })
+
+export const apiUpdateUserByAdmin = (data, uid) => axios({
+    url: '/user/' + uid,
+    method: 'put',
+    data
+})
+
+export const apiDeleteUserByAdmin = (uid) => axios({
+    url: '/user/' + uid,
+    method: 'delete',
+
+})

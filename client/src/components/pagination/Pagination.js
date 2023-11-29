@@ -18,11 +18,11 @@ const Pagination = ({ totalCount }) => {
             return `${start} - ${end}`
         }
     }
-    // console.log(caculatePitch())
+
     return (
         <div className='flex w-full justify-between items-center'>
             {
-                !+params.get('page') &&
+                +params.get('page') === 0 &&
                 <span className='text-sm italic'>
                     {/*
                     Math.min để tránh trường hợp totalCount nhỏ hơn LIMIT, vd: Show pitchs 1 - 6 of 3   
@@ -31,7 +31,7 @@ const Pagination = ({ totalCount }) => {
                 </span>
             }
             {
-                +params.get('page') &&
+                +params.get('page') > 0 &&
                 <span className='text-sm italic'>
                     {`Show pitchs ${caculatePitch()} of ${totalCount}`}
                 </span>
