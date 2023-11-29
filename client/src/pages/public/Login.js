@@ -128,31 +128,34 @@ const Login = () => {
       <div className='absolute top-0 bottom-0 left-1/2 right-0 items-center justify-center flex'>
         <div className='p-8 bg-white flex flex-col items-center rounded-md min-w-[500px]'>
           <h1 className='text-[28px] font-semibold text-main mb-6'>{isRegister ? 'Register' : 'Login'}</h1>
-          {isRegister && <div className='flex items-center gap-2'>
-            <InputFields
-              value={payload.firstname}
-              setValue={setpayload}
-              nameKey='firstname'
-              invalidFields={invalidFields}
-              setInvalidFields={setinvalidFields}
-            ></InputFields>
-            <InputFields
-              value={payload.lastname}
-              setValue={setpayload}
-              nameKey='lastname'
-              invalidFields={invalidFields}
-              setInvalidFields={setinvalidFields}
-            ></InputFields>
-          </div>}
-
+          {
+            isRegister && <div className='flex items-center gap-2'>
+              <InputFields
+                value={payload.firstname}
+                setValue={setpayload}
+                nameKey='firstname'
+                invalidFields={invalidFields}
+                setInvalidFields={setinvalidFields}
+                fullWidth
+              />
+              <InputFields
+                value={payload.lastname}
+                setValue={setpayload}
+                nameKey='lastname'
+                invalidFields={invalidFields}
+                setInvalidFields={setinvalidFields}
+                fullWidth
+              />
+            </div>
+          }
           <InputFields
             value={payload.email}
             setValue={setpayload}
             nameKey='email'
             invalidFields={invalidFields}
             setInvalidFields={setinvalidFields}
-          ></InputFields>
-
+            fullWidth
+          />
           <InputFields
             value={payload.password}
             setValue={setpayload}
@@ -160,8 +163,8 @@ const Login = () => {
             type='password'
             invalidFields={invalidFields}
             setInvalidFields={setinvalidFields}
-          ></InputFields>
-
+            fullWidth
+          />
           <Button
             name={isRegister ? 'Register' : 'Login'}
             handleOnClick={handleSubmit}

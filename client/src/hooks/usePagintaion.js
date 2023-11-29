@@ -5,13 +5,13 @@ import { BsThreeDots } from "react-icons/bs";
 // useMemo => giúp tăng performance bằng cách chỉ lưu kết quả chứ không lưu nguyên hàm tính toán
 const usePagintaion = (totalPitchCount, currentPage, siblingCount = 1) => {
     const paginationArray = useMemo(() => {
-        const pageSize = process.env.REACT_APP_PITCH_LIMIT || 10
+        const pageSize = process.env.REACT_APP_PITCH_LIMIT || 6
         const paginationCount = Math.ceil(totalPitchCount / pageSize)
         const totalPaginationItem = siblingCount + 5
 
         // [1,2,3,4,5,6]
         if (paginationCount <= totalPaginationItem) {
-            console.log("TH1: ", paginationCount)
+            // console.log("TH1: ", paginationCount)
             return generateRange(1, paginationCount)
         }
 
@@ -22,30 +22,30 @@ const usePagintaion = (totalPitchCount, currentPage, siblingCount = 1) => {
         const isShowRight = currentPage + siblingCount < paginationCount - 1
         // nếu current page = 6 thì + cho sibling là 1 thì page còn lại bên phải chỉ còn là 7 ==> ko thêm được dấu chấm ở vị trí 6
 
-        console.log(isShowRight)
+        // console.log(isShowRight)
         // [1,...,6,7,8,9,10]
         if (isShowLeft && !isShowRight) {
             const rightStart = paginationCount - 6 // Chọn số page muốn hiển thị ở bên phải DOT 
             const rightRange = generateRange(rightStart, paginationCount)
-            console.log("TH2 rightStart: ", rightStart)
-            console.log("TH2 rightRange: ", rightRange)
+            // console.log("TH2 rightStart: ", rightStart)
+            // console.log("TH2 rightRange: ", rightRange)
             return [1, <BsThreeDots />, ...rightRange]
         }
 
         // [1,2,3,4,5,...,10]
         if (!isShowLeft && isShowRight) {
             const leftRange = generateRange(1, 5) // Chọn số page muốn hiển thị ở bên trái DOT
-            console.log("TH3 leftRange: ", leftRange)
+            // console.log("TH3 leftRange: ", leftRange)
             return [...leftRange, <BsThreeDots />, paginationCount]
         }
 
         const siblingLeft = Math.max(currentPage - siblingCount, 1)
         const siblingRight = Math.min(currentPage + siblingCount, paginationCount)
         if (isShowLeft && isShowRight) {
-            console.log('siblingLeft', siblingLeft)
-            console.log('siblingRight', siblingRight)
+            // console.log('siblingLeft', siblingLeft)
+            // console.log('siblingRight', siblingRight)
             const middleRange = generateRange(siblingLeft, siblingRight)
-            console.log("TH4 middleRange: ", middleRange)
+            // console.log("TH4 middleRange: ", middleRange)
             return [1, <BsThreeDots />, ...middleRange, <BsThreeDots />, paginationCount]
         }
 

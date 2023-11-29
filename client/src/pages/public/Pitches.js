@@ -21,9 +21,11 @@ const Pitches = () => {
 
   const fetchProductsByCategory = async (queries) => {
     const response = await apiGetPitches(queries)
-    if (response.success) setpitches(response.pitches)
+    if (response.success) setpitches(response)
   }
+
   const { category } = useParams()
+
   useEffect(() => {
     let param = []
     for (let i of params.entries()) param.push(i)
@@ -38,27 +40,33 @@ const Pitches = () => {
         ]
       }
       delete queries.price
+    } else {
+      if (queries.from) queries.price = { gte: queries.from }
+      if (queries.to) queries.price = { lte: queries.to }
     }
-    if (queries.from) queries.price = { gte: queries.from }
-    if (queries.to) queries.price = { lte: queries.to }
     delete queries.to
     delete queries.from
     const q = { ...priceQuery, ...queries }
     fetchProductsByCategory(q)
+    window.scrollTo(0, 50)
   }, [params])
+
   const changeActiveFilter = useCallback((name) => {
     if (activeClick === name) setactiveClick(null)
     else setactiveClick(name)
   }, [activeClick])
+
   const changeValue = useCallback((value) => {
     setsort(value)
   }, [sort])
 
   useEffect(() => {
-    navigate({
-      pathname: `/${category}`,
-      search: createSearchParams({ sort }).toString()
-    })
+    if (sort) {
+      navigate({
+        pathname: `/${category}`,
+        search: createSearchParams({ sort }).toString()
+      })
+    }
   }, [sort])
   return (
     <div className='w-full'>
@@ -96,7 +104,7 @@ const Pitches = () => {
           breakpointCols={3}
           className="my-masonry-grid flex mx-[-10px] pl-3"
           columnClassName="my-masonry-grid_column">
-          {pitches?.map(el => (
+          {pitches?.pitches?.map(el => (
             <Pitch
               key={el._id}
               pid={el.id}
@@ -108,7 +116,7 @@ const Pitches = () => {
         </Masonry>
       </div>
       <div className='w-main m-auto my-4 flex justify-end'>
-        <Pagination />
+        <Pagination totalCount={pitches?.counts} />
       </div>
       <div className='w-full h-[500px]'></div>
     </div>
