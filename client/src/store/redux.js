@@ -19,6 +19,5 @@ export const store = configureStore({
     pitch: pitchSlice,
     user: persistReducer(userConfig, userSlice)
   },
-
 });
 export const persistor = persistStore(store)

@@ -4,7 +4,8 @@ import { PagintaionItem } from 'components'
 import { useSearchParams } from 'react-router-dom'
 const Pagination = ({ totalCount }) => {
     const [params] = useSearchParams()
-    const pagination = usePagintaion(totalCount, 1)
+    const pagination = usePagintaion(totalCount, +params.get('page') || 1)
+
     const caculatePitch = () => {
         const currentPage = +params.get('page')
         const pageSize = +process.env.REACT_APP_PITCH_LIMIT || 6
@@ -17,13 +18,16 @@ const Pagination = ({ totalCount }) => {
             return `${start} - ${end}`
         }
     }
-    console.log(caculatePitch())
+    // console.log(caculatePitch())
     return (
-        <div className='flex w-main justify-between items-center'>
+        <div className='flex w-full justify-between items-center'>
             {
                 !+params.get('page') &&
                 <span className='text-sm italic'>
-                    {`Show pitchs 1 - ${+process.env.REACT_APP_PITCH_LIMIT || 6} of ${totalCount}`}
+                    {/*
+                    Math.min để tránh trường hợp totalCount nhỏ hơn LIMIT, vd: Show pitchs 1 - 6 of 3   
+                    */}
+                    {`Show pitchs 1 - ${Math.min(+process.env.REACT_APP_PITCH_LIMIT, totalCount) || 6} of ${totalCount}`}
                 </span>
             }
             {

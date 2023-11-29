@@ -2,15 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers } from 'apis/user'
 import { roles } from 'ultils/constant'
 import moment from 'moment'
-import { InputFields, Pagi } from 'components'
+import { InputFields, Pagination } from 'components'
 import useDebounce from 'hooks/useDebounce'
+import { useSearchParams } from 'react-router-dom'
 const ManageUser = () => {
     const [user, setUsers] = useState(null)
     const [queries, setQueries] = useState({
         q: ""
     })
+    const [params] = useSearchParams()
     const fetchUsers = async (params) => {
-        const response = await apiGetUsers(params)
+        const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) setUsers(response)
     }
     {/*
@@ -20,12 +22,15 @@ const ManageUser = () => {
     const queriesDebounce = useDebounce(queries.q, 500)
 
     useEffect(() => {
-        const params = {}
-        if (queriesDebounce) params.q = queriesDebounce
-        fetchUsers(params)
-    }, [queriesDebounce])
+        const queries = Object.fromEntries([...params])
+        // console.log("Check Queries", queries)
+        if (queriesDebounce) queries.q = queriesDebounce
+        fetchUsers(queries)
+    }, [queriesDebounce, params])
 
     // console.log('q: ', queries?.q)
+    // console.log(user.counts)
+    // console.log("SEARCH PARAMS", useSearchParams())
     return (
         <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
@@ -73,12 +78,15 @@ const ManageUser = () => {
                                         <span className='px-2 text-orange-600 hover:underline cursor-pointer'>Edit</span>
                                         <span className='px-2 text-orange-600 hover:underline cursor-pointer'>Delete</span>
                                     </td>
-
                                 </tr>
                             ))
                         }
                     </tbody>
                 </table>
+                <div className='w-full flex justify-end'>
+                    <Pagination
+                        totalCount={user?.counts} />
+                </div>
             </div>
         </div>
     )

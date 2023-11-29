@@ -24,7 +24,6 @@ Video 58:
 - Thêm Search Bar (InputFields) vào Manager User
 - Chỉnh lại css cho InputFields
 - Viết lại code để tìm kiếm bằng thanh search trong user.js (controller)
-- Stop at 32p
 
 Video 51: 
 - Thêm pagination (phân trang) trong pitches.js

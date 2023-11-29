@@ -201,7 +201,6 @@ const getUsers = asyncHandler(async (req, res) => {
     // doc: https://www.mongodb.com/docs/manual/reference/operator/query/regex/
     if (queries?.name) formartedQueries.name = { $regex: queries.name, $options: 'i' }
 
-    console.log('CHECK QUERY ', req.query.q)
     if (req.query.q) {
         delete formartedQueries.q
         formartedQueries['$or'] = [
@@ -210,7 +209,6 @@ const getUsers = asyncHandler(async (req, res) => {
             { email: { $regex: queries.q, $options: 'i' } }
         ]
     }
-    console.log('CHECK FORMAT: ', formartedQueries)
     let queryCommand = User.find(formartedQueries)
 
     //Sorting 
