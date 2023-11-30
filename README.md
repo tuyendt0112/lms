@@ -47,3 +47,8 @@ Video 59:
 
 Video 60: 
 - Hoàn thiện manage user (chọn role và block)
+
+Video 61: 
+- Fix bug khi select 1 user để edit thì không load thông tin mới
+- Model cũ nên chưa có brand, phần code brand cần xử lí sau 
+- Hoàn thành phần 1 lấy dữ liệu từ form

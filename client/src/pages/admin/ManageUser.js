@@ -10,13 +10,7 @@ import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import clsx from 'clsx'
 const ManageUser = () => {
-    const { handleSubmit, register, formState: { errors } } = useForm({
-        email: '',
-        firstname: '',
-        lastname: '',
-        role: '',
-        isBlocked: '',
-    })
+    const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const [user, setUsers] = useState(null)
     const [queries, setQueries] = useState({
         q: ""
@@ -73,8 +67,20 @@ const ManageUser = () => {
                 }
             }
         })
-
     }
+
+    useEffect(() => {
+        if (editUser) {
+            reset({
+                email: editUser.email,
+                firstname: editUser.firstname,
+                lastname: editUser.lastname,
+                role: editUser.role,
+                isBlocked: editUser.isBlocked,
+            })
+        }
+    }, [editUser])
+
     // console.log(editUser)
     // console.log('q: ', queries?.q)
     // console.log(user.counts)
@@ -122,8 +128,8 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    defaultValue={editUser?.email}
                                                     id={'email'}
+                                                    placeholder='Email'
                                                     validate={{
                                                         required: 'Enter your email',
                                                         pattern: {
@@ -140,8 +146,8 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    defaultValue={editUser?.firstname}
                                                     id={'firstname'}
+                                                    placeholder='First name'
                                                     validate={{ required: 'Enter your first name' }}
                                                 />
                                                 : <span>{el.firstname}</span>}
@@ -152,8 +158,8 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    defaultValue={editUser?.lastname}
                                                     id={'lastname'}
+                                                    placeholder='Last name'
                                                     validate={{ required: 'Enter your last name' }}
                                                 />
                                                 : <span>{el.lastname}</span>}
@@ -167,7 +173,6 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    defaultValue={el.role}
                                                     id={'role'}
                                                     validate={{ required: 'Plseae Select' }}
                                                     options={roles} />
@@ -179,7 +184,6 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    defaultValue={el.isBlocked}
                                                     id={'isBlocked'}
                                                     validate={{ required: 'Plseae Select' }}
                                                     options={blockStatus} />
