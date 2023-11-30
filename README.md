@@ -52,3 +52,6 @@ Video 61:
 - Fix bug khi select 1 user để edit thì không load thông tin mới
 - Model cũ nên chưa có brand, phần code brand cần xử lí sau 
 - Hoàn thành phần 1 lấy dữ liệu từ form
+
+Video 52: 
+- Fix lỗi undified khi login và lỗi trong console (add thêm middleware irgorne lỗi)
