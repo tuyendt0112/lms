@@ -43,4 +43,7 @@ Video 59:
 - Tự fix bug nhỏ ở chỗ phân trang luôn hiện số 0 khi hiển thị lần đầu
 - Cài đặt và sử dụng react-hook-form
 - Từ 59p là validate cho trường mobile
-- Gọi API updateUserbyAdmin trên client
+- Gọi API updateUserbyAdmin, updateDeleteByAdmin trên client
+
+Video 60: 
+- Hoàn thiện manage user (chọn role và block)

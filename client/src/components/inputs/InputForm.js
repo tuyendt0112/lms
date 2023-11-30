@@ -11,7 +11,7 @@ const InputForm = ({ register, errors, id, validate, label, disable, type = 'tex
                 {...register(id, validate)}
                 disabled={disable}
                 placeholder={placeholder}
-                className={clsx('form-input', fullWidth && 'w-full')}
+                className={clsx('form-input my-auto', fullWidth && 'w-full')}
                 defaultValue={defaultValue}
             />
             {errors[id] && <small className='text-sx text-red-500'>{errors[id]?.message}</small>}

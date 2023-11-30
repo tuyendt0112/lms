@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers, apiUpdateUserByAdmin, apiDeleteUserByAdmin } from 'apis/user'
-import { roles } from 'ultils/constant'
+import { roles, blockStatus } from 'ultils/constant'
 import moment from 'moment'
 import { InputFields, Pagination, InputForm, Select, Button } from 'components'
 import useDebounce from 'hooks/useDebounce'
@@ -8,13 +8,14 @@ import { useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import clsx from 'clsx'
 const ManageUser = () => {
     const { handleSubmit, register, formState: { errors } } = useForm({
         email: '',
         firstname: '',
         lastname: '',
         role: '',
-        status: '',
+        isBlocked: '',
     })
     const [user, setUsers] = useState(null)
     const [queries, setQueries] = useState({
@@ -79,7 +80,7 @@ const ManageUser = () => {
     // console.log(user.counts)
     // console.log("SEARCH PARAMS", useSearchParams())
     return (
-        <div className='w-full'>
+        <div className={clsx('w-full', editUser && 'pl-10')}>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
                 <span>Manage User</span>
             </h1>
@@ -162,12 +163,26 @@ const ManageUser = () => {
                                     */}
                                         <td className='py-2 px-4'>
                                             {editUser?._id === el._id
-                                                ? <Select />
+                                                ? <Select
+                                                    register={register}
+                                                    fullWidth
+                                                    errors={errors}
+                                                    defaultValue={el.role}
+                                                    id={'role'}
+                                                    validate={{ required: 'Plseae Select' }}
+                                                    options={roles} />
                                                 : <span>{roles.find(role => role.code === +el.role)?.value}</span>}
                                         </td>
                                         <td className='py-2 px-4'>
                                             {editUser?._id === el._id
-                                                ? <Select />
+                                                ? <Select
+                                                    register={register}
+                                                    fullWidth
+                                                    errors={errors}
+                                                    defaultValue={el.isBlocked}
+                                                    id={'isBlocked'}
+                                                    validate={{ required: 'Plseae Select' }}
+                                                    options={blockStatus} />
                                                 : <span>{el.isBlocked ? 'Blocked' : 'Active'}</span>}
                                         </td>
                                         <td className='py-2 px-4'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>

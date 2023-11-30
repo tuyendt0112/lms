@@ -180,3 +180,15 @@ export const roles = [
         value: 'User'
     },
 ]
+
+export const blockStatus = [
+    {
+        code: true,
+        value: 'Block'
+    },
+    {
+        code: false,
+        value: 'Active'
+    },
+
+]
