@@ -1,17 +1,32 @@
-import React from 'react'
-import { Button, InputForm, Select } from 'components'
+import React, { useCallback, useState } from 'react'
+import { Button, InputForm, MarkDownEditor, Select } from 'components'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { validate } from 'ultils/helper'
 const CreatePitch = () => {
     const { categories } = useSelector(state => state.app)
     const { register, formState: { errors }, reset, handleSubmit, watch } = useForm()
     const handleCreatePitch = (data) => {
-        if (data.category) {
-            data.category = categories?.find(el => el._id === data.category)?.title
-            console.log(data.category)
-            console.log(data)
+        const invalids = validate(payload, setInvalidFields)
+        if (invalids === 0) {
+            if (data.category) {
+                data.category = categories?.find(el => el._id === data.category)?.title
+                const finalPayload = { ...data, ...payload }
+                console.log({ ...data, ...payload })
+                const formData = new FormData()
+                for (let i of Object.entries(finalPayload)) {
+                    formData.append(i[0], i[1])
+                }
+            }
         }
     }
+    const [payload, setPayload] = useState({
+        description: ''
+    })
+    const [invalidFields, setInvalidFields] = useState([])
+    const changeValue = useCallback((e) => {
+        setPayload(e)
+    }, [payload])
     // console.log(watch('category'))
     return (
         <div className='w-full'>
@@ -75,7 +90,35 @@ const CreatePitch = () => {
                             errors={errors}
                         />
                     </div>
-                    <Button type='submit'>Create new pitch</Button>
+                    <MarkDownEditor
+                        name='description'
+                        changeValue={changeValue}
+                        label='Description'
+                        invalidFields={invalidFields}
+                        setInvalidFields={setInvalidFields}
+                    />
+                    <div className='flex flex-col gap-2 mt-8'>
+                        <label className='font-semibold' htmlFor="thumb">Upload thumb</label>
+                        <input
+                            type='file'
+                            id='thumb'
+                            {...register('thumb', { required: 'Need Select' })}
+                        />
+                        {errors['thumb'] && <small className='text-sx text-red-500'>{errors['thumb']?.message}</small>}
+
+                    </div>
+                    <div className='flex flex-col gap-2 mt-8'>
+                        <label className='font-semibold' htmlFor="pitches">Upload Image Of Pitch</label>
+                        <input
+                            type='file'
+                            id='pitches'
+                            {...register('images', { required: 'Need Select' })}
+                        />
+                        {errors['images'] && <small className='text-sx text-red-500'>{errors['images']?.message}</small>}
+                    </div>
+                    <div className='my-8'>
+                        <Button type='submit'>Create new pitch</Button>
+                    </div>
                 </form>
             </div>
         </div>

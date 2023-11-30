@@ -5,6 +5,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "@tailwindcss/forms": "^0.5.7",
+    "@tinymce/tinymce-react": "^4.3.2",
     "axios": "^1.6.0",
     "btoa": "^1.2.1",
     "btoa-atob": "^0.1.2",

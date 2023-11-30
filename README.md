@@ -55,3 +55,6 @@ Video 61:
 
 Video 52: 
 - Fix lỗi undified khi login và lỗi trong console (add thêm middleware irgorne lỗi)
+
+Video 62: 
+- Continue thêm sân bóng

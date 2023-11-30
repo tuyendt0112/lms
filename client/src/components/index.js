@@ -26,8 +26,7 @@ export { default as InputSelect } from './inputs/InputSelect';
 export { default as InputFields } from './inputs/InputFields';
 export { default as InputForm } from './inputs/InputForm';
 export { default as Select } from './inputs/Select';
-
-
+export { default as MarkDownEditor } from './inputs/MarkDownEditor';
 // Sidebar
 export { default as Sidebar } from './sidebar/Sidebar';
 export { default as AdminSideBar } from './sidebar/AdminSidebar';
