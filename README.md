@@ -61,8 +61,9 @@ Video 62:
 - Install @tinymce/tinymce-react
 
 Video 63:
-- Chuyển data file ảnh
+- Continue thêm sân bóng, xử lý dữ liệu ảnh 
 
 Video 64:
 - Viết code lại phần upload ảnh lên Cloundary
+- Gọi api tạo sản phẩm nối với form tạo sản phẩm
 - npm install dompurify
