@@ -106,11 +106,11 @@ const ManageUser = () => {
                     <table className='table-auto mb-6 text-left w-full'>
                         <thead className='font-bold bg-gray-700 text-[17px] border border-gray-500 text-white'>
                             <tr>
-                                <th className='px-4 py-2'>#</th>
-                                <th className='px-4 py-2'>Email</th>
+                                <th className='px-4 py-2 w-[50px]'>#</th>
+                                <th className='px-4 py-2 w-[270px]'>Email</th>
                                 <th className='px-4 py-2'>First name</th>
                                 <th className='px-4 py-2'>Last name</th>
-                                <th className='px-4 py-2'>Role</th>
+                                <th className='px-4 py-2 w-[150px]'>Role</th>
                                 <th className='px-4 py-2'>Create At</th>
                                 {/* <th>Address</th> */}
                                 <th className='px-4 py-2'>Status</th>

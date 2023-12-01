@@ -25,7 +25,7 @@ const usePagintaion = (totalPitchCount, currentPage, siblingCount = 1) => {
         // console.log(isShowRight)
         // [1,...,6,7,8,9,10]
         if (isShowLeft && !isShowRight) {
-            const rightStart = paginationCount - 6 // Chọn số page muốn hiển thị ở bên phải DOT 
+            const rightStart = paginationCount - 4 // Chọn số page muốn hiển thị ở bên phải DOT 
             const rightRange = generateRange(rightStart, paginationCount)
             // console.log("TH2 rightStart: ", rightStart)
             // console.log("TH2 rightRange: ", rightRange)

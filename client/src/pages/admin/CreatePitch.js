@@ -1,8 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, InputForm, MarkDownEditor, Select } from 'components'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { validate } from 'ultils/helper'
+import { validate, getBase64 } from 'ultils/helper'
+import { toast } from 'react-toastify'
+import { IoTrashBin } from "react-icons/io5";
+
 const CreatePitch = () => {
     const { categories } = useSelector(state => state.app)
     const { register, formState: { errors }, reset, handleSubmit, watch } = useForm()
@@ -23,11 +26,51 @@ const CreatePitch = () => {
     const [payload, setPayload] = useState({
         description: ''
     })
+    const [preview, setPreview] = useState({
+        thumb: null,
+        images: []
+    })
     const [invalidFields, setInvalidFields] = useState([])
     const changeValue = useCallback((e) => {
         setPayload(e)
     }, [payload])
-    // console.log(watch('category'))
+
+    const [hover, setHover] = useState(null)
+    const handlePreviewThumb = async (file) => {
+        const base64Thumb = await getBase64(file)
+        setPreview(prev => ({ ...prev, thumb: base64Thumb }))
+    }
+
+    const handlePreviewImages = async (files) => {
+        const imagesPreview = []
+        for (let file of files) {
+            if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+                toast.warning('File type not correct')
+                return
+            }
+            const base64 = await getBase64(file)
+            imagesPreview.push({ name: file.name, path: base64 })
+        }
+        setPreview(prev => ({ ...prev, images: imagesPreview }))
+    }
+
+    const handleRemove = (name) => {
+        const files = [...watch('images')]
+        reset({
+            images: files?.filter(el => el.name !== name)
+        })
+        if (preview.images?.some(el => el.name === name)) {
+            setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
+        }
+    }
+    useEffect(() => {
+        handlePreviewThumb(watch('thumb')[0])
+    }, [watch('thumb')])
+
+    useEffect(() => {
+        handlePreviewImages(watch('images'))
+    }, [watch('images')])
+
     return (
         <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
@@ -59,17 +102,6 @@ const CreatePitch = () => {
                             placeholder='Price of new pitch'
                             type='number'
                         />
-                        {/* <InputForm
-                            label='Name pitch'
-                            register={register}
-                            errors={errors}
-                            id='title'
-                            validate={{
-                                required: 'Need to be fill'
-                            }}
-                            style='flex-1'
-                            placeholder='Price of new pitch'
-                        /> */}
                     </div>
                     <div className='w-full my-6 flex gap-4'>
                         <Select
@@ -105,23 +137,50 @@ const CreatePitch = () => {
                             {...register('thumb', { required: 'Need Select' })}
                         />
                         {errors['thumb'] && <small className='text-sx text-red-500'>{errors['thumb']?.message}</small>}
-
                     </div>
+                    {
+                        preview.thumb &&
+                        <div className='my-4'>
+                            <img src={preview.thumb} alt='thumbnail' className='w-[200px] object-contain' />
+                        </div>
+                    }
                     <div className='flex flex-col gap-2 mt-8'>
                         <label className='font-semibold' htmlFor="pitches">Upload Image Of Pitch</label>
                         <input
                             type='file'
                             id='pitches'
                             {...register('images', { required: 'Need Select' })}
+                            multiple
                         />
                         {errors['images'] && <small className='text-sx text-red-500'>{errors['images']?.message}</small>}
                     </div>
+                    {
+                        preview.images.length > 0 &&
+                        <div className='my-4 flex w-full gap-3 flex-wrap'>
+                            {preview.images.map((el) => (
+                                <div
+                                    onMouseEnter={() => setHover(el.name)}
+                                    onMouseLeave={() => setHover(null)}
+                                    key={el.name}
+                                    className='w-fit relative'>
+                                    <img src={el.path} alt='thumbnail' className='w-[200px] object-contain' />
+                                    {hover === el.name &&
+                                        <div
+                                            onClick={() => handleRemove(el.name)}
+                                            className='absolute inset-0 bg-overlay cursor-pointer flex items-center justify-center' >
+                                            <IoTrashBin size={24} color='white' />
+                                        </div>
+                                    }
+                                </div>
+                            ))}
+                        </div>
+                    }
                     <div className='my-8'>
                         <Button type='submit'>Create new pitch</Button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

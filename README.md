@@ -58,3 +58,7 @@ Video 52:
 
 Video 62: 
 - Continue thêm sân bóng
+- Install @tinymce/tinymce-react
+
+Video 63:
+- Chuyển data file ảnh

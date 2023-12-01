@@ -24,10 +24,6 @@ module.exports = {
         '6': '6 6 0%',
         '7': '7 7 0%',
         '8': '8 8 0%',
-
-
-
-
       },
       keyframes: {
         'slide-top': {
@@ -60,11 +56,22 @@ module.exports = {
             transform: 'translateX(0px);'
           }
         },
+        'scale-up-ver-center': {
+          '0%': {
+            '-webkit-transform': 'scaleY(0.4);',
+            transform: 'scaleY(0.4);'
+          },
+          '100%': {
+            '-webkit-transform': ' scaleY(1);',
+            transform: 'scaleY(1);'
+          }
+        },
       },
       animation: {
         'slide-top': 'slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
         'slide-top-sm': 'slide-top-sm 0.2s linear both;',
         'slide-right': 'slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
+        'scale-up-center': 'scale-up-ver-center 0.15s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;'
       }
     },
   },
