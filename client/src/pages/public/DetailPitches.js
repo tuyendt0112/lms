@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import ReactImageMagnify from 'react-image-magnify';
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
 import { pitchExtraInformation } from '../../ultils/constant';
-
+import DOMPurify from 'dompurify'
 
 const settings = {
   dots: false,
@@ -71,7 +71,9 @@ const DetailPitches = () => {
           </div>
           <h2 className='font-semibold'>Description</h2>
           <ul className='list-item'>
-            {pitch?.description}
+            <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}>
+
+            </div>
           </ul>
           <h2 className='font-semibold'>Address</h2>
           <ul className='list-item'>
@@ -79,7 +81,7 @@ const DetailPitches = () => {
           </ul>
           <div>
             <Button
-              name='Booking'
+              children='Booking'
               fw
             >
             </Button>

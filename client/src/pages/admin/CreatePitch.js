@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux'
 import { validate, getBase64 } from 'ultils/helper'
 import { toast } from 'react-toastify'
 import { IoTrashBin } from "react-icons/io5";
-
+import { apiCreatePitch } from 'apis'
 const CreatePitch = () => {
     const { categories } = useSelector(state => state.app)
     const { register, formState: { errors }, reset, handleSubmit, watch } = useForm()
-    const handleCreatePitch = (data) => {
+    const handleCreatePitch = async (data) => {
         const invalids = validate(payload, setInvalidFields)
         if (invalids === 0) {
             if (data.category) {
@@ -20,6 +20,15 @@ const CreatePitch = () => {
                 for (let i of Object.entries(finalPayload)) {
                     formData.append(i[0], i[1])
                 }
+                if (finalPayload.thumb) {
+                    formData.append('thumb', finalPayload.thumb[0])
+                }
+                if (finalPayload.images) {
+                    for (let image of finalPayload.images) formData.append('images', image)
+                }
+
+                const response = await apiCreatePitch(formData)
+                console.log(response)
             }
         }
     }
@@ -54,15 +63,15 @@ const CreatePitch = () => {
         setPreview(prev => ({ ...prev, images: imagesPreview }))
     }
 
-    const handleRemove = (name) => {
-        const files = [...watch('images')]
-        reset({
-            images: files?.filter(el => el.name !== name)
-        })
-        if (preview.images?.some(el => el.name === name)) {
-            setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
-        }
-    }
+    // const handleRemove = (name) => {
+    //     const files = [...watch('images')]
+    //     reset({
+    //         images: files?.filter(el => el.name !== name)
+    //     })
+    //     if (preview.images?.some(el => el.name === name)) {
+    //         setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
+    //     }
+    // }
     useEffect(() => {
         handlePreviewThumb(watch('thumb')[0])
     }, [watch('thumb')])
@@ -101,6 +110,17 @@ const CreatePitch = () => {
                             style='flex-1'
                             placeholder='Price of new pitch'
                             type='number'
+                        />
+                        <InputForm
+                            label='Address'
+                            register={register}
+                            errors={errors}
+                            id='address'
+                            validate={{
+                                required: 'Need to be fill'
+                            }}
+                            style='flex-1'
+                            placeholder='Address of new pitch'
                         />
                     </div>
                     <div className='w-full my-6 flex gap-4'>
@@ -164,13 +184,13 @@ const CreatePitch = () => {
                                     key={el.name}
                                     className='w-fit relative'>
                                     <img src={el.path} alt='thumbnail' className='w-[200px] object-contain' />
-                                    {hover === el.name &&
+                                    {/* {hover === el.name &&
                                         <div
                                             onClick={() => handleRemove(el.name)}
                                             className='absolute inset-0 bg-overlay cursor-pointer flex items-center justify-center' >
                                             <IoTrashBin size={24} color='white' />
                                         </div>
-                                    }
+                                    } */}
                                 </div>
                             ))}
                         </div>

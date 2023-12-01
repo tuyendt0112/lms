@@ -62,3 +62,7 @@ Video 62:
 
 Video 63:
 - Chuyển data file ảnh
+
+Video 64:
+- Viết code lại phần upload ảnh lên Cloundary
+- npm install dompurify

@@ -80,3 +80,7 @@
 .w350 {
     width: 350px;
 }
+
+code {
+    white-space: initial;
+}

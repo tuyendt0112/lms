@@ -3,7 +3,10 @@ const ctrls = require('../controllers/pitch')
 const { verifyAccessToken, isAdmin, isAdminAndPitchOwn } = require('../middlewares/verifyToken')
 const uploader = require('../config/cloudinaryconfig')
 
-router.post('/', [verifyAccessToken, isAdminAndPitchOwn], ctrls.createPitch)
+router.post('/', [verifyAccessToken, isAdminAndPitchOwn], uploader.fields([
+    { name: 'images', maxCount: 10 },
+    { name: 'thumb', maxCount: 1 }
+]), ctrls.createPitch)
 router.get('/', ctrls.getPitchs)
 router.put('/ratings', [verifyAccessToken], ctrls.ratings)
 

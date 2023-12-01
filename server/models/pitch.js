@@ -34,6 +34,10 @@ var pitchSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    thumb: {
+        type: String,
+        required: true,
+    },
     images: {
         type: Array
     },
