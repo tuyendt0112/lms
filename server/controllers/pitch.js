@@ -18,7 +18,13 @@ const createPitch = asyncHandler(async (req, res) => {
 })
 const getPitch = asyncHandler(async (req, res) => {
     const { pid } = req.params
-    const pitch = await Pitch.findById(pid)
+    const pitch = await Pitch.findById(pid).populate({
+        path: 'ratings',
+        populate: {
+            path: 'postedBy',
+            select: 'firstname lastname avatar'
+        }
+    })
     return res.status(200).json({
         success: pitch ? true : false,
         pitchData: pitch ? pitch : 'Can not get pitch'
@@ -97,25 +103,23 @@ const deletePitch = asyncHandler(async (req, res) => {
 })
 const ratings = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const { star, comment, pid } = req.body
+    const { star, comment, pid, updatedAt } = req.body
     if (!star || !pid) throw new Error('Missing inputs')
     const ratingPitch = await Pitch.findById(pid)
     const alreadyRating = ratingPitch?.ratings?.find(el => el.postedBy.toString() === _id)
-    console.log(alreadyRating)
     if (alreadyRating) {
         //update star and comment again
         await Pitch.updateOne({
             ratings: { $elemMatch: alreadyRating }
         }, {
-            $set: { "ratings.$.star": star, "ratings.$.comment": comment }
+            $set: { "ratings.$.star": star, "ratings.$.comment": comment, "ratings.$.updatedAt": updatedAt }
         }, { new: true })
     } else {
         //add star and comment first time
         const response = await Pitch.findByIdAndUpdate(pid, {
-            $push: { ratings: { star, comment, postedBy: _id } }
+            $push: { ratings: { star, comment, postedBy: _id, updatedAt } }
         }, { new: true })
     }
-
 
     //sumratings
     const updatedPitch = await Pitch.findById(pid)
@@ -124,13 +128,12 @@ const ratings = asyncHandler(async (req, res) => {
     updatedPitch.totalRatings = Math.round(sumRatings * 10 / ratingCount) / 10
 
     await updatedPitch.save()
-
     return res.status(200).json({
         status: true,
         updatedPitch
     })
-
 })
+
 const uploadImagesPitch = asyncHandler(async (req, res) => {
     const { pid } = req.params
     if (!req.files) throw new Error('Missing inputs')

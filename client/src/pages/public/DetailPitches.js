@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { apiGetPitch, apiGetPitches } from '../../apis'
 import { Breadcrumb, Button, PitchExtraInfo, PitchInformation, CustomSlider } from '../../components'
@@ -17,11 +17,11 @@ const settings = {
 };
 
 const DetailPitches = () => {
-
   const { pid, title, category } = useParams()
   const [pitch, setpitch] = useState(null)
   const [currentImage, setcurrentImage] = useState(null)
   const [realtedPitches, setrealtedPitches] = useState(null)
+  const [update, setUpdate] = useState(false)
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pid)
     if (response.success) {
@@ -38,11 +38,22 @@ const DetailPitches = () => {
       fetchPitchData()
       fetchPitches()
     }
+    window.scrollTo(0, 0)
   }, [pid])
+  useEffect(() => {
+    if (pid) {
+      fetchPitchData()
+    }
+  }, [update])
+
+  const rerender = useCallback(() => {
+    setUpdate(!update)
+  }, [update])
   const handleClickimage = (e, el) => {
     e.stopPropagation()
     setcurrentImage(el)
   }
+  console.log(pitch)
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
@@ -81,9 +92,9 @@ const DetailPitches = () => {
           </ul>
           <div>
             <Button
-              children='Booking'
               fw
             >
+              Booking
             </Button>
           </div>
         </div>
@@ -95,17 +106,23 @@ const DetailPitches = () => {
                 title={el.title}
                 icon={el.icon}
                 sub={el.sub}
-              ></PitchExtraInfo>
+              />
             ))
           }
         </div>
       </div>
       <div className='w-main m-auto mt-8'>
-        <PitchInformation totalRatings={pitch?.totalRatings} totalCount={18}></PitchInformation>
+        <PitchInformation
+          totalRatings={pitch?.totalRatings}
+          ratings={pitch?.ratings}
+          namePitch={pitch?.title}
+          pid={pitch?._id}
+          rerender={rerender}
+        />
       </div>
       <div className='w-main m-auto mt-8'>
         <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
-        <CustomSlider normal={true} pitches={realtedPitches}></CustomSlider>
+        <CustomSlider normal={true} pitches={realtedPitches} />
       </div >
       <div className='h-[100px] w-full'></div>
     </div >

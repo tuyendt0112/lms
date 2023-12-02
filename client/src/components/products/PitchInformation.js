@@ -1,19 +1,13 @@
 import React, { memo, useState } from 'react'
 import { pitchInforTabs } from 'ultils/constant'
-import Votebar from 'components/vote/Votebar'
 import { renderStarFromNumber } from 'ultils/helper'
 import { apiRatings } from 'apis'
 import { useDispatch, useSelector } from 'react-redux'
 import { showModal } from 'store/app/appSilice'
 import { useNavigate } from 'react-router-dom'
-import Button from 'components/buttons/Button'
-import Comment from 'components/vote/Comment'
+import { Button, Votebar, VoteOption, Comment } from 'components'
 import Swal from 'sweetalert2'
 import path from 'ultils/path'
-import VoteOption from 'components/vote/VoteOption'
-
-const activedStyles = ''
-const notActivedStyles = ''
 
 const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) => {
     const [activedTab, setactivedTab] = useState(1)
@@ -21,18 +15,23 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
     const navigate = useNavigate()
     const { isLoggedIn } = useSelector(state => state.user)
     const handleSubmitVoteOption = async ({ comment, score }) => {
+        console.log({ comment, score, pid })
         if (!comment || !pid || !score) {
             alert('Please vote when click submit')
             return
         }
+        // await apiRatings({ star: score, comment, pid, updatedAt: Date.now() })
+        // dispatch(showModal({
+        //     isShowModal: false,
+        //     modalChildren: null
+        // }))
+        // rerender()
         await apiRatings({ star: score, comment, pid, updatedAt: Date.now() })
         dispatch(showModal({
             isShowModal: false,
             modalChildren: null
         }))
         rerender()
-
-
     }
 
     const handleVoteNow = () => {
@@ -53,13 +52,8 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
         else {
             dispatch(showModal({
                 isShowModal: true,
-                modalChildren: <VoteOption
-                    namePitch={namePitch}
-                    handleSubmitVoteOption={handleSubmitVoteOption}
-                >
-                </VoteOption>
+                modalChildren: <VoteOption namePitch={namePitch} handleSubmitVoteOption={handleSubmitVoteOption} />
             }))
-
         }
     }
 
@@ -82,16 +76,16 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
 
 
             </div>
-            <div className='flex flex-col w-main py-8'>
-                <div className='flex border'>
-                    <div className='flex-4 border flex-col flex items-center justify-center'>
+            <div className='flex flex-col w-main py-8 '>
+                <div className='flex border border-red-500'>
+                    <div className='flex-4 flex-col flex items-center justify-center '>
                         <span className='font-semibold text-3xl'>{`${totalRatings}/5`}</span>
                         <span className='flex items-center gap-1'>{renderStarFromNumber(totalRatings)?.map((el, index) => (
                             <span key={index}>{el}</span>
                         ))}</span>
                         <span className='text-sm'>{`${ratings?.length} reviewers and commentors`}</span>
                     </div>
-                    <div className='flex-6 flex gap-2 flex-col p-4'>
+                    <div className='flex-6  flex gap-2 flex-col p-4'>
                         {Array.from(Array(5).keys()).reverse().map(el => (
                             <Votebar
                                 key={el}

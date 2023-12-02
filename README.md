@@ -68,5 +68,10 @@ Video 64:
 - Gọi api tạo sản phẩm nối với form tạo sản phẩm
 - npm install dompurify
 
-Video 48: 
-- 
+Save :
+- Loading video 55 done
+- Fix lỗi hiển thị rating khi nhấp vào sân mới
+- Fix lỗi hiển thị ra 6 ngôi sao khi bình luận hiển thị 0.5
+- Thêm avatar cho user
+- Thêm updateAt cho rating
+- Thêm populate cho hàm getPitch (để lấy tên user đã rating khi rating ref tới objectID của user)
