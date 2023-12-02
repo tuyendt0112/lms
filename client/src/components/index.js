@@ -6,10 +6,8 @@ export { default as CountDown } from './common/CountDown';
 export { default as CustomSlider } from './common/CustomSlider';
 export { default as Breadcrumb } from './common/Breadcrumb';
 export { default as Banner } from './common/Banner';
-{/* TODO LIST
 export { default as Loading } from './common/Loading';
 export { default as Modal } from './common/Modal';
-*/}
 // Products
 export { default as BestPrice } from './products/BestPrice';
 export { default as Pitch } from './products/Pitch';
@@ -41,6 +39,9 @@ export { default as Footer } from './footer/Footer';
 export { default as Button } from './buttons/Button';
 // Vote
 export { default as Votebar } from './vote/Votebar';
+export { default as VoteOption } from './vote/VoteOption';
+export { default as Comment } from './vote/Comment';
+
 
 
 

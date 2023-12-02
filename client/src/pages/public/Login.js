@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import loginpng from 'assets/login.jpg'
-import { InputFields, Button } from 'components'
+import { InputFields, Button, Loading } from 'components'
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from 'apis/user'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { validate } from 'ultils/helper'
 import { Link } from 'react-router-dom'
-
+import { showModal } from 'store/app/appSilice'
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -53,7 +53,9 @@ const Login = () => {
     const invalids = isRegister ? validate(payload, setinvalidFields) : validate(data, setinvalidFields)
     if (invalids === 0) {
       if (isRegister) {
+        dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
         const response = await apiRegister(payload)
+        dispatch(showModal({ isShowModal: false, modalChildren: null }))
         if (response.success) {
           setisVerifiedEmail(true)
         } else {
@@ -95,10 +97,10 @@ const Login = () => {
             className='p-2 border rounded-md outline-none'
           ></input>
           <Button
-            name='Submit'
             style='px-4 py-2 bg-blue-500 font-semibold text-white rounded-md ml-4'
             handleOnClick={finalRegister}
           >
+            Submit
           </Button>
         </div>
       </div>}

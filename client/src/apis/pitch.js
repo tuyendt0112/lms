@@ -11,6 +11,12 @@ export const apiGetPitch = (pid) => axios({
     method: 'get',
 })
 
+export const apiRatings = (data) => axios({
+    url: '/pitch/ratings',
+    method: 'put',
+    data
+})
+
 export const apiCreatePitch = (data) => axios({
     url: '/pitch/',
     method: 'post',

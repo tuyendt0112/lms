@@ -190,5 +190,28 @@ export const blockStatus = [
         code: false,
         value: 'Active'
     },
+]
 
+export const voteOptions = [
+
+    {
+        id: 1,
+        text: 'Terrible'
+    },
+    {
+        id: 2,
+        text: 'Bad'
+    },
+    {
+        id: 3,
+        text: 'Normal'
+    },
+    {
+        id: 4,
+        text: 'Good'
+    },
+    {
+        id: 5,
+        text: 'Perfect'
+    },
 ]

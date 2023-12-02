@@ -26,17 +26,20 @@ import {
 } from './pages/member'
 import path from './ultils/path'
 import { getCategories } from './store/app/asyncAction'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { Modal } from 'components';
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   const dispatch = useDispatch()
+  const { isShowModal, modalChildren } = useSelector(state => state.app)
   useEffect(() => {
     dispatch(getCategories())
   }, [])
   return (
-    <div className="min-h-screen">
+    <div className="font-main relative">
+      {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         {/*Public Route*/}
         <Route path={path.PUBLIC} element={<Public />}>
