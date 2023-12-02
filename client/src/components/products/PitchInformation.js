@@ -80,9 +80,11 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
                 <div className='flex border border-red-500'>
                     <div className='flex-4 flex-col flex items-center justify-center '>
                         <span className='font-semibold text-3xl'>{`${totalRatings}/5`}</span>
-                        <span className='flex items-center gap-1'>{renderStarFromNumber(totalRatings)?.map((el, index) => (
-                            <span key={index}>{el}</span>
-                        ))}</span>
+                        <span className='flex items-center gap-1'>
+                            {renderStarFromNumber(totalRatings)?.map((el, index) => (
+                                <span key={index}>{el}</span>
+                            ))}
+                        </span>
                         <span className='text-sm'>{`${ratings?.length} reviewers and commentors`}</span>
                     </div>
                     <div className='flex-6  flex gap-2 flex-col p-4'>

@@ -74,9 +74,8 @@ const getPitchs = asyncHandler(async (req, res) => {
         const counts = await Pitch.find(formartedQueries).countDocuments()
         return res.status(200).json({
             success: response ? true : false,
-            counts,
-            pitches: response ? response : 'Can not get pitchs'
-
+            pitches: response ? response : 'Can not get pitchs',
+            counts
         })
     }).catch((err) => {
         if (err) throw new Error(err, message)
@@ -107,6 +106,8 @@ const ratings = asyncHandler(async (req, res) => {
     if (!star || !pid) throw new Error('Missing inputs')
     const ratingPitch = await Pitch.findById(pid)
     const alreadyRating = ratingPitch?.ratings?.find(el => el.postedBy.toString() === _id)
+    console.log('CHECK1 >>>')
+
     if (alreadyRating) {
         //update star and comment again
         await Pitch.updateOne({
@@ -120,14 +121,16 @@ const ratings = asyncHandler(async (req, res) => {
             $push: { ratings: { star, comment, postedBy: _id, updatedAt } }
         }, { new: true })
     }
+    console.log('CHECK2 >>>')
 
     //sumratings
     const updatedPitch = await Pitch.findById(pid)
     const ratingCount = updatedPitch.ratings.length
     const sumRatings = updatedPitch.ratings.reduce((sum, el) => sum + el.star, 0)
     updatedPitch.totalRatings = Math.round(sumRatings * 10 / ratingCount) / 10
-
+    console.log('CHECK3 >>>')
     await updatedPitch.save()
+    console.log('CHECK4 >>>')
     return res.status(200).json({
         status: true,
         updatedPitch

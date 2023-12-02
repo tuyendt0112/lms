@@ -64,7 +64,7 @@ const DetailPitches = () => {
       </div>
       <div className='w-main m-auto mt-4 flex'>
         <div className='flex flex-col gap-3 w-2/5 '>
-          <img src={currentImage} alt='pitch' className='border h-[458px] w-[470px] object-cover'></img>
+          <img src={currentImage} alt='pitch' className='border h-[458px] w-[470px] object-cover' />
           <div className='w-[458px]'>
             <Slider className='image-slider' {...settings}>
               {pitch?.images?.map(el => (
@@ -80,11 +80,14 @@ const DetailPitches = () => {
           <div className='flex items-center mt-4'>
             {renderStarFromNumber(pitch?.totalRatings)?.map(el => (<span key={el}>{el}</span>))}
           </div>
-          <h2 className='font-semibold'>Description</h2>
-          <ul className='list-item'>
-            <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}>
 
-            </div>
+          <h2 className='font-semibold'>Description</h2>
+          {/* <ul className='list-item'>
+            <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}></div>
+          </ul> */}
+          <ul className='list-square text-sm text-gray-500 pl-4'>
+            {pitch?.description?.length > 1 && pitch?.description?.map(el => (<li className='leading-6' key={el}>{el}</li>))}
+            {pitch?.description?.length === 1 && <div className='text-sm line-clamp-[15] mb-8' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description[0]) }}></div>}
           </ul>
           <h2 className='font-semibold'>Address</h2>
           <ul className='list-item'>

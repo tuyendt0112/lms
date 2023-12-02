@@ -75,3 +75,4 @@ Save :
 - Thêm avatar cho user
 - Thêm updateAt cho rating
 - Thêm populate cho hàm getPitch (để lấy tên user đã rating khi rating ref tới objectID của user)
+- Fix tí UI cho thanh hiển thị số comment

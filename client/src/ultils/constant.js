@@ -148,11 +148,11 @@ export const adminSideBar = [
         icon: <FaProductHunt />,
         submenu: [
             {
-                text: 'Create product',
+                text: 'Create pitch',
                 path: `/${path.ADMIN}/${path.CREATE_PITCH}`
             },
             {
-                text: 'Manage product',
+                text: 'Manage pitches',
                 path: `/${path.ADMIN}/${path.MANAGE_PITCH}`
             },
         ]

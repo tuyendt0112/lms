@@ -37,7 +37,7 @@ const VoteOption = ({ namePitch, handleSubmitVoteOption }) => {
                                 setscore(el.id)
                             }}
                         >
-                            {(Number(chosenScore) && (chosenScore >= el.id)) ? <AiFillStar color='orange'></AiFillStar> : <AiFillStar color='gray'></AiFillStar>}
+                            {(Number(chosenScore) && (chosenScore >= el.id)) ? <AiFillStar color='orange' /> : <AiFillStar color='gray' />}
                             <span>{el.text}</span>
                         </div>
                     ))}

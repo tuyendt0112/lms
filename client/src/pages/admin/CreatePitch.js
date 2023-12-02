@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, InputForm, MarkDownEditor, Select } from 'components'
+import { Button, InputForm, MarkDownEditor, Select, Loading } from 'components'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { validate, getBase64 } from 'ultils/helper'
 import { toast } from 'react-toastify'
-import { IoTrashBin } from "react-icons/io5";
 import { apiCreatePitch } from 'apis'
+import { showModal } from 'store/app/appSilice'
+
 const CreatePitch = () => {
+    const dispath = useDispatch()
     const { categories } = useSelector(state => state.app)
     const { register, formState: { errors }, reset, handleSubmit, watch } = useForm()
     const handleCreatePitch = async (data) => {
@@ -26,9 +28,24 @@ const CreatePitch = () => {
                 if (finalPayload.images) {
                     for (let image of finalPayload.images) formData.append('images', image)
                 }
-
+                dispath(showModal({ isShowModal: true, modalChildren: <Loading /> }))
                 const response = await apiCreatePitch(formData)
-                console.log(response)
+                dispath(showModal({ isShowModal: false, modalChildren: null }))
+                if (response.success) {
+                    reset()
+                    setPayload({
+                        description: ''
+                    })
+                    setPreview({
+                        thumb: null,
+                        images: []
+                    })
+                    console.log("CHECK NOTIFICATION")
+                    toast.success("Create Pitch Success !")
+                }
+                else {
+                    toast.error("Fail!!!")
+                }
             }
         }
     }

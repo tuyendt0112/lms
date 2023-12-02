@@ -14,7 +14,7 @@ var pitchSchema = new mongoose.Schema({
         lowercase: true
     },
     description: {
-        type: String,
+        type: Array,
         required: true,
         unique: true,
     },
@@ -26,17 +26,18 @@ var pitchSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    price: {
-        type: Number,
-        required: true,
-    },
     category: {
         type: String,
         required: true,
     },
+    price: {
+        type: Number,
+        required: true,
+    },
     thumb: {
         type: String,
-        required: true,
+        // required: true,
+        // để required thì nếu comment cho pitch chưa có thumb thì ko save đc
     },
     images: {
         type: Array

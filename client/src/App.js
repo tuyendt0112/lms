@@ -68,15 +68,17 @@ function App() {
         <Route path={path.LOGIN} element={<Login />}></Route>
       </Routes>
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
+        position="bottom-right"
+        autoClose={3000}
         hideProgressBar={false}
-        newestOnTop={false}
+        newestOnTop
         closeOnClick
         rtl={false}
+        limit={3}
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme='colored'
       />
       {/* Same as */}
       <ToastContainer />
