@@ -2,22 +2,22 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { apiGetUsers, apiUpdateUserByAdmin, apiDeleteUserByAdmin } from 'apis/user'
 import { roles, blockStatus } from 'ultils/constant'
 import moment from 'moment'
-import { InputFields, Pagination, InputForm, Select, Button } from 'components'
+import { Pagination, InputForm, Select, Button } from 'components'
 import useDebounce from 'hooks/useDebounce'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import clsx from 'clsx'
+
 const ManageUser = () => {
-    const { handleSubmit, register, formState: { errors }, reset } = useForm()
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [params] = useSearchParams()
+    const { handleSubmit, register, formState: { errors }, reset, watch } = useForm()
     const [user, setUsers] = useState(null)
-    const [queries, setQueries] = useState({
-        q: ""
-    })
     const [update, setUpdate] = useState(false)
     const [editUser, setEditUser] = useState(null)
-    const [params] = useSearchParams()
     const fetchUsers = async (params) => {
         const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) setUsers(response)
@@ -26,17 +26,40 @@ const ManageUser = () => {
         setUpdate(!update)
     }, [update])
     {/*
-    Mỗi 0.8s thì mới cập nhật 
+    Mỗi 0.5s thì mới cập nhật 
     Hàm dưới nghĩa là chừng nào giá trị queriesDebounce thay đổi (0.5/1 lần) thì mới gọi API,
     */}
-    const queriesDebounce = useDebounce(queries.q, 500)
+    const queryDecounce = useDebounce(watch('q'), 500)
 
     useEffect(() => {
-        const queries = Object.fromEntries([...params])
-        // console.log("Check Queries", queries)
-        if (queriesDebounce) queries.q = queriesDebounce
-        fetchUsers(queries)
-    }, [queriesDebounce, params, update])
+        if (queryDecounce) {
+            navigate({
+                pathname: location.pathname,
+                search: createSearchParams({ q: queryDecounce }).toString()
+            })
+        } else {
+            navigate({
+                pathname: location.pathname,
+            })
+        }
+    }, [queryDecounce])
+
+    // useEffect(() => {
+    //     const searchParams = Object.fromEntries([...params])
+    //     fetchPitches(searchParams)
+    // }, [params])
+
+    useEffect(() => {
+        const searchParams = Object.fromEntries([...params])
+        fetchUsers(searchParams)
+    }, [params, update])
+
+    // useEffect(() => {
+    //     const queries = Object.fromEntries([...params])
+    //     // console.log("Check Queries", queries)
+    //     if (queriesDebounce) queries.q = queriesDebounce
+    //     fetchUsers(queries)
+    // }, [queriesDebounce, params, update])
 
 
     const handleUpdate = async (data) => {
@@ -81,25 +104,22 @@ const ManageUser = () => {
         }
     }, [editUser])
 
-    // console.log(editUser)
-    // console.log('q: ', queries?.q)
-    // console.log(user.counts)
-    // console.log("SEARCH PARAMS", useSearchParams())
     return (
         <div className={clsx('w-full', editUser && 'pl-10')}>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
                 <span>Manage User</span>
             </h1>
             <div className='w-full p-4'>
-                <div className='flex justify-end py-4'>
-                    <InputFields
-                        nameKey={'q'}
-                        value={queries.q}
-                        setValue={setQueries}
-                        style='w350'
-                        placeholder='Search by name or email...'
-                        isHideLabel
-                    />
+                <div className='flex w-full justify-end items-center px-4'>
+                    {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                    <form className='w-[45%]' >
+                        <InputForm
+                            id='q'
+                            register={register}
+                            errors={errors}
+                            fullWidth
+                            placeholder='Search products by title, description ...' />
+                    </form>
                 </div>
                 <form onSubmit={handleSubmit(handleUpdate)}>
                     {editUser && <Button type='submit'>Update</Button >}
@@ -121,7 +141,9 @@ const ManageUser = () => {
                             {
                                 user?.users?.map((el, index) => (
                                     <tr key={el._id} className='border border-gray-500'>
-                                        <td className='py-2 px-4'>{index + 1}</td>
+                                        <td className='text-center py-2'>
+                                            {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
+                                        </td>
                                         <td className='py-2 px-4'>
                                             {editUser?._id === el._id
                                                 ? <InputForm

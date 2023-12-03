@@ -5,15 +5,20 @@ import { apiGetPitches } from 'apis'
 import defaultt from 'assets/default.png'
 import moment from 'moment'
 import icons from 'ultils/icons'
+import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
+import useDebounce from 'hooks/useDebounce'
 const { AiFillStar } = icons
 
 const ManagePitch = () => {
-    const { register, formState: { errors }, handleSubmit, reset } = useForm()
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [params] = useSearchParams()
+    const { register, formState: { errors }, handleSubmit, reset, watch } = useForm()
     const [pitches, setPitches] = useState(null)
     const [counts, setCounts] = useState(0)
-    const handleManagePitch = (data) => {
-        console.log(data)
-    }
+    // const handleManagePitch = (data) => {
+    //     console.log(data)
+    // }
     const fetchPitches = async (params) => {
         const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) {
@@ -22,10 +27,27 @@ const ManagePitch = () => {
         }
     }
 
+    const queryDecounce = useDebounce(watch('q'), 800)
+    // const queryDecounce = useDebounce(queries.q, 500)
+
     useEffect(() => {
-        fetchPitches()
-    }, [])
-    console.log(pitches)
+        if (queryDecounce) {
+            navigate({
+                pathname: location.pathname,
+                search: createSearchParams({ q: queryDecounce }).toString()
+            })
+        } else {
+            navigate({
+                pathname: location.pathname,
+            })
+        }
+    }, [queryDecounce])
+
+    useEffect(() => {
+        const searchParams = Object.fromEntries([...params])
+
+        fetchPitches(searchParams)
+    }, [params])
     return (
         <div className='w-full flex flex-col gap-4 relative'>
             <div className='h-[69px] w-full'></div>
@@ -33,14 +55,14 @@ const ManagePitch = () => {
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Pitches</h1>
             </div>
             <div className='flex w-full justify-end items-center px-4'>
-                <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}>
+                {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                <form className='w-[45%]' >
                     <InputForm
                         id='q'
                         register={register}
                         errors={errors}
                         fullWidth
                         placeholder='Search products by title, description ...' />
-
                 </form>
             </div>
             <table className='table-auto '>
@@ -63,7 +85,7 @@ const ManagePitch = () => {
                         pitches?.map((el, index) => (
                             <tr className='border-b' key={el._id}>
                                 <td className='text-center py-2'>
-                                    {index + 1}
+                                    {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
                                 <td className='text-center py-2'>
                                     {el.thumb ? <img src={el.thumb} alt='thumb' className='w-12 h-12 object-cover' /> : <img src={defaultt} alt='thumb' className='w-12 h-12 object-cover' />}

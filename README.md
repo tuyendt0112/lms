@@ -76,3 +76,12 @@ Save :
 - Thêm updateAt cho rating
 - Thêm populate cho hàm getPitch (để lấy tên user đã rating khi rating ref tới objectID của user)
 - Fix tí UI cho thanh hiển thị số comment
+
+Video 65: 
+- Layout quản lý sản phẩm
+- Load dữ liệu từ db lên 
+
+Video 66: 
+- Tiếp tục làm quản lý sản phẩm
+- Fix bug pagination
+- Fix bug search khi manage user và pitches

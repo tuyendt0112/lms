@@ -23,7 +23,6 @@ const Pitches = () => {
     const response = await apiGetPitches(queries)
     if (response.success) setpitches(response)
   }
-
   const { category } = useParams()
 
   useEffect(() => {
@@ -69,6 +68,7 @@ const Pitches = () => {
       })
     }
   }, [sort])
+  console.log(pitches)
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
