@@ -45,6 +45,28 @@ const getPitchs = asyncHandler(async (req, res) => {
 
     // Filtering
     if (queries?.title) formartedQueries.title = { $regex: queries.title, $options: 'i' }
+
+    // let queryObject = {}
+    // if (queries?.q) {
+    //     delete formartedQueries.q
+    //     queryObject = {
+    //         $or: [
+    //             { title: { $regex: queries.q, $options: 'i' } },
+    //             { address: { $regex: queries.q, $options: 'i' } },
+    //             { category: { $regex: queries.q, $options: 'i' } },
+    //             { brand: { $regex: queries.q, $options: 'i' } },
+    //         ]
+    //     }
+    // }
+    if (req.query.q) {
+        delete formartedQueries.q
+        formartedQueries['$or'] = [
+            { title: { $regex: queries.q, $options: 'i' } },
+            { address: { $regex: queries.q, $options: 'i' } },
+            { category: { $regex: queries.q, $options: 'i' } },
+            { brand: { $regex: queries.q, $options: 'i' } },
+        ]
+    }
     let queryCommand = Pitch.find(formartedQueries)
 
     //Sorting 
@@ -53,11 +75,12 @@ const getPitchs = asyncHandler(async (req, res) => {
         queryCommand = queryCommand.sort(sortBy)
     }
 
-    // Fields litmitng
+    // Fields limiting
     if (req.query.fields) {
         const fields = req.query.fields.split(',').join(' ')
         queryCommand = queryCommand.select(fields)
     }
+
 
     //Pagination
     //limit : số object lấy về 1 lần gọi API

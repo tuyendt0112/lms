@@ -209,6 +209,7 @@ const getUsers = asyncHandler(async (req, res) => {
             { email: { $regex: queries.q, $options: 'i' } }
         ]
     }
+
     let queryCommand = User.find(formartedQueries)
 
     //Sorting 
