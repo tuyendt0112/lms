@@ -30,28 +30,25 @@ const ManageUser = () => {
     Hàm dưới nghĩa là chừng nào giá trị queriesDebounce thay đổi (0.5/1 lần) thì mới gọi API,
     */}
     const queryDecounce = useDebounce(watch('q'), 500)
-
     useEffect(() => {
         if (queryDecounce) {
             navigate({
                 pathname: location.pathname,
                 search: createSearchParams({ q: queryDecounce }).toString()
             })
-        } else {
-            navigate({
-                pathname: location.pathname,
-            })
+        }
+        else {
+            if (!editUser)
+                navigate({
+                    pathname: location.pathname,
+                })
         }
     }, [queryDecounce])
-
-    // useEffect(() => {
-    //     const searchParams = Object.fromEntries([...params])
-    //     fetchPitches(searchParams)
-    // }, [params])
 
     useEffect(() => {
         const searchParams = Object.fromEntries([...params])
         fetchUsers(searchParams)
+        setEditUser(null)
     }, [params, update])
 
     // useEffect(() => {
@@ -105,14 +102,14 @@ const ManageUser = () => {
     }, [editUser])
 
     return (
-        <div className={clsx('w-full', editUser && 'pl-10')}>
+        <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
                 <span>Manage User</span>
             </h1>
             <div className='w-full p-4'>
                 <div className='flex w-full justify-end items-center px-4'>
                     {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                    <form className='w-[45%]' >
+                    <form className='w-[45%] ' >
                         <InputForm
                             id='q'
                             register={register}
@@ -123,18 +120,18 @@ const ManageUser = () => {
                 </div>
                 <form onSubmit={handleSubmit(handleUpdate)}>
                     {editUser && <Button type='submit'>Update</Button >}
-                    <table className='table-auto mb-6 text-left w-full'>
-                        <thead className='font-bold bg-gray-700 text-[17px] border border-gray-500 text-white'>
-                            <tr>
-                                <th className='px-4 py-2 w-[50px]'>#</th>
-                                <th className='px-4 py-2 w-[270px]'>Email</th>
-                                <th className='px-4 py-2'>First name</th>
-                                <th className='px-4 py-2'>Last name</th>
-                                <th className='px-4 py-2 w-[150px]'>Role</th>
-                                <th className='px-4 py-2'>Create At</th>
+                    <table className='table-auto border-2 border-black w-full '>
+                        <thead >
+                            <tr className='border border-white bg-sky-900 text-white  py-2'>
+                                <th className='px-4 py-2 text-center h-[60px] w-[45px]'>#</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[210px]'>Email</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[120px]'>First name</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[120px]'>Last name</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[130px]'>Role</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[130px]'>Status</th>
+                                <th className='px-4 py-2 text-center h-[60px] w-[140px]'>Create At</th>
                                 {/* <th>Address</th> */}
-                                <th className='px-4 py-2'>Status</th>
-                                <th className='px-4 py-2'>Actions</th>
+                                <th className='px-4 py-2 w-[140px]'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -226,7 +223,7 @@ const ManageUser = () => {
                     </table>
                 </form>
 
-                <div className='w-full flex justify-end'>
+                <div className='w-full flex justify-end mt-2'>
                     <Pagination
                         totalCount={user?.counts} />
                 </div>

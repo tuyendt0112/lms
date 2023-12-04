@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import avatar from 'assets/defaultava.png'
 import moment from 'moment'
 import { renderStarFromNumber } from 'ultils/helper'
@@ -31,4 +31,4 @@ const Comment = ({ image = avatar, name = 'Annoymous', updatedAt, comment, star 
     )
 }
 
-export default Comment
+export default memo(Comment)

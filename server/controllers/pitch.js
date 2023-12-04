@@ -108,11 +108,18 @@ const getPitchs = asyncHandler(async (req, res) => {
 
 const updatePitch = asyncHandler(async (req, res) => {
     const { pid } = req.params
+    const files = req?.files
+    if (files?.thumb) {
+        req.body.thumb = files?.thumb[0].path
+    }
+    if (files?.images) {
+        req.body.thumb = files?.images?.map(el => el.path)
+    }
     if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
     const updatePitch = await Pitch.findByIdAndUpdate(pid, req.body, { new: true })
     return res.status(200).json({
         success: updatePitch ? true : false,
-        updatePitch: updatePitch ? updatePitch : 'Can not update pitch'
+        updatePitch: updatePitch ? "Updated" : 'Can not update pitch'
     })
 })
 const deletePitch = asyncHandler(async (req, res) => {
@@ -120,7 +127,7 @@ const deletePitch = asyncHandler(async (req, res) => {
     const deletePitch = await Pitch.findByIdAndDelete(pid)
     return res.status(200).json({
         success: deletePitch ? true : false,
-        deletePitch: deletePitch ? deletePitch : 'Can not delete pitch'
+        deletePitch: deletePitch ? "Deleted" : 'Can not delete pitch'
     })
 })
 const ratings = asyncHandler(async (req, res) => {
@@ -168,7 +175,6 @@ const uploadImagesPitch = asyncHandler(async (req, res) => {
         status: response ? true : false,
         updatedPitch: response ? response : 'Cannot upload images pitches'
     })
-    return res.json('OKE')
 })
 
 module.exports = {

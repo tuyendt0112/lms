@@ -13,7 +13,6 @@ const Pagination = ({ totalCount }) => {
         const end = Math.min(currentPage * pageSize, totalCount)
         return `${start} - ${end}`
     }
-    console.log(!+params.get('page'), +params.get('page'))
     return (
         <div className='flex w-full justify-between items-center'>
             {

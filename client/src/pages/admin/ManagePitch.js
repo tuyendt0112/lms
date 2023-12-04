@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { InputForm, Pagination } from 'components'
 import { useForm } from 'react-hook-form'
-import { apiGetPitches } from 'apis'
+import { apiGetPitches, apiDeletePitch } from 'apis'
 import defaultt from 'assets/default.png'
 import moment from 'moment'
 import icons from 'ultils/icons'
 import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import useDebounce from 'hooks/useDebounce'
+import UpdatePitch from 'pages/admin/UpdatePitch'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
+
 const { AiFillStar } = icons
 
 const ManagePitch = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [params] = useSearchParams()
-    const { register, formState: { errors }, handleSubmit, reset, watch } = useForm()
+    const { register, formState: { errors }, watch } = useForm()
     const [pitches, setPitches] = useState(null)
     const [counts, setCounts] = useState(0)
-    // const handleManagePitch = (data) => {
-    //     console.log(data)
-    // }
+    const [editPitch, setEditPitch] = useState(null)
+    const [update, setUpdate] = useState(false)
+
+    const render = useCallback(() => {
+        setUpdate(!update)
+    })
     const fetchPitches = async (params) => {
         const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) {
@@ -45,11 +52,36 @@ const ManagePitch = () => {
 
     useEffect(() => {
         const searchParams = Object.fromEntries([...params])
-
         fetchPitches(searchParams)
-    }, [params])
+    }, [params, update])
+
+    const handleDeletePitch = (pid) => {
+        Swal.fire({
+            title: 'Are you sure',
+            text: 'Sure friends ?',
+            icon: 'warning',
+            showCancelButton: true
+        }).then(async (rs) => {
+            if (rs.isConfirmed) {
+                const response = await apiDeletePitch(pid)
+                if (response.success) toast.success(response.mes)
+                else toast.error(response.mes)
+                render()
+            }
+
+        })
+    }
     return (
         <div className='w-full flex flex-col gap-4 relative'>
+            {editPitch &&
+                <div className='absolute inset-0 win-h-screen bg-gray-100 z-50'>
+                    <UpdatePitch
+                        editPitch={editPitch}
+                        render={render}
+                        setEditPitch={setEditPitch}
+                    />
+                </div>
+            }
             <div className='h-[69px] w-full'></div>
             <div className='p-4 border-b w-full bg-gray-500 flex justify-between items-center fixed top-0'>
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Pitches</h1>
@@ -77,6 +109,7 @@ const ManagePitch = () => {
                         <th className='px-4 py-2 text-center'>Price</th>
                         <th className='px-4 py-2 text-center'>Ratings</th>
                         <th className='px-4 py-2 text-center'>CreateAt</th>
+                        <th className='px-4 py-2 text-center'>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,13 +130,24 @@ const ManagePitch = () => {
                                 <td className='text-center py-2'>{el.price}</td>
                                 <td className='flex items-center justify-center py-5'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
                                 <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
+                                <td className='text-center py-2'>
+                                    <span
+                                        className='text-blue-500 hover:underline cursor-pointer px-1'
+                                        onClick={() => setEditPitch(el)}>
+                                        Edit
+                                    </span>
+                                    <span
+                                        onClick={() => handleDeletePitch(el._id)}
+                                        className='text-blue-500 hover:underline cursor-pointer px-1'>
+                                        Remove
+                                    </span>
+                                </td>
                             </tr>
                         ))}
                 </tbody>
             </table>
             <div className='w-full flex justify-end my-8'>
                 <Pagination totalCount={counts} />
-
             </div>
         </div>
     )

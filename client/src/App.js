@@ -39,6 +39,19 @@ function App() {
   }, [])
   return (
     <div className="font-main relative">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        limit={3}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='colored'
+      />
       {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         {/*Public Route*/}
@@ -67,21 +80,6 @@ function App() {
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />}></Route>
       </Routes>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        limit={3}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='colored'
-      />
-      {/* Same as */}
-      <ToastContainer />
     </div>
   );
 }

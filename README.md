@@ -85,3 +85,9 @@ Video 66:
 - Tiếp tục làm quản lý sản phẩm
 - Fix bug pagination
 - Fix bug search khi manage user và pitches
+
+Video 67:
+- Fix tí bug UI cho manager user
+
+Video 68: 
+- Từ 28p là chỉnh việc mất hình ảnh, tự fix theo code riêng

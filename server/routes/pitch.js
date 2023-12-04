@@ -11,7 +11,10 @@ router.get('/', ctrls.getPitchs)
 router.put('/ratings', [verifyAccessToken], ctrls.ratings)
 
 router.put('/uploadimage/:pid', [verifyAccessToken, isAdmin], uploader.array('images', 10), ctrls.uploadImagesPitch)
-router.put('/:pid', [verifyAccessToken, isAdminAndPitchOwn], ctrls.updatePitch)
+router.put('/:pid', [verifyAccessToken, isAdminAndPitchOwn], uploader.fields([
+    { name: 'images', maxCount: 10 },
+    { name: 'thumb', maxCount: 1 }
+]), ctrls.updatePitch)
 router.delete('/:pid', [verifyAccessToken, isAdminAndPitchOwn], ctrls.deletePitch)
 router.get('/:pid', ctrls.getPitch)
 

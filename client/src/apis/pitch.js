@@ -22,3 +22,15 @@ export const apiCreatePitch = (data) => axios({
     method: 'post',
     data
 })
+
+export const apiUpdatePitch = (data, pid) => axios({
+    url: '/pitch/' + pid,
+    method: 'put',
+    data
+})
+
+
+export const apiDeletePitch = (pid) => axios({
+    url: '/pitch/' + pid,
+    method: 'delete',
+})
