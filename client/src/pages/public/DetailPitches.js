@@ -7,6 +7,8 @@ import ReactImageMagnify from 'react-image-magnify';
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
 import { pitchExtraInformation } from '../../ultils/constant';
 import DOMPurify from 'dompurify'
+import clsx from 'clsx';
+
 
 const settings = {
   dots: false,
@@ -16,12 +18,29 @@ const settings = {
   slidesToScroll: 1
 };
 
-const DetailPitches = () => {
-  const { pid, title, category } = useParams()
+const DetailPitches = ({ isQuickView, data }) => {
+
   const [pitch, setpitch] = useState(null)
   const [currentImage, setcurrentImage] = useState(null)
   const [realtedPitches, setrealtedPitches] = useState(null)
   const [update, setUpdate] = useState(false)
+  //
+  const params = useParams()
+  const { title } = useParams()
+  const [pid, setpitchid] = useState(null)
+  const [category, setpitchcategory] = useState(null)
+
+  useEffect(() => {
+    if (data) {
+      setpitchid(data.pid)
+      setpitchcategory(data.category)
+    }
+    else if (params && params.pid) {
+      setpitchid(params.pid)
+      setpitchcategory(params.category)
+    }
+  }, [data, params])
+
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pid)
     if (response.success) {
@@ -55,15 +74,15 @@ const DetailPitches = () => {
   }
   console.log(pitch)
   return (
-    <div className='w-full'>
-      <div className='h-[81px] flex justify-center items-center bg-gray-100'>
+    <div className={clsx('w-full')}>
+      {!isQuickView && <div className='h-[81px] flex justify-center items-center bg-gray-100'>
         <div className='w-main'>
           <h3 className='font-semibold'>{title}</h3>
           <Breadcrumb title={title} category={category}></Breadcrumb>
         </div>
-      </div>
-      <div className='w-main m-auto mt-4 flex'>
-        <div className='flex flex-col gap-3 w-2/5 '>
+      </div>}
+      <div onClick={e => e.stopPropagation()} className={clsx('bg-white m-auto mt-4 flex', isQuickView ? 'max-w-[900px] gap-16 p-8' : 'w-main')}>
+        <div className={clsx('flex flex-col gap-3 w-2/5 ', isQuickView && 'w-1/2')}>
           <img src={currentImage} alt='pitch' className='border h-[458px] w-[470px] object-cover' />
           <div className='w-[458px]'>
             <Slider className='image-slider' {...settings}>
@@ -101,7 +120,7 @@ const DetailPitches = () => {
             </Button>
           </div>
         </div>
-        <div className='w-1/5'>
+        {!isQuickView && <div className='w-1/5'>
           {
             pitchExtraInformation.map(el => (
               <PitchExtraInfo
@@ -112,9 +131,9 @@ const DetailPitches = () => {
               />
             ))
           }
-        </div>
+        </div>}
       </div>
-      <div className='w-main m-auto mt-8'>
+      {!isQuickView && <div className='w-main m-auto mt-8'>
         <PitchInformation
           totalRatings={pitch?.totalRatings}
           ratings={pitch?.ratings}
@@ -122,12 +141,14 @@ const DetailPitches = () => {
           pid={pitch?._id}
           rerender={rerender}
         />
-      </div>
-      <div className='w-main m-auto mt-8'>
-        <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
-        <CustomSlider normal={true} pitches={realtedPitches} />
-      </div >
-      <div className='h-[100px] w-full'></div>
+      </div>}
+      {!isQuickView && <>
+        <div className='w-main m-auto mt-8'>
+          <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
+          <CustomSlider normal={true} pitches={realtedPitches}></CustomSlider>
+        </div >
+        <div className='h-[100px] w-full'></div>
+      </>}
     </div >
   )
 }

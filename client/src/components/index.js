@@ -28,6 +28,8 @@ export { default as MarkDownEditor } from './inputs/MarkDownEditor';
 // Sidebar
 export { default as Sidebar } from './sidebar/Sidebar';
 export { default as AdminSideBar } from './sidebar/AdminSidebar';
+export { default as Membersidebar } from './sidebar/Membersidebar';
+
 // Pagination
 export { default as Pagination } from './pagination/Pagination';
 export { default as PagintaionItem } from './pagination/PagintaionItem';

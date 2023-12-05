@@ -7,6 +7,7 @@ import banner from 'assets/banner.jpg'
 import banner2 from 'assets/banner2.jpg'
 import { getNewPitches } from 'store/pitch/asyncAction'
 import { useDispatch, useSelector } from 'react-redux';
+import clsx from 'clsx';
 
 
 const tabs = [
@@ -26,6 +27,7 @@ const BestPrice = () => {
     const [pitchs, setpitchs] = useState(null)
     const dispatch = useDispatch()
     const { newPitches } = useSelector(state => state.pitch)
+    const { isShowModal } = useSelector(state => state.app)
 
 
     const fetchPitches = async () => {
@@ -45,7 +47,7 @@ const BestPrice = () => {
         if (activedTab === 2) setpitchs(newPitches)
     }, [activedTab])
     return (
-        <div>
+        <div className={clsx(isShowModal ? 'hidden' : '')}>
             <div className='flex text-[20px] gap-8 pb-4 border-b-2 border-main'>
                 {tabs.map(el => (
                     <span key={el.id}

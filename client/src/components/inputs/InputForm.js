@@ -4,7 +4,7 @@ import clsx from 'clsx'
 const InputForm = ({ register, errors, id, validate, label, disable, type = 'text', placeholder, fullWidth, style }) => {
     return (
         <div className={clsx('flex flex-col h-[78px] gap-2', style)}>
-            {label && <label htmlFor={id}>{label}</label>}
+            {label && <label className='font-semibold' htmlFor={id}>{label + ':'}</label>}
             <input
                 type={type}
                 id={id}

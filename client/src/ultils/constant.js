@@ -56,6 +56,30 @@ export const pitchExtraInformation = [
         icon: <AiFillGift />
     }
 ]
+const { MdPersonalInjury, MdHistory, AiFillLike } = icons
+export const memberSidebar = [
+    {
+        id: 1,
+        type: 'SINGLE',
+        text: 'Personal',
+        path: `/${path.MEMBER}/${path.PERSONAL}`,
+        icon: <MdPersonalInjury />
+    },
+    {
+        id: 2,
+        type: 'SINGLE',
+        text: 'Booking histories',
+        path: `/${path.MEMBER}/${path.HISTORY}`,
+        icon: <MdHistory />
+    },
+    {
+        id: 4,
+        type: 'SINGLE',
+        text: 'Wishlist',
+        path: `/${path.MEMBER}/${path.WISHLIST}`,
+        icon: <AiFillLike />
+    },
+]
 
 export const pitchInforTabs = [
     {
