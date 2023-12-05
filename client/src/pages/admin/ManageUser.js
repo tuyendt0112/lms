@@ -192,10 +192,11 @@ const ManageUser = () => {
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
-                                                    id={'role'}
+                                                    id={'isBlocked'}
+                                                    defaultValue={el.isBlocked}
                                                     validate={{ required: 'Plseae Select' }}
-                                                    options={roles} />
-                                                : <span>{roles.find(role => role.code === +el.role)?.value}</span>}
+                                                    options={blockStatus} />
+                                                : <span>{blockStatus.find(status => status.code === +el.isBlocked)?.value}</span>}
                                         </td>
                                         <td className='py-2 px-4'>
                                             {editUser?._id === el._id

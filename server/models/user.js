@@ -15,8 +15,6 @@ var userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        required: true,
-
     },
     email: {
         type: String,
@@ -32,8 +30,9 @@ var userSchema = new mongoose.Schema({
     },
     address: [{ type: mongoose.Types.ObjectId, ref: 'Address' }],
     isBlocked: {
-        type: Boolean,
-        default: false
+        type: String,
+        enum: [1, 2],
+        default: 2,
     },
     refreshToken: {
         type: String,
