@@ -14,7 +14,11 @@ module.exports = {
       },
       colors: {
         main: '#ee3131',
-        overlay: 'rgba(0,0,0,0.7)'
+        overlay: 'rgba(0,0,0,0.7)',
+        "dark-purple": "#081A51",
+        "light-white": "rgba(255,255,255,0.18)",
+        "login": "#061027",
+        "login-2": "#07386e"
       },
       flex: {
         '2': '2 2 0%',

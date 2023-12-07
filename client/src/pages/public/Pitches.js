@@ -18,12 +18,13 @@ const Pitches = () => {
   const [activeClick, setactiveClick] = useState(null)
   const [params] = useSearchParams()
   const [sort, setsort] = useState('')
+  const { category } = useParams()
 
   const fetchProductsByCategory = async (queries) => {
+    if (category && category !== 'pitches') queries.category = category
     const response = await apiGetPitches(queries)
     if (response.success) setpitches(response)
   }
-  const { category } = useParams()
 
   useEffect(() => {
     // let param = []

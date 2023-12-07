@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import usePagintaion from 'hooks/usePagintaion'
 import { PagintaionItem } from 'components'
 import { useSearchParams } from 'react-router-dom'
-const Pagination = ({ totalCount }) => {
+const Pagination = ({ totalCount, type = 'pitches' }) => {
     const [params] = useSearchParams()
     const pagination = usePagintaion(totalCount, +params.get('page') || 1)
 
@@ -25,9 +25,9 @@ const Pagination = ({ totalCount }) => {
                         {
                             totalCount > 0
                                 ?
-                                `Show pitchs 1 - ${Math.min(+process.env.REACT_APP_PITCH_LIMIT, totalCount) || 6} of ${totalCount}`
+                                `Show ${type} 1 - ${Math.min(+process.env.REACT_APP_PITCH_LIMIT, totalCount) || 6} of ${totalCount}`
                                 :
-                                `Show pitchs 0 - 0 of 0`
+                                `Show ${type} 0 - 0 of 0`
                         }
                     </span>
                     : ''
@@ -35,7 +35,7 @@ const Pagination = ({ totalCount }) => {
             {
                 +params.get('page') ?
                     <span className='text-sm italic'>
-                        {`Show pitchs ${caculatePitch()} of ${totalCount}`}
+                        {`Show ${type} ${caculatePitch()} of ${totalCount}`}
                     </span>
                     : ''
             }

@@ -4,13 +4,18 @@ import { roles, blockStatus } from 'ultils/constant'
 import moment from 'moment'
 import { Pagination, InputForm, Select, Button } from 'components'
 import useDebounce from 'hooks/useDebounce'
-import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
+import { useSearchParams, createSearchParams, useNavigate, useLocation, useOutletContext } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import clsx from 'clsx'
+import icons from 'ultils/icons'
 
+const { FaRegEdit,
+    MdDeleteForever, FaSave, TiCancel } = icons
 const ManageUser = () => {
+    const [open, setOpen] = useOutletContext();
+    console.log(open)
     const navigate = useNavigate()
     const location = useLocation()
     const [params] = useSearchParams()
@@ -50,14 +55,6 @@ const ManageUser = () => {
         fetchUsers(searchParams)
         setEditUser(null)
     }, [params, update])
-
-    // useEffect(() => {
-    //     const queries = Object.fromEntries([...params])
-    //     // console.log("Check Queries", queries)
-    //     if (queriesDebounce) queries.q = queriesDebounce
-    //     fetchUsers(queries)
-    // }, [queriesDebounce, params, update])
-
 
     const handleUpdate = async (data) => {
         const response = await apiUpdateUserByAdmin(data, editUser._id)
@@ -107,7 +104,7 @@ const ManageUser = () => {
                 <span>Manage User</span>
             </h1>
             <div className='w-full p-4'>
-                <div className='flex w-full justify-end items-center px-4'>
+                <div className='flex w-full justify-end items-center px-1 pb-4'>
                     {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
                     <form className='w-[45%] ' >
                         <InputForm
@@ -119,11 +116,10 @@ const ManageUser = () => {
                     </form>
                 </div>
                 <form onSubmit={handleSubmit(handleUpdate)}>
-                    {editUser && <Button type='submit'>Update</Button >}
-                    <table className='table-auto border-2 border-black w-full '>
-                        <thead >
-                            <tr className='border border-white bg-sky-900 text-white  py-2'>
-                                <th className='px-4 py-2 text-center h-[60px] w-[45px]'>#</th>
+                    <table className='table-auto w-full '>
+                        <thead className='text-md  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+                            <tr className='bg-sky-900 text-white  py-2'>
+                                <th className='px-4 py-2 text-center h-[60px] w-[45px] rounded-tl-lg'>#</th>
                                 <th className='px-4 py-2 text-center h-[60px] w-[210px]'>Email</th>
                                 <th className='px-4 py-2 text-center h-[60px] w-[120px]'>First name</th>
                                 <th className='px-4 py-2 text-center h-[60px] w-[120px]'>Last name</th>
@@ -131,17 +127,17 @@ const ManageUser = () => {
                                 <th className='px-4 py-2 text-center h-[60px] w-[130px]'>Status</th>
                                 <th className='px-4 py-2 text-center h-[60px] w-[140px]'>Create At</th>
                                 {/* <th>Address</th> */}
-                                <th className='px-4 py-2 w-[140px]'>Actions</th>
+                                <th className='px-4 py-2 w-[140px] rounded-tr-lg'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 user?.users?.map((el, index) => (
-                                    <tr key={el._id} className='border border-gray-500'>
-                                        <td className='text-center py-2'>
+                                    <tr key={el._id} className='odd:bg-white odd:dark:bg-gray-300 even:bg-gray-50 even:dark:bg-white border-b dark:border-gray-700"'>
+                                        <td className='px-6 py-5 text-center'>
                                             {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                         </td>
-                                        <td className='py-2 px-4'>
+                                        <td className='px-6 py-5 text-center'>
                                             {editUser?._id === el._id
                                                 ? <InputForm
                                                     register={register}
@@ -156,10 +152,11 @@ const ManageUser = () => {
                                                             message: "Invalid email address"
                                                         }
                                                     }}
+                                                    txtSmall
                                                 />
                                                 : <span>{el.email}</span>}
                                         </td>
-                                        <td className='py-2 px-4'>
+                                        <td className='px-6 py-5 text-center'>
                                             {editUser?._id === el._id
                                                 ? <InputForm
                                                     register={register}
@@ -168,10 +165,11 @@ const ManageUser = () => {
                                                     id={'firstname'}
                                                     placeholder='First name'
                                                     validate={{ required: 'Enter your first name' }}
+                                                    txtSmall
                                                 />
                                                 : <span>{el.firstname}</span>}
                                         </td>
-                                        <td className='py-2 px-4'>
+                                        <td className='px-6 py-5 text-center'>
                                             {editUser?._id === el._id
                                                 ? <InputForm
                                                     register={register}
@@ -180,42 +178,50 @@ const ManageUser = () => {
                                                     id={'lastname'}
                                                     placeholder='Last name'
                                                     validate={{ required: 'Enter your last name' }}
+                                                    txtSmall
                                                 />
                                                 : <span>{el.lastname}</span>}
                                         </td>
                                         {/*
                                      * Tìm trong list roles (bên ultili) nếu có thì trả về object nên trỏ tiếp tới value để in
                                     */}
-                                        <td className='py-2 px-4'>
+                                        <td className='px-6 py-5 text-center'>
+                                            {editUser?._id === el._id
+                                                ? <Select
+                                                    register={register}
+                                                    fullWidth
+                                                    errors={errors}
+                                                    id={'role'}
+                                                    validate={{ required: 'Plseae Select' }}
+                                                    options={roles} />
+                                                : <span>{roles.find(role => role.code === +el.role)?.value}</span>}
+                                        </td>
+                                        <td className='px-6 py-5 text-center'>
                                             {editUser?._id === el._id
                                                 ? <Select
                                                     register={register}
                                                     fullWidth
                                                     errors={errors}
                                                     id={'isBlocked'}
-                                                    defaultValue={el.isBlocked}
                                                     validate={{ required: 'Plseae Select' }}
                                                     options={blockStatus} />
                                                 : <span>{blockStatus.find(status => status.code === +el.isBlocked)?.value}</span>}
                                         </td>
-                                        <td className='py-2 px-4'>
+                                        <td className='px-6 py-5 text-center'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
+                                        <td className={clsx('px-6 py-5 text-center flex justify-center items-center', editUser && 'mt-2')}>
                                             {editUser?._id === el._id
-                                                ? <Select
-                                                    register={register}
-                                                    fullWidth
-                                                    errors={errors}
-                                                    id={'isBlocked'}
-                                                    validate={{ required: 'Plseae Select' }}
-                                                    options={blockStatus} />
-                                                : <span>{el.isBlocked ? 'Blocked' : 'Active'}</span>}
-                                        </td>
-                                        <td className='py-2 px-4'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
-                                        <td className='py-2 px-4'>
-                                            {editUser?._id === el._id
-                                                ? <span onClick={() => setEditUser(null)} className='px-2 text-orange-600 hover:underline cursor-pointer'>Back</span>
-                                                : <span onClick={() => setEditUser(el)} className='px-2 text-orange-600 hover:underline cursor-pointer'>Edit</span>
+                                                ?
+                                                <>
+                                                    <button className='px-2 text-2xl text-gray-700 hover:text-green-700 cursor-pointer' type='submit'><FaSave /></button>
+                                                    <span onClick={() => setEditUser(null)} className='px-2 text-2xl text-gray-700 hover:text-red-700 cursor-pointer'><TiCancel /></span>
+                                                </>
+                                                :
+                                                <>
+                                                    <span onClick={() => setEditUser(el)} className='px-2 text-2xl text-gray-700 hover:text-green-700 cursor-pointer'><FaRegEdit /></span>
+                                                    <span onClick={() => handleDeleteUser(el._id)} className='px-2 text-2xl text-gray-700 hover:text-red-700 cursor-pointer'><MdDeleteForever /></span>
+                                                </>
+
                                             }
-                                            <span onClick={() => handleDeleteUser(el._id)} className='px-2 text-orange-600 hover:underline cursor-pointer'>Delete</span>
                                         </td>
                                     </tr>
                                 ))
@@ -226,7 +232,8 @@ const ManageUser = () => {
 
                 <div className='w-full flex justify-end mt-2'>
                     <Pagination
-                        totalCount={user?.counts} />
+                        totalCount={user?.counts}
+                        type='user' />
                 </div>
             </div>
         </div >

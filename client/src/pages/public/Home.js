@@ -8,6 +8,7 @@ const Home = () => {
     const { newPitches } = useSelector(state => state.pitch)
     const { categories } = useSelector(state => state.app)
     const { isLoggedIn, current } = useSelector(state => state.user)
+    console.log(categories)
     // console.log({ isLoggedIn, current })
     return (
         <>
@@ -42,7 +43,7 @@ const Home = () => {
                             className='w-[396px]'
                         >
                             <div className='border flex p-4 gap-4'>
-                                <img src={el?.images[0]} alt='' className='w-[144px] flex-1 h-[129px] object-cover'></img>
+                                <img src={el?.thumb} alt='' className='w-[144px] flex-1 h-[129px] object-cover'></img>
                                 <div className='flex-1 text-gray-700'>
                                     <h4 className='font-semibold uppercase'>{el.title}</h4>
                                     <ul className='text-sm'>

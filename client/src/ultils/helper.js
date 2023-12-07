@@ -70,3 +70,5 @@ export function getBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
+
+export const formattedCategory = (category) => category?.replace(/-/g, " ");

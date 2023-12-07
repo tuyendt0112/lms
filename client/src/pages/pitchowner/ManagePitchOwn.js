@@ -10,10 +10,13 @@ import useDebounce from 'hooks/useDebounce'
 import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 const { AiFillStar } = icons
 
-const ManagePitch = () => {
+
+const ManagePitchOwn = () => {
+    const { current } = useSelector((state) => state.user);
     const navigate = useNavigate()
     const location = useLocation()
     const [params] = useSearchParams()
@@ -27,7 +30,7 @@ const ManagePitch = () => {
         setUpdate(!update)
     })
     const fetchPitches = async (params) => {
-        const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
+        const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT, owner: current._id })
         if (response.success) {
             setPitches(response.pitches)
             setCounts(response.counts)
@@ -120,7 +123,7 @@ const ManagePitch = () => {
                                     {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
                                 <td className='text-center py-2'>
-                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-[70px] object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] ml-5 object-cover' />}
+                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-13 ml-5 object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-13 ml-5 object-cover' />}
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
                                 <td className='text-center py-2'>{el.address}</td>
@@ -152,4 +155,4 @@ const ManagePitch = () => {
     )
 }
 
-export default ManagePitch
+export default ManagePitchOwn

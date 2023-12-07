@@ -3,7 +3,7 @@ const pitchRouter = require('./pitch')
 const pitchCategoryRouter = require('./pitchCategory')
 const blogCategoryRouter = require('./blogCategory')
 const blog = require('./blog')
-
+const brand = require('./brand')
 const { notFound, errHandler } = require('../middlewares/errorHandler')
 
 const initRoutes = (app) => {
@@ -12,6 +12,7 @@ const initRoutes = (app) => {
     app.use('/api/pitchcategory', pitchCategoryRouter)
     app.use('/api/blogcategory', blogCategoryRouter)
     app.use('/api/blog', blog)
+    app.use('/api/brand', brand)
 
 
 

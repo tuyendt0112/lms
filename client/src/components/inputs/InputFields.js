@@ -7,7 +7,7 @@ const InputFields = ({ value, setValue, nameKey, type, invalidFields, setInvalid
             {!isHideLabel && value?.trim() !== '' && <label className='text-[12px] animate-slide-top-sm absolute top-0 left-[8px] block bg-white px-1' htmlFor={nameKey}>{nameKey?.slice(0, 1).toUpperCase() + nameKey?.slice(1)}</label>}
             <input
                 type={type || 'text'}
-                className={clsx('px-4 py-2 rounded-sm border w-full my-2 placeholder:italic outline-none', style)}
+                className={clsx('pl-10 p-2 border font-display w-full rounded-lg bg-white mt-1.5 focus:border-black focus:bg-gray-200 focus:outline-none', style)}
                 placeholder={placeholder || nameKey?.slice(0, 1).toUpperCase() + nameKey?.slice(1)}
                 value={value}
                 onChange={e => setValue(prev => ({ ...prev, [nameKey]: e.target.value }))}

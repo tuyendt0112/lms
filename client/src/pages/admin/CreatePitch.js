@@ -17,7 +17,6 @@ const CreatePitch = () => {
             if (data.category) {
                 data.category = categories?.find(el => el._id === data.category)?.title
                 const finalPayload = { ...data, ...payload }
-                console.log({ ...data, ...payload })
                 const formData = new FormData()
                 for (let i of Object.entries(finalPayload)) {
                     formData.append(i[0], i[1])
@@ -105,18 +104,31 @@ const CreatePitch = () => {
             </h1>
             <div className='p-4'>
                 <form onSubmit={handleSubmit(handleCreatePitch)}>
-                    <InputForm
-                        label='Name pitch'
-                        register={register}
-                        errors={errors}
-                        id='title'
-                        validate={{
-                            required: 'Need to be fill'
-                        }}
-                        fullWidth
-                        placeholder='Name of new pitch'
-                    />
                     <div className='w-full my-6 flex gap-4'>
+                        <InputForm
+                            label='Name pitch'
+                            register={register}
+                            errors={errors}
+                            id='title'
+                            validate={{
+                                required: 'Need to be fill'
+                            }}
+                            fullWidth
+                            style='flex-1'
+
+                            placeholder='Name of new pitch'
+                        />
+                        <Select
+                            label='Owner'
+                            options={categories?.map(el => ({ code: el._id, value: el.title }))}
+                            register={register}
+                            id='owner'
+                            validate={{ required: 'Nedd to be fill' }}
+                            style='flex-1'
+                            errors={errors}
+                        />
+                    </div>
+                    <div className='w-full my-10 flex gap-4'>
                         <InputForm
                             label='Price pitch'
                             register={register}
@@ -160,13 +172,16 @@ const CreatePitch = () => {
                             errors={errors}
                         />
                     </div>
-                    <MarkDownEditor
-                        name='description'
-                        changeValue={changeValue}
-                        label='Description'
-                        invalidFields={invalidFields}
-                        setInvalidFields={setInvalidFields}
-                    />
+                    <div className='mt-10'>
+                        <MarkDownEditor
+                            name='description'
+                            changeValue={changeValue}
+                            label='Description'
+                            invalidFields={invalidFields}
+                            setInvalidFields={setInvalidFields}
+                        />
+                    </div>
+
                     <div className='flex flex-col gap-2 mt-8'>
                         <label className='font-semibold' htmlFor="thumb">Upload thumb</label>
                         <input

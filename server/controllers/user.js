@@ -6,26 +6,7 @@ const sendMail = require('../ultils/sendMail')
 const crypto = require('crypto')
 const makeToken = require('uniqid')
 const { users } = require('../ultils/constant')
-// const register = asyncHandler(async (req, res) => {
-//     const { email, password, firstname, lastname } = req.body
-//     if (!email || !password || !lastname || !firstname)
-//         return res.status(400).json({
-//             success: false,
-//             mes: 'Missing inputs'
-//         })
 
-//     const user = await User.findOne({ email })
-//     if (user)
-//         throw new Error('User has existed')
-//     else {
-//         const newUser = await User.create(req.body)
-//         return res.status(200).json({
-//             success: newUser ? true : false,
-//             mes: newUser ? 'Register is sucessfully. Please login' : 'Something went wrong'
-//         })
-
-//     }
-// })
 
 const register = asyncHandler(async (req, res) => {
     const { email, password, firstname, lastname } = req.body
@@ -44,7 +25,121 @@ const register = asyncHandler(async (req, res) => {
             email: emailedited, password, firstname, lastname
         })
         if (newUser) {
-            const html = `<h2>Register code:</h2><br /><blockquote>${token}</blockquote>`
+            const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Email Template</title>
+                <style>
+                    body {
+                        font-family: 'Helvetica', Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                    }
+      
+                    .container {
+                        max-width: 560px;
+                        margin: 0 auto;
+                        font-family: 'Helvetica', Arial, sans-serif;
+                    }
+      
+                    .header {
+                        background-color:#ffffff;
+                        color: #fff;
+                        text-align: center;
+                        padding: 20px;
+                    }
+      
+                    .logo img {
+                        max-width: 100%;
+                        height: auto;
+                    }
+      
+                    .content {
+                        background-color: #ffffff;
+                        color: #353740;
+                        padding: 40px 20px;
+                        text-align: left;
+                        line-height: 1.5;
+                    }
+      
+                    h1 {
+                        color: #202123;
+                        font-size: 32px;
+                        line-height: 40px;
+                        margin: 0 0 20px;
+                    }
+                    .code{
+                      font-size: 16px;
+                      line-height: 24px;
+                      margin: 0 0 24px;
+                      text-align: center; 
+                    }
+                    p {
+                      font-size: 16px;
+                      line-height: 24px;
+                      margin: 0 0 24px; 
+                  }
+      
+                    .cta-button {
+                        display: inline-block;
+                        text-decoration: none;
+                        background: #10a37f;
+                        border-radius: 3px;
+                        color: white;
+                        font-size: 16px;
+                        line-height: 24px;
+                        font-weight: 400;
+                        padding: 12px 20px 11px;
+                        margin: 0px;
+                    }
+      
+                    .footer {
+                        background: #ffffff;
+                        color: #6e6e80;
+                        padding: 0 20px 20px;
+                        font-size: 13px;
+                        line-height: 1.4;
+                        text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <center>
+                    <table class="container" style="width: 100%; border-collapse: collapse !important;">
+                        <tr>
+                            <td class="header">
+                                <img src="https://res.cloudinary.com/dmj8tbay1/image/upload/v1701228568/logo_ykataq.png" width="200" height="80" alt="BookingPitches Logo">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="content">
+                                <h1>Verify your email address</h1>
+                                <p>
+                                    To continue setting up your BookingPitches account, please verify that this is your email address.
+                                </p>
+                                <p class"code">
+                                    DEBUGBOY-${token}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="footer">
+                                <p>
+                                    This link will expire in 1 minutes. If you did not make this request, please disregard this email.
+                                    For help, contact us through our <a href="" target="_blank">FAQ</a>.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </body>
+            </html>
+          `
             sendMail({ email, html, subject: 'Complete Register Debug Boy' })
         }
         setTimeout(async () => {
@@ -194,7 +289,9 @@ const getUsers = asyncHandler(async (req, res) => {
     let queryString = JSON.stringify(queries)
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
     const formartedQueries = JSON.parse(queryString)
-
+    // formartedQueries['$or'] = [
+    //     { role: { $regex: queries.q, $options: 'i' } }
+    // ]
     // Filtering
     // regex: tìm từ bắt đầu bằng chữ truyền vào
     // options: 'i' không phân biệt viết hoa viết thường 
@@ -202,6 +299,7 @@ const getUsers = asyncHandler(async (req, res) => {
     if (queries?.name) formartedQueries.name = { $regex: queries.name, $options: 'i' }
 
     if (req.query.q) {
+        console.log(queries.q)
         delete formartedQueries.q
         formartedQueries['$or'] = [
             { firstname: { $regex: queries.q, $options: 'i' } },
@@ -209,7 +307,6 @@ const getUsers = asyncHandler(async (req, res) => {
             { email: { $regex: queries.q, $options: 'i' } }
         ]
     }
-
     let queryCommand = User.find(formartedQueries)
 
     //Sorting 
@@ -236,6 +333,7 @@ const getUsers = asyncHandler(async (req, res) => {
     // Executed query
     // Số lượng sân thỏa điều kiện 
     queryCommand.then(async (response) => {
+        console.log(queryCommand)
         const counts = await User.find(formartedQueries).countDocuments()
         return res.status(200).json({
             success: response ? true : false,
@@ -248,6 +346,7 @@ const getUsers = asyncHandler(async (req, res) => {
     })
 
 })
+
 const deleteUsers = asyncHandler(async (req, res) => {
     const { uid } = req.params
     const response = await User.findByIdAndDelete(uid)
@@ -285,6 +384,112 @@ const createUsers = asyncHandler(async (req, res) => {
         createUsers: response ? response : 'Can not create list of user'
     })
 })
+
+
+const updateOrder = asyncHandler(async (req, res) => {
+    // const { _id } = req.user;
+    // const { pitchId, bookedDate, shift } = req.body;
+    // if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
+
+    // // Tìm đặt sân trong bảng Booking dựa trên ngày và ca sân
+    // const exOrder = await Booking.find({
+    //   "pitches.pitch": pitchId,
+    //   "pitches.shift": shift,
+    //   "pitches.bookedDate": bookedDate,
+    // });
+    // const existingBooking = exOrder[0]?.pitches.find(
+    //   (el) => el.pitch.toString() === pitchId && el.shift === shift
+    // );
+
+    // if (existingBooking) {
+    //   // Kiểm tra xem có sân bóng cụ thể (pitchId) đã được đặt trong ngày và ca sân này chưa
+    //   console.log("chon san khac de");
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "booked pitch, choose another pitch please.",
+    //   });
+    // } else {
+    //   // console.log("loi cmnr");
+    //   const user = await User.findById(_id).select("order");
+    //   const alreadyPitch = user?.order?.find((el) => {
+    //     return el.pitch.toString() === pitchId && el.shift === shift;
+    //   });
+
+    //   if (alreadyPitch) {
+    //     return res.status(500).json({
+    //       success: false,
+    //       message: "already added in order",
+    //     });
+    //   } else {
+    //     const response = await User.findByIdAndUpdate(
+    //       _id,
+    //       { $push: { order: { pitch: pitchId, bookedDate, shift } } },
+    //       { new: true }
+    //     );
+    //     return res.status(200).json({
+    //       success: response ? true : false,
+    //       BookingPitch: response ? response : "something went wrong",
+    //     });
+    //   }
+    // }
+    //////////////////////////////////////////////////////////////////////////
+    try {
+        const { pitchId, bookedDate, shift } = req.body;
+        console.log(pitchId, bookedDate, shift);
+
+        // Kiểm tra bookedDate
+        const currentDate = new Date();
+        if (new Date(bookedDate) < currentDate) {
+            return res.status(400).json({
+                success: false,
+                message: "Ngày đặt sân phải bằng hoặc lớn hơn ngày hiện tại.",
+            });
+        }
+
+        // Kiểm tra trong trường pitches của model booking
+        const existingBooking = await Booking.findOne({
+            "pitches.pitch": pitchId,
+            "pitches.bookedDate": bookedDate,
+        });
+
+        if (existingBooking) {
+            // Kiểm tra trường shift
+            const foundShift = existingBooking.pitches.find(
+                (pitch) =>
+                    pitch.pitch.toString() === pitchId &&
+                    pitch.shift.some((s) => shift.includes(s))
+            );
+
+            if (foundShift) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Sân đã được đặt vào thời gian và ca sân đã chọn.",
+                });
+            }
+        }
+
+        // Nếu không có lỗi, thêm vào trường order của model user
+        const userId = req.user._id; // Lấy user ID từ token hoặc middleware xác thực
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $push: { order: { pitch: pitchId, bookedDate, shift } } },
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Đặt sân thành công.",
+            user: updatedUser,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Đã xảy ra lỗi khi xử lý yêu cầu.",
+        });
+    }
+});
+
 module.exports = {
     register,
     login,
@@ -298,5 +503,6 @@ module.exports = {
     updateUsers,
     updateUsersByAdmin,
     finalRegister,
-    createUsers
+    createUsers,
+    updateOrder
 }

@@ -2,25 +2,33 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { apiGetPitch, apiGetPitches } from '../../apis'
 import { Breadcrumb, Button, PitchExtraInfo, PitchInformation, CustomSlider } from '../../components'
-import Slider from "react-slick";
-import ReactImageMagnify from 'react-image-magnify';
+import Slider from "react-slick"
+import ReactImageMagnify from 'react-image-magnify'
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
-import { pitchExtraInformation } from '../../ultils/constant';
+import { pitchExtraInformation } from '../../ultils/constant'
 import DOMPurify from 'dompurify'
-import clsx from 'clsx';
+import clsx from 'clsx'
+import Select from "react-select"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-
+import { shifts } from 'ultils/constant'
+import icons from 'ultils/icons'
+import { formattedCategory } from 'ultils/helper'
 const settings = {
   dots: false,
   infinite: false,
   speed: 500,
   slidesToShow: 3,
   slidesToScroll: 1
-};
+}
 
+const { FaCalendarAlt } = icons
 const DetailPitches = ({ isQuickView, data }) => {
 
   const [pitch, setpitch] = useState(null)
+  const [selectedShift, setSelectedShift] = useState([])
+  const [selectedDate, setSelectedDate] = useState(null)
   const [currentImage, setcurrentImage] = useState(null)
   const [realtedPitches, setrealtedPitches] = useState(null)
   const [update, setUpdate] = useState(false)
@@ -29,7 +37,11 @@ const DetailPitches = ({ isQuickView, data }) => {
   const { title } = useParams()
   const [pid, setpitchid] = useState(null)
   const [category, setpitchcategory] = useState(null)
-
+  const handleClickBooking = (data) => {
+    console.log("handleClickBooking is called");
+    console.log("Selected Shift:", selectedShift);
+    console.log("Selected Date:", selectedDate);
+  };
   useEffect(() => {
     if (data) {
       setpitchid(data.pid)
@@ -95,26 +107,78 @@ const DetailPitches = ({ isQuickView, data }) => {
           </div>
         </div>
         <div className='w-2/5 pr-[24px] gap-4'>
-          <h2 className='text-[30px] font-semibold'>{`${formatMoney(formatPrice(pitch?.price))} VNĐ`}</h2>
-          <div className='flex items-center mt-4'>
-            {renderStarFromNumber(pitch?.totalRatings)?.map(el => (<span key={el}>{el}</span>))}
+          <h2 className="text-[30px] font-semibold">{pitch?.title}</h2>
+          <h3 className="text-[30px] font-semibold">{`${formatMoney(
+            formatPrice(pitch?.price)
+          )} VNĐ`}</h3>
+          <div className='flex items-center mt-2'>
+            {renderStarFromNumber(pitch?.totalRatings, 24)?.map((el, index) => (
+              <span key={index}>{el}</span>
+            ))}
           </div>
-
-          <h2 className='font-semibold'>Description</h2>
+          <h2 className="font-semibold pt-2">Brand:</h2>
+          <span>{pitch?.brand} </span>
+          <h2 className="font-semibold pt-2  ">Description:</h2>
           {/* <ul className='list-item'>
             <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}></div>
           </ul> */}
-          <ul className='list-square text-sm text-gray-500 pl-4'>
-            {pitch?.description?.length > 1 && pitch?.description?.map(el => (<li className='leading-6' key={el}>{el}</li>))}
-            {pitch?.description?.length === 1 && <div className='text-sm line-clamp-[15] mb-8' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description[0]) }}></div>}
+          <ul className="list-square text-sm text-gray-500">
+            {pitch?.description?.length > 1 &&
+              pitch?.description?.map((el) => (
+                <li className="leading-6" key={el}>
+                  {el}
+                </li>
+              ))}
+            {pitch?.description?.length === 1 && (
+              <div
+                className="text-sm line-clamp-[15] "
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(pitch?.description[0]),
+                }}
+              ></div>
+            )}
           </ul>
-          <h2 className='font-semibold'>Address</h2>
-          <ul className='list-item'>
-            {pitch?.address}
-          </ul>
+          <h2 className="font-semibold pt-2">Address:</h2>
+          <ul className="list-item text-sm text-gray-500">{pitch?.address}</ul>
+          <div>
+            <h2 className="font-semibold">Shift:</h2>
+            <Select
+              id="shift"
+              options={shifts?.map((st) => ({
+                label: st.time,
+                value: st.value,
+              }))}
+              isMulti
+              placeholder={"Select Shift Book"}
+              onChange={(selectedOptions) => {
+                const selectedValues = selectedOptions.map(
+                  (option) => option.value
+                );
+                setSelectedShift(selectedValues);
+              }}
+            />
+          </div>
+          <div>
+            <h2 className="font-semibold">Date:</h2>
+            <div className="border font-bold mb-4 p-2 flex items-center">
+              <FaCalendarAlt className="mr-2" />
+              {/* <ChooseDate /> */}
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                dateFormat="dd/MM/yyyy"
+                // minDate={new Date()}
+                placeholderText="Select Date Book"
+              // showPopperArrow={false}
+              // className="w-full border-none outline-none"
+              // popperClassName="datepicker-popper"
+              />
+            </div>
+          </div>
           <div>
             <Button
               fw
+              handleOnClick={handleClickBooking}
             >
               Booking
             </Button>

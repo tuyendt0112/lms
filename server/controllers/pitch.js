@@ -3,10 +3,10 @@ const asyncHandler = require('express-async-handler')
 const slugify = require('slugify')
 
 const createPitch = asyncHandler(async (req, res) => {
-    const { title, description, address, brand, price, category } = req.body
+    const { title, description, address, brand, price, category, owner } = req.body
     const thumb = req?.files?.thumb[0]?.path
     const images = req.files?.images?.map(el => el.path)
-    if (!title || !description || !address || !brand || !price || !category) throw new Error('Missing inputs')
+    if (!title || !description || !address || !brand || !price || !category || !owner) throw new Error('Missing inputs')
     req.body.slug = slugify(title)
     if (thumb) req.body.thumb = thumb
     if (images) req.body.images = images
@@ -45,7 +45,6 @@ const getPitchs = asyncHandler(async (req, res) => {
 
     // Filtering
     if (queries?.title) formartedQueries.title = { $regex: queries.title, $options: 'i' }
-
     // let queryObject = {}
     // if (queries?.q) {
     //     delete formartedQueries.q
@@ -58,6 +57,7 @@ const getPitchs = asyncHandler(async (req, res) => {
     //         ]
     //     }
     // }
+
     if (req.query.q) {
         delete formartedQueries.q
         formartedQueries['$or'] = [
@@ -67,7 +67,14 @@ const getPitchs = asyncHandler(async (req, res) => {
             { brand: { $regex: queries.q, $options: 'i' } },
         ]
     }
-    let queryCommand = Pitch.find(formartedQueries)
+
+    let queryCommand = Pitch.find(formartedQueries).populate({
+        path: 'owner',
+        select: 'firstname lastname'
+    })
+
+    //Sorting 
+
 
     //Sorting 
     if (req.query.sort) {
@@ -106,6 +113,7 @@ const getPitchs = asyncHandler(async (req, res) => {
 
 })
 
+
 const updatePitch = asyncHandler(async (req, res) => {
     const { pid } = req.params
     const files = req?.files
@@ -136,7 +144,6 @@ const ratings = asyncHandler(async (req, res) => {
     if (!star || !pid) throw new Error('Missing inputs')
     const ratingPitch = await Pitch.findById(pid)
     const alreadyRating = ratingPitch?.ratings?.find(el => el.postedBy.toString() === _id)
-    console.log('CHECK1 >>>')
 
     if (alreadyRating) {
         //update star and comment again
@@ -151,16 +158,13 @@ const ratings = asyncHandler(async (req, res) => {
             $push: { ratings: { star, comment, postedBy: _id, updatedAt } }
         }, { new: true })
     }
-    console.log('CHECK2 >>>')
 
     //sumratings
     const updatedPitch = await Pitch.findById(pid)
     const ratingCount = updatedPitch.ratings.length
     const sumRatings = updatedPitch.ratings.reduce((sum, el) => sum + el.star, 0)
     updatedPitch.totalRatings = Math.round(sumRatings * 10 / ratingCount) / 10
-    console.log('CHECK3 >>>')
     await updatedPitch.save()
-    console.log('CHECK4 >>>')
     return res.status(200).json({
         status: true,
         updatedPitch

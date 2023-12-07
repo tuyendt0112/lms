@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { InputForm, Pagination } from 'components'
 import { useForm } from 'react-hook-form'
-import { apiGetPitches, apiDeletePitch } from 'apis'
+import { apiGetCategories } from 'apis'
 import defaultt from 'assets/default.png'
 import moment from 'moment'
 import icons from 'ultils/icons'
@@ -10,10 +10,12 @@ import useDebounce from 'hooks/useDebounce'
 import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import UpdateCategory from './UpdateCategory'
 
 const { AiFillStar } = icons
 
-const ManagePitch = () => {
+
+const ManageCategory = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [params] = useSearchParams()
@@ -27,9 +29,9 @@ const ManagePitch = () => {
         setUpdate(!update)
     })
     const fetchPitches = async (params) => {
-        const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
+        const response = await apiGetCategories({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) {
-            setPitches(response.pitches)
+            setPitches(response.pitchCategories)
             setCounts(response.counts)
         }
     }
@@ -63,19 +65,20 @@ const ManagePitch = () => {
             showCancelButton: true
         }).then(async (rs) => {
             if (rs.isConfirmed) {
-                const response = await apiDeletePitch(pid)
-                if (response.success) toast.success(response.mes)
-                else toast.error(response.mes)
-                render()
+                // const response = await apiDeletePitch(pid)
+                // if (response.success) toast.success(response.mes)
+                // else toast.error(response.mes)
+                // render()
             }
 
         })
     }
+    console.log(pitches)
     return (
         <div className='w-full flex flex-col gap-4 px-4 relative'>
             {editPitch &&
                 <div className='absolute inset-0 win-h-screen bg-gray-100 z-50'>
-                    <UpdatePitch
+                    <UpdateCategory
                         editPitch={editPitch}
                         render={render}
                         setEditPitch={setEditPitch}
@@ -102,33 +105,20 @@ const ManagePitch = () => {
                         <th className='px-4 py-2 text-center h-[60px] rounded-tl-lg'>#</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Thumb</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Title</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Address</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Brand</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Category</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Price</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Ratings</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>CreateAt</th>
                         <th className='px-4 py-2 text-center  h-[60px] rounded-tr-lg'>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     {
                         pitches?.map((el, index) => (
                             <tr className='odd:bg-white odd:dark:bg-gray-300 even:bg-gray-50 even:dark:bg-white border-b dark:border-gray-700"' key={el._id}>
                                 <td className='text-center px-6 py-5 '>
                                     {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
-                                <td className='text-center py-2'>
-                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-[70px] object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] ml-5 object-cover' />}
+                                <td className='flex py-2 items-center justify-center'>
+                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-[80px] h-[70px]  object-cover' /> : <img src={defaultt} alt='thumb' className='w-[80px] h-[70px] object-cover' />}
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
-                                <td className='text-center py-2'>{el.address}</td>
-                                <td className='text-center py-2'>{el.brand}</td>
-                                <td className='text-center py-2'>{el.category}</td>
-                                <td className='text-center py-2'>{el.price}</td>
-                                <td className='flex items-center justify-center py-9'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
-                                <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
                                 <td className='text-center py-2'>
                                     <span
                                         className='text-blue-500 hover:underline cursor-pointer px-1'
@@ -146,10 +136,10 @@ const ManagePitch = () => {
                 </tbody>
             </table>
             <div className='w-full flex justify-end my-8'>
-                <Pagination totalCount={counts} />
+                <Pagination totalCount={counts} type='category' />
             </div>
         </div>
     )
 }
 
-export default ManagePitch
+export default ManageCategory

@@ -10,7 +10,7 @@ const MarkDownEditor = ({ label, value, changeValue, name, invalidFields, setInv
     };
     return (
         <div className='flex flex-col '>
-            <span>
+            <span className='font-bold'>
                 {label}
             </span>
             <Editor

@@ -6,14 +6,15 @@ var pitchCategorySchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        index: true,
     },
     brand: {
         type: Array,
-        require: true
+        // require: true
     },
-    images: {
-        type: Array
+    thumb: {
+        type: String,
+        // required: true,
+        // để required thì nếu comment cho pitch chưa có thumb thì ko save đc
     },
 
 }, {

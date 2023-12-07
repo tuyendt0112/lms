@@ -61,17 +61,3 @@ exports.users = [
     },
 ]
 
-// exports.role = [
-//     {
-//         code: 1,
-//         value: 'Admin'
-//     },
-//     {
-//         code: 2,
-//         value: 'PitchOwner'
-//     },
-//     {
-//         code: 3,
-//         value: 'User'
-//     },
-// ]

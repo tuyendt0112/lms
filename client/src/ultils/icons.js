@@ -1,6 +1,29 @@
 import { RiPhoneFill } from 'react-icons/ri'
-import { MdEmail, MdSpaceDashboard, MdGroups, MdPersonalInjury, MdHistory } from 'react-icons/md'
-import { FaUserCircle, FaTty, FaProductHunt, FaMoneyBill, FaStarHalfAlt } from 'react-icons/fa'
+import { TiCancel } from "react-icons/ti";
+import { IoIosArrowForward } from 'react-icons/io'
+import { SiBrandfolder } from "react-icons/si";
+
+import {
+    MdEmail,
+    MdSpaceDashboard,
+    MdGroups,
+    MdPersonalInjury,
+    MdHistory,
+    MdDeleteForever,
+    MdCategory
+} from 'react-icons/md'
+
+import {
+    FaUserCircle,
+    FaTty,
+    FaProductHunt,
+    FaMoneyBill,
+    FaStarHalfAlt,
+    FaCalendarAlt,
+    FaRegEdit,
+    FaSave
+} from 'react-icons/fa'
+
 import {
     AiFillHome,
     AiFillStar,
@@ -12,12 +35,13 @@ import {
     AiOutlineDown,
     AiFillLike
 } from 'react-icons/ai'
+
 import {
     BsFillSuitHeartFill,
     BsReplyFill,
     BsShieldShaded
 } from 'react-icons/bs'
-import { IoIosArrowForward } from 'react-icons/io'
+
 const icons = {
     RiPhoneFill,
     MdEmail,
@@ -42,7 +66,16 @@ const icons = {
     FaStarHalfAlt,
     MdPersonalInjury,
     MdHistory,
-    AiFillLike
+    AiFillLike,
+    FaCalendarAlt,
+    FaRegEdit,
+    MdDeleteForever,
+    FaSave,
+    TiCancel,
+
+
+    MdCategory,
+    SiBrandfolder
 }
 
 export default icons

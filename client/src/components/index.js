@@ -8,6 +8,7 @@ export { default as Breadcrumb } from './common/Breadcrumb';
 export { default as Banner } from './common/Banner';
 export { default as Loading } from './common/Loading';
 export { default as Modal } from './common/Modal';
+export { default as ImageSlider } from './common/ImageSlider';
 // Products
 export { default as BestPrice } from './products/BestPrice';
 export { default as Pitch } from './products/Pitch';
@@ -29,7 +30,7 @@ export { default as MarkDownEditor } from './inputs/MarkDownEditor';
 export { default as Sidebar } from './sidebar/Sidebar';
 export { default as AdminSideBar } from './sidebar/AdminSidebar';
 export { default as Membersidebar } from './sidebar/Membersidebar';
-
+export { default as PitchOwnerSidebar } from './sidebar/PitchOwnerSidebar';
 // Pagination
 export { default as Pagination } from './pagination/Pagination';
 export { default as PagintaionItem } from './pagination/PagintaionItem';

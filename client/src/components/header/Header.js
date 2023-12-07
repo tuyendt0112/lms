@@ -9,6 +9,7 @@ import { logout } from 'store/user/userSlice'
 const { RiPhoneFill, MdEmail, FaUserCircle } = icons
 const Header = () => {
     const { current } = useSelector(state => state.user)
+    console.log(current)
     const [isShowOption, setisShowOption] = useState(false)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -48,17 +49,22 @@ const Header = () => {
                         onClick={() => setisShowOption(prev => !prev)}
                         id='profile'
                     >
-                        <FaUserCircle size={24}></FaUserCircle>
-                        <span>Profile</span>
-                        {isShowOption && <div onClick={e => e.stopPropagation()} className='absolute top-full flex-col flex left-[16px] bg-gray-100 border min-w-[150px] py-2'>
+                        {isShowOption && <div onClick={e => e.stopPropagation()} className='absolute top-full flex-col flex  bg-gray-100 border min-w-[150px] py-2'>
                             <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}
                             >Personal
                             </Link>
-                            {+current.role === 1 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}
-                            >Admin workspace
-                            </Link>}
-                            <span onClick={() => dispatch(logout())} className='p-2 w-full hover:bg-sky-100'>Logout</span>
+                            {
+                                +current.role === 1 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}
+                                >Admin Workspace
+                                </Link>
+                            }
+                            {
+                                +current.role === 2 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.PITCHOWNER}/${path.MANAGE_PITCHOWN}`}
+                                >Pitch Owner Workspace
+                                </Link>
+                            }
                         </div>}
+                        <FaUserCircle size={24}></FaUserCircle>
                     </div>
                 }
             </div>

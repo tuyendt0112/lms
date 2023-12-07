@@ -33,7 +33,7 @@ const Personal = () => {
         } else toast.error(response.mes)
     }
     return (
-        <div className='w-full relative px-4'>
+        <div className='w-full relative px-6'>
             <header className='text-3xl font-semibold py-4 border-b border-b-blue-200'>
                 Personal
             </header>
@@ -43,15 +43,16 @@ const Personal = () => {
                     register={register}
                     errors={errors}
                     id='firstname'
-                    validate={{ required: 'Need fill this field' }}>
-                </InputForm>
+                    validate={{ required: 'Need fill this field' }}
+                />
                 <InputForm
                     label='Lastname'
                     register={register}
                     errors={errors}
                     id='lastname'
-                    validate={{ required: 'Need fill this field' }}>
-                </InputForm>
+                    validate={{ required: 'Need fill this field' }}
+                    style='mt-8'
+                />
                 <InputForm
                     label='Email address'
                     register={register}
@@ -60,9 +61,10 @@ const Personal = () => {
                     validate={{
                         required: 'Need fill this field',
                         pattern: { value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Email invalid.' }
-                    }}>
-                </InputForm>
-                <div className='flex items-center gap-2'>
+                    }}
+                    style='mt-8'
+                />
+                <div className='flex items-center gap-2 mt-8'>
                     <span className='font-semibold'>Account status:</span>
                     <span>{current?.isBlocked ? 'Blocked' : 'Actived'}</span>
                 </div>

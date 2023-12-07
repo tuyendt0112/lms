@@ -16,7 +16,6 @@ var pitchSchema = new mongoose.Schema({
     description: {
         type: Array,
         required: true,
-        unique: true,
     },
     address: {
         type: String,
@@ -53,7 +52,15 @@ var pitchSchema = new mongoose.Schema({
     totalRatings: {
         type: Number,
         default: 0
-    }
+    },
+    status: {
+        type: String,
+        enum: ["Empty", "Booked", "Maintain"],
+    },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+    },
 }, {
     timestamps: true
 });

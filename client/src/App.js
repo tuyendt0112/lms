@@ -11,23 +11,28 @@ import {
   Pitches,
   FinalRegister,
   ResetPassword
-} from './pages/public'
+} from 'pages/public'
 import {
   AdminLayout,
   CreatePitch,
   DashBoard,
   ManageOrder,
   ManagePitch,
-  ManageUser
-} from './pages/admin'
+  ManageUser,
+  ManageBrands,
+  ManageCategory,
+  CreateBrands,
+  CreateCategory
+} from 'pages/admin'
 import {
   MemberLayout,
   Personal,
   History,
   Wishlist
-} from './pages/member'
-import path from './ultils/path'
-import { getCategories } from './store/app/asyncAction'
+} from 'pages/member'
+import { PitchOwnerLayout, ManagePitchOwn, PersonalOwn, CreatePitchOwn } from 'pages/pitchowner'
+import path from 'ultils/path'
+import { getCategories } from 'store/app/asyncAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { Modal } from 'components';
@@ -63,7 +68,7 @@ function App() {
           <Route path={path.DETAIL_PITCH__CATEGORY__PID__TITLE} element={<DetailPitches />} />
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
-          <Route path={path.PITCHES} element={<Pitches />} />
+          <Route path={path.PITCHES__CATEGORY} element={<Pitches />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={path.ALL} element={<Home />} />
         </Route>
@@ -74,12 +79,22 @@ function App() {
           <Route path={path.MANAGE_ORDER} element={<ManageOrder />} />
           <Route path={path.MANAGE_PITCH} element={<ManagePitch />} />
           <Route path={path.MANAGE_USER} element={<ManageUser />} />
+          <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
+          <Route path={path.MANAGE_BRANDS} element={<ManageBrands />} />
+          <Route path={path.CREATE_CATEGORY} element={<CreateCategory />} />
+          <Route path={path.CREATE_BRANDS} element={<CreateBrands />} />
         </Route>
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
           <Route path={path.HISTORY} element={<History />} />
           <Route path={path.WISHLIST} element={<Wishlist />} />
+        </Route>
+        {/*PitchOwner Route*/}
+        <Route path={path.PITCHOWNER} element={<PitchOwnerLayout />}>
+          <Route path={path.PERSONALOWN} element={<PersonalOwn />} />
+          <Route path={path.MANAGE_PITCHOWN} element={<ManagePitchOwn />} />
+          <Route path={path.CREATE_PITCHOWN} element={<CreatePitchOwn />} />
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />}></Route>

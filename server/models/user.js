@@ -11,13 +11,14 @@ var userSchema = new mongoose.Schema({
     lastname: {
         type: String,
         required: true,
-
     },
     avatar: {
         type: String,
     },
     email: {
         type: String,
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -28,7 +29,9 @@ var userSchema = new mongoose.Schema({
         enum: [1, 2, 3],
         default: 3,
     },
-    address: [{ type: mongoose.Types.ObjectId, ref: 'Address' }],
+    address: {
+        type: String,
+    },
     isBlocked: {
         type: String,
         enum: [1, 2],
@@ -49,7 +52,16 @@ var userSchema = new mongoose.Schema({
     },
     registerToken: {
         type: String,
-    }
+    },
+    // order: [
+    //     {
+    //       pitch: { type: mongoose.Types.ObjectId, ref: "Pitch" },
+    //       bookedDate: { type: Date },
+    //       shift: {
+    //         type: Array,
+    //       },
+    //     },
+    //   ],
 }, {
     timestamps: true
 });

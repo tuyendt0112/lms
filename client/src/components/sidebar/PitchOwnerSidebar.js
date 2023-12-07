@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useState } from 'react'
 import avatar from 'assets/defaultava.png'
-import { adminSideBar, memberSidebar } from 'ultils/constant'
+import { adminSideBar, memberSidebar, pitchOwnerSideBar } from 'ultils/constant'
 import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,7 @@ import { BiSolidLogOut } from 'react-icons/bi'
 const activedStyle = 'px-4 py-2 flex items-center gap-2 bg-blue-500'
 const notactivedStyle = 'px-4 py-2 flex items-center gap-2 hover:bg-blue-200'
 
-const Membersidebar = ({ open, setOpen }) => {
+const PitchOwnerSidebar = ({ open, setOpen }) => {
     const [actived, setActived] = useState([])
     const { current } = useSelector(state => state.user)
     // Check mảng nếu không có id trong mảng thì copy lại mảng và push id mới vào
@@ -37,7 +37,7 @@ const Membersidebar = ({ open, setOpen }) => {
                 className={`bg-white text-dark-purple text-3xl rounded-full absolute -right-3.5 top-9 border border-dark-purple cursor-pointer ${!open && 'rotate-180'} `}
             />
             <div className='mt-10 ml-3 mr-5'>
-                {memberSidebar.map(el => (
+                {pitchOwnerSideBar.map(el => (
                     <Fragment key={el.id}>
                         {el.type === 'SINGLE' &&
                             <NavLink
@@ -77,7 +77,7 @@ const Membersidebar = ({ open, setOpen }) => {
 
                     </Fragment>
                 ))}
-                <div className='h-[40px] hover:bg-blue-200 items-center justify-center'>
+                <div className='h-[40px] hover:bg-blue-200 items-center justify-center mt-3'>
                     <Link
                         to={path.PUBLIC}
                     >
@@ -92,4 +92,4 @@ const Membersidebar = ({ open, setOpen }) => {
     )
 }
 
-export default memo(Membersidebar)
+export default memo(PitchOwnerSidebar)
