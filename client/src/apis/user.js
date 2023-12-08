@@ -57,3 +57,32 @@ export const apiDeleteUserByAdmin = (uid) => axios({
     method: 'delete',
 
 })
+
+export const apiBooking = (data) =>
+    axios({
+        url: "/user/booking",
+        method: "post",
+        data,
+    });
+export const apiGetUserOrder = (userId) =>
+    axios({
+        url: "/booking/" + userId,
+        method: "get",
+    });
+export const apiGetUserOrderStatus = (userId) =>
+    axios({
+        url: "/booking/get-order/" + userId,
+        method: "get",
+    });
+export const apiDeleteOrder = (bid) =>
+    axios({
+        url: "/booking/" + bid,
+        method: "delete",
+    });
+export const apiStatusOrder = (data) =>
+    axios({
+        url: "/booking/status",
+        method: "put",
+        data,
+    });
+

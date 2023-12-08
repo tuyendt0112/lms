@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { apiGetPitch, apiGetPitches } from '../../apis'
+import { useNavigate, useParams } from 'react-router-dom'
+import { apiGetPitch, apiGetPitches, apiBooking } from '../../apis'
 import { Breadcrumb, Button, PitchExtraInfo, PitchInformation, CustomSlider } from '../../components'
 import Slider from "react-slick"
 import ReactImageMagnify from 'react-image-magnify'
@@ -14,7 +14,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { shifts } from 'ultils/constant'
 import icons from 'ultils/icons'
-import { formattedCategory } from 'ultils/helper'
+import Swal from 'sweetalert2'
+import { useSelector } from 'react-redux'
+import path from 'ultils/path'
+import { toast } from 'react-toastify'
+
 const settings = {
   dots: false,
   infinite: false,
@@ -25,7 +29,8 @@ const settings = {
 
 const { FaCalendarAlt } = icons
 const DetailPitches = ({ isQuickView, data }) => {
-
+  const navigate = useNavigate()
+  const { isLoggedIn, current } = useSelector((state) => state.user);
   const [pitch, setpitch] = useState(null)
   const [selectedShift, setSelectedShift] = useState([])
   const [selectedDate, setSelectedDate] = useState(null)
@@ -37,10 +42,37 @@ const DetailPitches = ({ isQuickView, data }) => {
   const { title } = useParams()
   const [pid, setpitchid] = useState(null)
   const [category, setpitchcategory] = useState(null)
-  const handleClickBooking = (data) => {
-    console.log("handleClickBooking is called");
-    console.log("Selected Shift:", selectedShift);
-    console.log("Selected Date:", selectedDate);
+  const [selectedHour, setSelectedHour] = useState(null);
+
+  const handleClickBooking = async () => {
+    // console.log("Selected Shift:", selectedShift);
+    // console.log("Selected Date:", new Date(selectedDate));
+    // console.log("Selected hour:", selectedHour);
+    if (!isLoggedIn) {
+      return Swal.fire({
+        title: "Almost...",
+        text: "Please Login !!!",
+        icon: "info",
+        cancelButtonText: "Not Now",
+        showCancelButton: true,
+        confirmButtonText: "Go Login Page",
+      }).then((rs) => {
+        if (rs.isConfirmed) navigate(`${path.LOGIN}`);
+      });
+    }
+
+    const response = await apiBooking({
+      shift: selectedShift,
+      bookedDate: selectedDate,
+      pitchId: pid,
+      hour: selectedHour,
+    });
+    if (response.success) {
+      // setSelectedDate(null);
+      // setSelectedShift(null);
+      toast.success(response.message);
+    } else toast.error(response.message);
+    // console.log(response);
   };
   useEffect(() => {
     if (data) {
@@ -147,14 +179,13 @@ const DetailPitches = ({ isQuickView, data }) => {
               options={shifts?.map((st) => ({
                 label: st.time,
                 value: st.value,
+                hour: st.hour,
               }))}
-              isMulti
+              // isMulti
               placeholder={"Select Shift Book"}
               onChange={(selectedOptions) => {
-                const selectedValues = selectedOptions.map(
-                  (option) => option.value
-                );
-                setSelectedShift(selectedValues);
+                setSelectedShift(selectedOptions.value);
+                setSelectedHour(selectedOptions.hour);
               }}
             />
           </div>

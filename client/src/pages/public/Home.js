@@ -27,7 +27,7 @@ const Home = () => {
                 <FeaturePitch></FeaturePitch>
             </div>
             <div className='my-8 w-main'>
-                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>NEW ARRIVALS</h3>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>NEW ARRIVALS</h3>
                 <div className='mt-4 mx-[-10px]'>
                     <CustomSlider
                         pitches={newPitches}
@@ -35,7 +35,7 @@ const Home = () => {
                 </div>
             </div>
             <div className='my-8 w-main'>
-                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>HOT PITCHES</h3>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>HOT PITCHES</h3>
                 <div className='flex flex-wrap gap-x-24 gap-y-8 mt-4 min-h-[190px]'>
                     {categories?.filter(el => el.brand.length > 0).map(el => (
                         <div

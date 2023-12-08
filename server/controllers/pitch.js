@@ -6,7 +6,7 @@ const createPitch = asyncHandler(async (req, res) => {
     const { title, description, address, brand, price, category, owner } = req.body
     const thumb = req?.files?.thumb[0]?.path
     const images = req.files?.images?.map(el => el.path)
-    if (!title || !description || !address || !brand || !price || !category || !owner) throw new Error('Missing inputs')
+    if (!title || !description || !address || !price || !category || !owner) throw new Error('Missing inputs')
     req.body.slug = slugify(title)
     if (thumb) req.body.thumb = thumb
     if (images) req.body.images = images

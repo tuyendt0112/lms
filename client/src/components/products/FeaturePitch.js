@@ -19,7 +19,7 @@ const FeaturePitch = () => {
     }, [])
     return (
         <div className='w-full'>
-            <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>FEATURED PITCHES</h3>
+            <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>FEATURED PITCHES</h3>
             <div className='flex flex-wrap mt-[15px] mx-[-20px]'>
                 {pitches?.map(el => (
                     <PitchCard

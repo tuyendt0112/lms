@@ -10,7 +10,7 @@ import {
   Blog,
   Pitches,
   FinalRegister,
-  ResetPassword
+  ResetPassword,
 } from 'pages/public'
 import {
   AdminLayout,
@@ -35,15 +35,19 @@ import path from 'ultils/path'
 import { getCategories } from 'store/app/asyncAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import { Modal } from 'components';
+import { Modal, Order } from 'components';
 import 'react-toastify/dist/ReactToastify.css'
-
+import { showOrder } from 'store/app/appSilice';
+import DetailOrder from 'pages/public/DetailOrder';
+import Checkout from 'pages/member/CheckOut';
 function App() {
   const dispatch = useDispatch()
-  const { isShowModal, modalChildren } = useSelector(state => state.app)
+  const { isShowModel, modelChildren, isShowOrder } = useSelector(
+    (state) => state.app
+  );
   useEffect(() => {
     dispatch(getCategories())
-  }, [])
+  }, [dispatch])
   return (
     <div className="font-main h-screen">
       <ToastContainer
@@ -59,9 +63,17 @@ function App() {
         pauseOnHover
         theme='colored'
       />
-      {isShowModal && <Modal>{modalChildren}</Modal>}
-      <Routes>
+      {isShowOrder && (
+        <div
+          onClick={() => dispatch(showOrder())}
+          className="absolute inset-0 bg-overlay z-50 flex justify-end"
+        >
+          <Order />
+        </div>
+      )}
+      {isShowModel && <Modal>{modelChildren}</Modal>}      <Routes>
         {/*Public Route*/}
+        <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.BLOGS} element={<Blog />} />
@@ -69,6 +81,7 @@ function App() {
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.PITCHES__CATEGORY} element={<Pitches />} />
+          <Route path={path.DETAIL_ORDER} element={<DetailOrder />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={path.ALL} element={<Home />} />
         </Route>

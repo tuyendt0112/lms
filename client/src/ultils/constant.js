@@ -223,15 +223,9 @@ export const adminSideBar = [
 ]
 
 export const pitchOwnerSideBar = [
+
     {
         id: 1,
-        type: 'SINGLE',
-        text: 'Personal',
-        path: `/${path.PITCHOWNER}/${path.PERSONALOWN}`,
-        icon: <MdPersonalInjury />
-    },
-    {
-        id: 2,
         type: 'PARENT',
         text: 'Manage pitches',
         icon: <FaProductHunt />,

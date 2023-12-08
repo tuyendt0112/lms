@@ -9,6 +9,8 @@ export { default as Banner } from './common/Banner';
 export { default as Loading } from './common/Loading';
 export { default as Modal } from './common/Modal';
 export { default as ImageSlider } from './common/ImageSlider';
+export { default as Paypal } from './common/Paypal';
+export { default as Congratulation } from './common/Congratulation';
 // Products
 export { default as BestPrice } from './products/BestPrice';
 export { default as Pitch } from './products/Pitch';
@@ -17,6 +19,8 @@ export { default as FeaturePitch } from './products/FeaturePitch';
 export { default as PitchCard } from './products/PitchCard';
 export { default as PitchExtraInfo } from './products/PitchExtraInfo';
 export { default as PitchInformation } from './products/PitchInformation';
+export { default as Order } from './products/Order';
+
 // Seacrh
 export { default as SelectOption } from './search/SelectOption';
 export { default as SearchItem } from './search/SearchItem';
@@ -44,8 +48,8 @@ export { default as Button } from './buttons/Button';
 export { default as Votebar } from './vote/Votebar';
 export { default as VoteOption } from './vote/VoteOption';
 export { default as Comment } from './vote/Comment';
-
-
+// Loader
+export { default as Loader } from './loader/Loader';
 
 
 

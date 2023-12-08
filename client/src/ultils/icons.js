@@ -2,6 +2,7 @@ import { RiPhoneFill } from 'react-icons/ri'
 import { TiCancel } from "react-icons/ti";
 import { IoIosArrowForward } from 'react-icons/io'
 import { SiBrandfolder } from "react-icons/si";
+import { BsCart } from "react-icons/bs";
 
 import {
     MdEmail,
@@ -72,8 +73,7 @@ const icons = {
     MdDeleteForever,
     FaSave,
     TiCancel,
-
-
+    BsCart,
     MdCategory,
     SiBrandfolder
 }

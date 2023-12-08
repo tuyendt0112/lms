@@ -9,6 +9,8 @@ const path = {
     PITCHES: 'pitches',
     OUR_SERVICE: 'services',
     FAQ: 'faqs',
+    DETAIL_ORDER: "my-order",
+    CHECKOUT: "checkout",
     PITCHES__CATEGORY: ':category',
     FINAL_REGISTER: 'finalregister/:status',
     RESET_PASSWORD: 'reset-password/:token',

@@ -48,7 +48,7 @@ const BestPrice = () => {
     }, [activedTab])
     return (
         <div className={clsx(isShowModal ? 'hidden' : '')}>
-            <div className='flex text-[20px] gap-8 pb-4 border-b-2 border-main'>
+            <div className='flex text-[20px] gap-8 pb-4 border-b-2 border-blue-700'>
                 {tabs.map(el => (
                     <span key={el.id}
                         className={`font-bold uppercase border-r cursor-pointer text-gray-400 ${activedTab === el.id ? 'text-gray-900' : ''}`}

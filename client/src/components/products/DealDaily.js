@@ -67,12 +67,12 @@ const DealDaily = () => {
     return (
         <div className='border w-full flex-auto'>
             <div className='flex items-center justify-between p-4 w-full'>
-                <span className='flex-1 flex justify-center'><AiFillStar size={20} color='red'></AiFillStar></span>
+                <span className='flex-1 flex justify-center'><AiFillStar size={20} color='blue'></AiFillStar></span>
                 <span className='flex-8 font-bold text-[20px] flex justify-center'>DEAL DAILY</span>
                 <span className='flex-1'></span>
             </div>
             <div className='w-full flex flex-col items-center pt-8 px-4 gap-2'>
-                <img src={dealdaily?.images[0] || defaultt} alt="" className='w-full object-contain'></img>
+                <img src={dealdaily?.thumb || defaultt} alt="" className='w-full object-contain'></img>
                 <span className='line-clamp-1 text-center'>{dealdaily?.title}</span>
                 <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRatings)?.map((el, index) => (
                     <span key={index}>{el}</span>
@@ -87,7 +87,7 @@ const DealDaily = () => {
                 </div>
                 <button
                     type='button'
-                    className='flex gap-2 items-center justify-center w-full bg-main hover:bg-gray-800 text-white font-medium py-2'
+                    className='flex gap-2 items-center justify-center w-full bg-gradient-to-r from-login to-login-2 hover:bg-gray-800 text-white font-medium py-2 rounded-md'
                 >
                     <AiOutlineMenu></AiOutlineMenu>
                     <span>Option</span>

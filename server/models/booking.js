@@ -1,23 +1,26 @@
-const mongoose = require('mongoose'); // Erase if already required
+const mongoose = require("mongoose"); // Erase if already required
 
 // Declare the Schema of the Mongo model
 var bookingSchema = new mongoose.Schema({
-    pitches: {
-        pitch: { type: mongoose.Types.ObjectId, ref: 'Pitch' },
-        count: Number,
-        type: String
+    pitch: {
+        type: mongoose.Types.ObjectId,
+        ref: "Pitch",
+    },
+    bookedDate: { type: Date },
+    shift: {
+        type: String,
     },
     status: {
         type: String,
-        default: 'Processing',
-        enum: ['Cancelled', 'Processing', 'Successed']
+        default: "Pending",
+        enum: ["Pending", "Success"],
     },
-    paymentIntent: {},
     bookingBy: {
         type: mongoose.Types.ObjectId,
-        ref: 'User'
+        ref: "User",
     },
+    total: Number,
 });
 
 //Export the model
-module.exports = mongoose.model('Booking', bookingSchema);
+module.exports = mongoose.model("Booking", bookingSchema);

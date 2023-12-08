@@ -56,7 +56,6 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
             }))
         }
     }
-
     return (
         <div>
             <div className="flex items-center gap-2 relative bottom-[-1px]">
@@ -129,7 +128,7 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
                             star={el.star}
                             updatedAt={el.updatedAt}
                             comment={el.comment}
-                            name={`${el.postedBy?.name}`}
+                            name={`${el.postedBy?.lastname} ${el.postedBy?.firstname}`}
                         ></Comment>
                     ))}
                 </div>

@@ -30,7 +30,7 @@ const Membersidebar = ({ open, setOpen }) => {
         <div className={`bg-dark-purple h-full py-4 ${open ? 'w-72' : 'w-20'} duration-700`}>
             <div className='w-full flex flex-col items-center justify-center py-4 text-white '>
                 <img src={current?.avatar || avatar} alt='logo' className={`${open ? 'w-16 h-16' : 'w-10 h-10'} object-cover duration-500`} />
-                <small className={`duration-500 ${!open && "scale-0"}`}>{`${current?.lastname} ${current?.firstname}`}</small>
+                <small className={`duration-500 font-bold ${!open && "scale-0"}`}>{`${current?.lastname} ${current?.firstname}`}</small>
             </div>
             <BsArrowLeftShort
                 onClick={() => setOpen(!open)}

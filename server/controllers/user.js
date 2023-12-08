@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const Booking = require('../models/booking')
+
 const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
 const jwt = require('jsonwebtoken')
@@ -490,6 +492,49 @@ const updateOrder = asyncHandler(async (req, res) => {
     }
 });
 
+const BookingPitch = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    const { pitchId, bookedDate, shift, hour } = req.body;
+    // check hour
+    if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
+    const currentDate = new Date();
+
+    await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
+    // console.log("bookedDate", new Date(bookedDate));
+    // console.log("currentDate", currentDate.setHours(0, 0, 0, 0));
+    const bookingDate = new Date(bookedDate);
+
+    if (
+        bookingDate < currentDate.setHours(0, 0, 0, 0) ||
+        (bookingDate.getTime() === currentDate.setHours(0, 0, 0, 0) &&
+            hour <= new Date().getHours())
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Cannot book a pitch for a past date or time.",
+        });
+    }
+    const existingBooking = await Booking.findOne({
+        pitch: pitchId,
+        bookedDate: bookedDate,
+        shift: shift,
+    });
+    if (existingBooking) {
+        // Kiểm tra trường shift
+        return res.status(400).json({
+            success: false,
+            message: "This pitch already booked.",
+        });
+    } else {
+        req.body.bookingBy = _id;
+        req.body.pitch = pitchId;
+        const response = await Booking.create(req.body);
+        return res.status(200).json({
+            success: response ? true : false,
+            message: response ? "Booked" : "something went wrong",
+        });
+    }
+});
 module.exports = {
     register,
     login,
@@ -504,5 +549,6 @@ module.exports = {
     updateUsersByAdmin,
     finalRegister,
     createUsers,
-    updateOrder
+    updateOrder,
+    BookingPitch
 }

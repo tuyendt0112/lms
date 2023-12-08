@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { validate, getBase64 } from 'ultils/helper'
 import { toast } from 'react-toastify'
-import { apiCreatePitch } from 'apis'
+import { apiCreatePitch, apiGetUsers } from 'apis'
 import { showModal } from 'store/app/appSilice'
 
 const CreatePitch = () => {
     const dispath = useDispatch()
+    const [user, setUsers] = useState(null)
     const { categories } = useSelector(state => state.app)
     const { register, formState: { errors }, reset, handleSubmit, watch } = useForm()
     const handleCreatePitch = async (data) => {
@@ -78,16 +79,10 @@ const CreatePitch = () => {
         }
         setPreview(prev => ({ ...prev, images: imagesPreview }))
     }
-
-    // const handleRemove = (name) => {
-    //     const files = [...watch('images')]
-    //     reset({
-    //         images: files?.filter(el => el.name !== name)
-    //     })
-    //     if (preview.images?.some(el => el.name === name)) {
-    //         setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
-    //     }
-    // }
+    const fetchUsers = async () => {
+        const response = await apiGetUsers({ limit: 9999 })
+        if (response.success) setUsers(response)
+    }
     useEffect(() => {
         if (watch('thumb'))
             handlePreviewThumb(watch('thumb')[0])
@@ -97,6 +92,10 @@ const CreatePitch = () => {
         handlePreviewImages(watch('images'))
     }, [watch('images')])
 
+    useEffect(() => {
+        fetchUsers()
+    }, [])
+    console.log(user)
     return (
         <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
@@ -120,7 +119,7 @@ const CreatePitch = () => {
                         />
                         <Select
                             label='Owner'
-                            options={categories?.map(el => ({ code: el._id, value: el.title }))}
+                            options={user?.users?.map(el => ({ code: el._id, value: `${el.firstname} ${el.lastname}` }))}
                             register={register}
                             id='owner'
                             validate={{ required: 'Nedd to be fill' }}
