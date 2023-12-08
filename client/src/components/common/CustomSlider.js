@@ -4,10 +4,10 @@ import Slider from "react-slick";
 
 const settings = {
     dots: false,
-    infinite: false,
-    speed: 500,
+    infinite: true,
+    speed: 1000,
     slidesToShow: 3,
-    slidesToScroll: 1
+    slidesToScroll: 2
 };
 const CustomSlider = ({ pitches, activedTab, normal }) => {
     return (

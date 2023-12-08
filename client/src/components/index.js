@@ -20,7 +20,6 @@ export { default as PitchCard } from './products/PitchCard';
 export { default as PitchExtraInfo } from './products/PitchExtraInfo';
 export { default as PitchInformation } from './products/PitchInformation';
 export { default as Order } from './products/Order';
-
 // Seacrh
 export { default as SelectOption } from './search/SelectOption';
 export { default as SearchItem } from './search/SearchItem';
@@ -50,9 +49,3 @@ export { default as VoteOption } from './vote/VoteOption';
 export { default as Comment } from './vote/Comment';
 // Loader
 export { default as Loader } from './loader/Loader';
-
-
-
-
-
-

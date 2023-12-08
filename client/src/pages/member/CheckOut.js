@@ -39,19 +39,19 @@ const Checkout = () => {
     // console.log("order", order);
   }, [order]);
   return (
-    <div className="py-8 w-full grid grid-cols-10  h-full max-h-screen overflow-y-auto gap-6">
+    <div className=" flex flex-col py-8 w-full   h-full max-h-screen overflow-y-auto gap-6">
       {isSuccess && <Congratulation />}
-      <div className="w-full flex justify-center items-center col-span-4">
-        <img src={paypal} alt="" className="h-[70%] object-contain" />
+      <div className="w-[full] flex justify-center items-center ">
+        <img src={paypal} alt="" className="h-[200px] object-contain" />
       </div>
-      <div className="flex w-full flex-col items-center  col-span-6 gap-6">
+      <div className="flex w-full flex-col items-center gap-6">
         <h2 className="text-2xl font-bold">Check Out Your Order</h2>
-        <table className="table-auto w-full">
+        <table className="table-auto w-[750px]">
           <thead>
             <tr className="border bg-gray-200 ">
               <th className="text-left p-2">Pitches</th>
               <th className="text-center p-2">Shift</th>
-              <th className="text-right p-2">Price</th>
+              <th className="text-right p-2 ">Price</th>
             </tr>
           </thead>
           <tbody>
@@ -69,9 +69,9 @@ const Checkout = () => {
           </tbody>
         </table>
         <div>
-          <span className="flex items-center gap-8 text-sm">
+          <span className="flex items-center gap-8 text-3xl font-semibold">
             <span>Subtotal:</span>
-            <span className="text-main">
+            <span className="text-main text-3xl font-semibold">
               {formatMoney(
                 order?.reduce((sum, el) => sum + Number(el.pitch?.price), 0)
               ) + ` VND`}

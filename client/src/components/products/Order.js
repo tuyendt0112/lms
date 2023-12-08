@@ -19,9 +19,7 @@ const Order = () => {
   const [order, setOrder] = useState(null);
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);
-    console.log(response.Booking);
     if (response.success) setOrder(response.Booking);
-    console.log(order);
   };
 
   const updateOrder = async (bid) => {

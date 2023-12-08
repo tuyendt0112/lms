@@ -66,11 +66,11 @@ const Personal = () => {
                 />
                 <div className='flex items-center gap-2 mt-8'>
                     <span className='font-semibold'>Account status:</span>
-                    <span>{current?.isBlocked ? 'Blocked' : 'Actived'}</span>
+                    <span>{current?.isBlocked === 1 ? 'Blocked' : 'Actived'}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                     <span className='font-semibold'>Role:</span>
-                    <span>{+current?.role === 1 ? 'Admin' : 'User'}</span>
+                    <span>{+current?.role === 1 ? 'Admin' : +current?.role === 2 ? 'Pitch Owner' : 'User'}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                     <span className='font-semibold'>Created At:</span>

@@ -71,12 +71,69 @@ const getUserBookingStatus = asyncHandler(async (req, res) => {
     });
 });
 const getBookings = asyncHandler(async (req, res) => {
-    const response = await Booking.find({});
-    return res.status(200).json({
-        success: response ? true : false,
-        Booking: response ? response : "Cannot get all user booking detail",
-    });
-});
+    const queries = { ...req.query }
+    // tách các trường đặc biệt ra khỏi query
+    const exlcludeFields = ['limit', 'sort', 'page', 'fields']
+    exlcludeFields.forEach(el => delete queries[el])
+    //Format lại các operators cho đúng cú pháp mongoose
+    let queryString = JSON.stringify(queries)
+    queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
+    const formartedQueries = JSON.parse(queryString)
+
+    // Filtering
+    if (queries?.title) formartedQueries.title = { $regex: queries.title, $options: 'i' }
+
+    if (req.query.q) {
+        delete formartedQueries.q
+        formartedQueries['$or'] = [
+            { title: { $regex: queries.q, $options: 'i' } },
+            { address: { $regex: queries.q, $options: 'i' } },
+            { category: { $regex: queries.q, $options: 'i' } },
+            { brand: { $regex: queries.q, $options: 'i' } },
+        ]
+    }
+
+    let queryCommand = Booking.find(formartedQueries)
+
+    //Sorting 
+
+
+    //Sorting 
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ')
+        queryCommand = queryCommand.sort(sortBy)
+    }
+
+    // Fields limiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(',').join(' ')
+        queryCommand = queryCommand.select(fields)
+    }
+
+
+    //Pagination
+    //limit : số object lấy về 1 lần gọi API
+    //skip 2 (bỏ qua 2 cái đầu)
+    // +2 => 2 
+    const page = +req.query.page || 1
+    const limit = +req.query.limit || process.env.LIMIT_PITCHS
+    const skip = (page - 1) * limit
+    queryCommand.skip(skip).limit(limit)
+
+    // Executed query
+    // Số lượng sân thỏa điều kiện 
+    queryCommand.then(async (response) => {
+        const counts = await Booking.find(formartedQueries).countDocuments()
+        return res.status(200).json({
+            success: response ? true : false,
+            pitches: response ? response : 'Can not get pitchs',
+            counts
+        })
+    }).catch((err) => {
+        if (err) throw new Error(err, message)
+    })
+
+})
 const deleteBooking = asyncHandler(async (req, res) => {
     const { bookingId } = req.params;
     const response = await Booking.findByIdAndDelete(bookingId);

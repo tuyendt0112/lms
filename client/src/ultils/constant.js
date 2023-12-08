@@ -258,7 +258,7 @@ export const memberSidebar = [
         icon: <MdHistory />
     },
     {
-        id: 4,
+        id: 3,
         type: 'SINGLE',
         text: 'Wishlist',
         path: `/${path.MEMBER}/${path.WISHLIST}`,

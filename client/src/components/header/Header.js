@@ -33,26 +33,26 @@ const Header = () => {
             <div className='flex text-[13px]'>
                 {current &&
                     <div
-                        className='flex cursor-pointer items-center justify-center px-6 gap-2 relative'
-                        onClick={() => setisShowOption(prev => !prev)}
+                        className='flex items-center justify-center px-6 gap-2 relative'
                         id='profile'
                     >
-                        <>
+                        <div
+                            className="flex items-center gap-1 cursor-pointer "
+                            onClick={() => dispatch(showOrder())}
+                        >
+                            <span className="font-semibold hover:text-blue-500">Booking</span>
+                            <BsCart size={24} className="text-blue-900" />
+                        </div>
+                        <div
+                            className='flex items-center cursor-pointer'
+                            onClick={() => setisShowOption(prev => !prev)}
+                        >
+                            <span className='font-semibold hover:text-blue-500'>Profile</span>
                             <label htmlFor='file'>
-                                <img src={current?.avatar || avatar} alt='avatar' className='w-7 h-7 ml-8 object-cover rounded-full'></img>
+                                <img src={current?.avatar || avatar} alt='avatar' className='w-7 h-7 ml-2 object-cover rounded-full cursor-pointer'></img>
                             </label>
-                            <span>Profile</span>
-
-                            <div
-                                className="flex items-center gap-1 cursor-pointer "
-                                onClick={() => dispatch(showOrder())}
-                            >
-                                <BsCart size={24} className="text-blue-900" />
-                                <span className="hover:text-blue-500">Booking</span>
-                            </div>
-                        </>
-
-                        {isShowOption && <div onClick={e => e.stopPropagation()} className='absolute top-full flex-col flex left-[16px] bg-gray-100 border min-w-[150px] py-2'>
+                        </div>
+                        {isShowOption && <div onClick={e => e.stopPropagation()} className='absolute top-full flex-col flex left-[90px] bg-white border min-w-[150px] py-2 rounded-md'>
                             <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}
                             >Personal
                             </Link>

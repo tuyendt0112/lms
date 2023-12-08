@@ -46,34 +46,33 @@ const DetailOrder = () => {
         {order?.map((el) => (
           <div
             key={el._id}
-            className="w-main mx-auto font-bold border-b  py-3 grid grid-cols-10"
+            className="w-main mx-auto font-bold border-b py-3 grid grid-cols-10"
           >
             <div>
               <img
                 src={el.pitch?.thumb || defaultImage}
                 alt="thumb"
-                className="w-28 h-28 object-cover ml-2"
+                className="w-40 h-28 object-cover ml-5"
               />
             </div>
             <span className="col-span-4 w-full flex items-center justify-center">
               <div className="flex gap-2">
-
                 <div className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-main text-[15px]">
+                  <span className="text-main text-xl">
                     {el.pitch?.title}
                   </span>
-                  <span className="text-[12px]">{el.pitch?.category}</span>
-                  <span className="text-[12px]">{el.pitch?.address}</span>
+                  <span className="text-md">{el.pitch?.category}</span>
+                  <span className="text-md">{el.pitch?.address}</span>
                 </div>
               </div>
             </span>
             <span className="col-span-3 w-full h-full flex items-center justify-center text-center">
-              <span className="text-[13px]">
+              <span className="text-xl ">
                 {shifts.find((s) => s.value === +el.shift)?.time}
               </span>
             </span>
             <span className="col-span-1 w-full h-full flex items-center justify-center text-center">
-              <span className="text-base ">
+              <span className="text-xl ">
                 {formatMoney(el.pitch?.price) + ` VND`}
               </span>
             </span>
@@ -103,7 +102,7 @@ const DetailOrder = () => {
           </Button>
 
           <Link
-            className="bg-main text-white px-4 py-2 rounded-md text-center w-[112px] h-[42px] "
+            className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 shadow-lg shadow-rose-700/100 hover:shadow-rose-700/70 text-white px-4 py-2 rounded-md text-center w-[112px] h-[42px] "
             target="_blank"
             to={`/${path.CHECKOUT}`}
           >

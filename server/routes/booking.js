@@ -3,13 +3,7 @@ const ctrls = require("../controllers/booking");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 const uploader = require("../config/cloudinaryconfig");
 
-// Quest
-
-// User
-
 router.post("/", verifyAccessToken, ctrls.createBooking);
-// Admin
-
 router.put("/status", [verifyAccessToken], ctrls.updateStatusBooking);
 router.get("/all", [verifyAccessToken, isAdmin], ctrls.getBookings);
 router.get("/get-order/:userId", verifyAccessToken, ctrls.getUserBookingStatus);

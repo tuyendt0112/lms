@@ -34,3 +34,9 @@ export const apiDeletePitch = (pid) => axios({
     url: '/pitch/' + pid,
     method: 'delete',
 })
+
+export const apiGetOrder = (params) => axios({
+    url: '/pitch/',
+    method: 'get',
+    params
+})

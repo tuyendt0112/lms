@@ -42,7 +42,7 @@ import DetailOrder from 'pages/public/DetailOrder';
 import Checkout from 'pages/member/CheckOut';
 function App() {
   const dispatch = useDispatch()
-  const { isShowModel, modelChildren, isShowOrder } = useSelector(
+  const { isShowModal, modalChildren, isShowOrder } = useSelector(
     (state) => state.app
   );
   useEffect(() => {
@@ -71,7 +71,8 @@ function App() {
           <Order />
         </div>
       )}
-      {isShowModel && <Modal>{modelChildren}</Modal>}      <Routes>
+      {isShowModal && <Modal>{modalChildren}</Modal>}
+      <Routes>
         {/*Public Route*/}
         <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.PUBLIC} element={<Public />}>
@@ -105,7 +106,6 @@ function App() {
         </Route>
         {/*PitchOwner Route*/}
         <Route path={path.PITCHOWNER} element={<PitchOwnerLayout />}>
-          <Route path={path.PERSONALOWN} element={<PersonalOwn />} />
           <Route path={path.MANAGE_PITCHOWN} element={<ManagePitchOwn />} />
           <Route path={path.CREATE_PITCHOWN} element={<CreatePitchOwn />} />
         </Route>
