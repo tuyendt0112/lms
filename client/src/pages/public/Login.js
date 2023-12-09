@@ -79,7 +79,6 @@ const Login = () => {
   }, [payload, isRegister])
   const finalRegister = async () => {
     const response = await apiFinalRegister(token)
-    console.log(response)
     if (response.success) {
       Swal.fire('Congratulation', response.mes, 'success').then(() => {
         setisRegister(false)

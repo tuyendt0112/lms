@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { apiGetPitch, apiGetPitches, apiBooking } from '../../apis'
 import { Breadcrumb, Button, PitchExtraInfo, PitchInformation, CustomSlider } from '../../components'
 import Slider from "react-slick"
-import ReactImageMagnify from 'react-image-magnify'
 import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
 import { pitchExtraInformation } from '../../ultils/constant'
 import DOMPurify from 'dompurify'
@@ -45,9 +44,7 @@ const DetailPitches = ({ isQuickView, data }) => {
   const [selectedHour, setSelectedHour] = useState(null);
 
   const handleClickBooking = async () => {
-    // console.log("Selected Shift:", selectedShift);
-    // console.log("Selected Date:", new Date(selectedDate));
-    // console.log("Selected hour:", selectedHour);
+
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -72,7 +69,6 @@ const DetailPitches = ({ isQuickView, data }) => {
       // setSelectedShift(null);
       toast.success(response.message);
     } else toast.error(response.message);
-    // console.log(response);
   };
   useEffect(() => {
     if (data) {
@@ -103,20 +99,23 @@ const DetailPitches = ({ isQuickView, data }) => {
     }
     window.scrollTo(0, 0)
   }, [pid])
+
   useEffect(() => {
     if (pid) {
       fetchPitchData()
     }
+
   }, [update])
 
   const rerender = useCallback(() => {
     setUpdate(!update)
+
   }, [update])
   const handleClickimage = (e, el) => {
     e.stopPropagation()
     setcurrentImage(el)
+
   }
-  console.log(pitch)
   return (
     <div className={clsx('w-full')}>
       {!isQuickView && <div className='h-[81px] flex justify-center items-center bg-gray-100'>

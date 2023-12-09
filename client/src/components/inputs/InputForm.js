@@ -1,10 +1,7 @@
 import React, { memo } from 'react'
 import clsx from 'clsx'
-import { useSelector } from 'react-redux';
 
 const InputForm = ({ register, errors, id, validate, label, disable, type = 'text', placeholder, fullWidth, style, txtSmall, }) => {
-    const { current } = useSelector((state) => state.user);
-
     return (
         <div className={clsx('flex flex-col h-[42px] gap-2 ', style)}>
             {label && <label className='font-semibold' htmlFor={id}>{label + ':'}</label>}

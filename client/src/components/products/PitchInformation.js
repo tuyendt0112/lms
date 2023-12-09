@@ -15,7 +15,6 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
     const navigate = useNavigate()
     const { isLoggedIn } = useSelector(state => state.user)
     const handleSubmitVoteOption = async ({ comment, score }) => {
-        console.log({ comment, score, pid })
         if (!comment || !pid || !score) {
             alert('Please vote when click submit')
             return

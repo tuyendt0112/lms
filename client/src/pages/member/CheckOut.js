@@ -1,42 +1,33 @@
 import paypal from "assets/paypal.png";
-import React, { memo, useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { apiGetUserOrder, apiDeleteOrder, apiGetUserOrderStatus } from "apis";
-import defaultImage from "assets/default.png";
+import { apiGetUserOrderStatus } from "apis";
 import { shifts } from "ultils/constant";
 import { formatMoney } from "ultils/helper";
 
-import { Paypal, Button, Congratulation } from "components";
-import { toast } from "react-toastify";
-import path from "ultils/path";
-import { showOrder } from "store/app/appSilice";
+import { Paypal, Congratulation } from "components";
+
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { current } = useSelector((state) => state.user);
-  //   console.log(current);
   const [order, setOrder] = useState(null);
   // const [orderIds, setOrderIds] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);
-    // console.log(response.Booking);
     if (response.success) setOrder(response.Booking);
-    // console.log("order", order);
   };
   useEffect(() => {
     fetchPitchData();
   }, []);
   useEffect(() => {
     // const orderIds = order?.map((item) => ({ id: item._id }));
-    // console.log("orderIds", orderIds);
     // setOrderIds(orderIds);
-    // console.log("order", order);
   }, [order]);
   return (
     <div className=" flex flex-col py-8 w-full   h-full max-h-screen overflow-y-auto gap-6">

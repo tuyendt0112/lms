@@ -7,7 +7,6 @@ import { Membersidebar } from 'components'
 const MemberLayout = () => {
     const { isLoggedIn, current } = useSelector(state => state.user)
     const [open, setOpen] = useState(true)
-    //console.log({ isLoggedIn, current })
     if (!isLoggedIn || !current) return <Navigate to={`/${path.LOGIN}`} replace={true} />
     return (
         <div className='flex w-full bg-gray-100 min-h-screen relative text-gray-800'>

@@ -4,7 +4,8 @@ import { renderStarFromNumber } from 'ultils/helper'
 
 const PitchCard = ({ price, totalRatings, title, image }) => {
     return (
-        <div className='w-1/3 flex-auto px-[10px] mb-[20px]'>
+        <div
+            className='w-1/3 flex-auto px-[10px] mb-[20px]'>
             <div className='flex h-[159px] w-[453px] border'>
                 <img src={image} alt='pitches' className='w-[200px] object-cover p-4'></img>
                 <div className='flex flex-col mt-[15px] items-start gap-1 w-full'>

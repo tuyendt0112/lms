@@ -19,7 +19,7 @@ const Public = () => {
         isLoading ? (
             <Loader />
         ) : (
-            <div className='max-h-screen overflow-y-auto flex flex-col items-center'>
+            <div className='max-h-screen flex flex-col items-center'>
                 <TopHeader></TopHeader>
                 <Header></Header>
                 <Navigation></Navigation>

@@ -375,3 +375,23 @@ export const PitchExtraInformation = [
         icon: <BsFillTelephoneFill />,
     },
 ];
+
+export const locations = [
+    "Quận 1",
+    "Quận 2",
+    "Quận 3",
+    "Quận 4",
+    "Quận 5",
+    "Quận 6",
+    "Quận 7",
+    "Quận 8",
+    "Quận 9",
+    "Quận 10",
+    "Quận 11",
+    "Quận 12",
+    "Thủ Đức",
+    "Bình Tân",
+    "Tân Bình",
+    "Bình Chánh",
+    // Thêm thông tin cho các quận/huyện khác ở Tp. Hồ Chí Minh
+];

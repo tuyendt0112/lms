@@ -84,3 +84,21 @@
 code {
     white-space: initial;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+
+}
+
+::-webkit-scrollbar-track {
+    background: #D3D3D3;
+}
+
+::-webkit-scrollbar-thumb {
+    background   : linear-gradient(to bottom, #2234AE, #191714);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #5A585A, #090947);
+}

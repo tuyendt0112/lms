@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useState } from 'react'
 import avatar from 'assets/defaultava.png'
-import { adminSideBar, memberSidebar } from 'ultils/constant'
+import { memberSidebar } from 'ultils/constant'
 import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
@@ -25,7 +25,6 @@ const Membersidebar = ({ open, setOpen }) => {
             setActived(prev => [...prev, tabID])
         }
     }
-    // console.log(actived)
     return (
         <div className={`bg-dark-purple h-full py-4 ${open ? 'w-72' : 'w-20'} duration-700`}>
             <div className='w-full flex flex-col items-center justify-center py-4 text-white '>

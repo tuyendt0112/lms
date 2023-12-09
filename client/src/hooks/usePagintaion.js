@@ -11,7 +11,6 @@ const usePagintaion = (totalPitchCount, currentPage, siblingCount = 1) => {
 
         // [1,2,3,4,5,6]
         if (paginationCount <= totalPaginationItem) {
-            // console.log("TH1: ", paginationCount)
             return generateRange(1, paginationCount)
         }
 
@@ -22,30 +21,25 @@ const usePagintaion = (totalPitchCount, currentPage, siblingCount = 1) => {
         const isShowRight = currentPage + siblingCount < paginationCount - 1
         // nếu current page = 6 thì + cho sibling là 1 thì page còn lại bên phải chỉ còn là 7 ==> ko thêm được dấu chấm ở vị trí 6
 
-        // console.log(isShowRight)
         // [1,...,6,7,8,9,10]
         if (isShowLeft && !isShowRight) {
             const rightStart = paginationCount - 4 // Chọn số page muốn hiển thị ở bên phải DOT 
             const rightRange = generateRange(rightStart, paginationCount)
-            // console.log("TH2 rightStart: ", rightStart)
-            // console.log("TH2 rightRange: ", rightRange)
+
             return [1, <BsThreeDots />, ...rightRange]
         }
 
         // [1,2,3,4,5,...,10]
         if (!isShowLeft && isShowRight) {
             const leftRange = generateRange(1, 5) // Chọn số page muốn hiển thị ở bên trái DOT
-            // console.log("TH3 leftRange: ", leftRange)
             return [...leftRange, <BsThreeDots />, paginationCount]
         }
 
         const siblingLeft = Math.max(currentPage - siblingCount, 1)
         const siblingRight = Math.min(currentPage + siblingCount, paginationCount)
         if (isShowLeft && isShowRight) {
-            // console.log('siblingLeft', siblingLeft)
-            // console.log('siblingRight', siblingRight)
+
             const middleRange = generateRange(siblingLeft, siblingRight)
-            // console.log("TH4 middleRange: ", middleRange)
             return [1, <BsThreeDots />, ...middleRange, <BsThreeDots />, paginationCount]
         }
 

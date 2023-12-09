@@ -4,7 +4,6 @@ import { showModal } from 'store/app/appSilice'
 
 
 const Modal = ({ children }) => {
-
     const dispatch = useDispatch()
     return (
         <div onClick={() => dispatch(showModal({ isShowModal: false, modalChildren: null }))}

@@ -28,7 +28,6 @@ const ManageBrands = () => {
     })
     const fetchPitches = async (params) => {
         const response = await apiGetBrands({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
-        console.log(response)
         if (response.success) {
             setPitches(response.pitches)
             setCounts(response.counts)

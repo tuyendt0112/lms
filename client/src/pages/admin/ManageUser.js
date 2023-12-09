@@ -15,7 +15,6 @@ const { FaRegEdit,
     MdDeleteForever, FaSave, TiCancel } = icons
 const ManageUser = () => {
     const [open, setOpen] = useOutletContext();
-    console.log(open)
     const navigate = useNavigate()
     const location = useLocation()
     const [params] = useSearchParams()

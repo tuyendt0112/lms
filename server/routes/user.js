@@ -14,7 +14,9 @@ router.post('/forgotpassword', ctrls.forgotPassword)
 router.put('/resetpassword', ctrls.resetPassword)
 router.get('/', [verifyAccessToken, isAdmin], ctrls.getUsers)
 router.put('/current', [verifyAccessToken, uploader.single('avatar')], ctrls.updateUsers)
-router.post("/booking", verifyAccessToken, ctrls.BookingPitch);
+router.post("/booking", verifyAccessToken, ctrls.BookingPitch)
+router.put("/wishlist/:pid", [verifyAccessToken], ctrls.updateWishlist)
+router.get("/wishlist/:uid", [verifyAccessToken], ctrls.getWishListById)
 router.delete('/:uid', [verifyAccessToken, isAdmin], ctrls.deleteUsers)
 router.put('/:uid', [verifyAccessToken, isAdmin], ctrls.updateUsersByAdmin)
 

@@ -14,21 +14,15 @@ const DetailOrder = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { current } = useSelector((state) => state.user);
-  //   console.log(current);
   const [order, setOrder] = useState(null);
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);
-    // console.log(response.Booking);
     if (response.success) setOrder(response.Booking);
-    // console.log(order);
   };
   useEffect(() => {
     fetchPitchData();
   }, []);
-  // useEffect(() => {
-  //   // fetchPitchData();
-  // }, []);
-  console.log(order)
+
   return (
     <div className="w-full">
       <div className="h-[81px] flex justify-center items-center bg-gray-100">

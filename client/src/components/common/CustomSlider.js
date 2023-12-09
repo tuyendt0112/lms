@@ -9,19 +9,19 @@ const settings = {
     slidesToShow: 3,
     slidesToScroll: 2
 };
+
 const CustomSlider = ({ pitches, activedTab, normal }) => {
     return (
         <>
-            {pitches && <Slider className='custom-slider' {...settings}>
+            {pitches && <Slider className='custom-slider cursor-pointer' {...settings}>
                 {pitches?.map((el, index) => (
                     <Pitch
                         key={index}
-                        pid={el.id}
+                        pid={el._id}
                         pitchData={el}
                         isNew={activedTab === 1 ? false : true}
                         normal={normal}
-                    >
-                    </Pitch>
+                    />
                 ))}
             </Slider>}
         </>

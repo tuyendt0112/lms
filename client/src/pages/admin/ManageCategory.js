@@ -1,18 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { InputForm, Pagination } from 'components'
 import { useForm } from 'react-hook-form'
-import { apiGetCategories } from 'apis'
+import { apiGetCategories, apiDeleteCategory } from 'apis'
 import defaultt from 'assets/default.png'
-import moment from 'moment'
-import icons from 'ultils/icons'
 import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import useDebounce from 'hooks/useDebounce'
-import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
-import { toast } from 'react-toastify'
 import UpdateCategory from './UpdateCategory'
-
-const { AiFillStar } = icons
+import { toast } from 'react-toastify'
 
 
 const ManageCategory = () => {
@@ -65,15 +60,13 @@ const ManageCategory = () => {
             showCancelButton: true
         }).then(async (rs) => {
             if (rs.isConfirmed) {
-                // const response = await apiDeletePitch(pid)
-                // if (response.success) toast.success(response.mes)
-                // else toast.error(response.mes)
-                // render()
+                const response = await apiDeleteCategory(pid)
+                if (response.success) toast.success(response.mes)
+                else toast.error(response.mes)
+                render()
             }
-
         })
     }
-    console.log(pitches)
     return (
         <div className='w-full flex flex-col gap-4 px-4 relative'>
             {editPitch &&

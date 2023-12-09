@@ -1,13 +1,8 @@
-import React, { memo, useRef } from 'react';
+import React, { memo } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 const MarkDownEditor = ({ label, value, changeValue, name, invalidFields, setInvalidFields }) => {
-    const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
+
     return (
         <div className='flex flex-col '>
             <span className='font-bold'>

@@ -125,7 +125,7 @@ const register = asyncHandler(async (req, res) => {
                                     To continue setting up your BookingPitches account, please verify that this is your email address.
                                 </p>
                                 <p class"code">
-                                    DEBUGBOY-${token}
+                                    ${token}
                                 </p>
                             </td>
                         </tr>
@@ -301,7 +301,6 @@ const getUsers = asyncHandler(async (req, res) => {
     if (queries?.name) formartedQueries.name = { $regex: queries.name, $options: 'i' }
 
     if (req.query.q) {
-        console.log(queries.q)
         delete formartedQueries.q
         formartedQueries['$or'] = [
             { firstname: { $regex: queries.q, $options: 'i' } },
@@ -335,7 +334,6 @@ const getUsers = asyncHandler(async (req, res) => {
     // Executed query
     // Số lượng sân thỏa điều kiện 
     queryCommand.then(async (response) => {
-        console.log(queryCommand)
         const counts = await User.find(formartedQueries).countDocuments()
         return res.status(200).json({
             success: response ? true : false,
@@ -389,55 +387,8 @@ const createUsers = asyncHandler(async (req, res) => {
 
 
 const updateOrder = asyncHandler(async (req, res) => {
-    // const { _id } = req.user;
-    // const { pitchId, bookedDate, shift } = req.body;
-    // if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
-
-    // // Tìm đặt sân trong bảng Booking dựa trên ngày và ca sân
-    // const exOrder = await Booking.find({
-    //   "pitches.pitch": pitchId,
-    //   "pitches.shift": shift,
-    //   "pitches.bookedDate": bookedDate,
-    // });
-    // const existingBooking = exOrder[0]?.pitches.find(
-    //   (el) => el.pitch.toString() === pitchId && el.shift === shift
-    // );
-
-    // if (existingBooking) {
-    //   // Kiểm tra xem có sân bóng cụ thể (pitchId) đã được đặt trong ngày và ca sân này chưa
-    //   console.log("chon san khac de");
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "booked pitch, choose another pitch please.",
-    //   });
-    // } else {
-    //   // console.log("loi cmnr");
-    //   const user = await User.findById(_id).select("order");
-    //   const alreadyPitch = user?.order?.find((el) => {
-    //     return el.pitch.toString() === pitchId && el.shift === shift;
-    //   });
-
-    //   if (alreadyPitch) {
-    //     return res.status(500).json({
-    //       success: false,
-    //       message: "already added in order",
-    //     });
-    //   } else {
-    //     const response = await User.findByIdAndUpdate(
-    //       _id,
-    //       { $push: { order: { pitch: pitchId, bookedDate, shift } } },
-    //       { new: true }
-    //     );
-    //     return res.status(200).json({
-    //       success: response ? true : false,
-    //       BookingPitch: response ? response : "something went wrong",
-    //     });
-    //   }
-    // }
-    //////////////////////////////////////////////////////////////////////////
     try {
         const { pitchId, bookedDate, shift } = req.body;
-        console.log(pitchId, bookedDate, shift);
 
         // Kiểm tra bookedDate
         const currentDate = new Date();
@@ -500,8 +451,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
     const currentDate = new Date();
 
     await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
-    // console.log("bookedDate", new Date(bookedDate));
-    // console.log("currentDate", currentDate.setHours(0, 0, 0, 0));
+
     const bookingDate = new Date(bookedDate);
 
     if (
@@ -535,6 +485,51 @@ const BookingPitch = asyncHandler(async (req, res) => {
         });
     }
 });
+
+const updateWishlist = asyncHandler(async (req, res) => {
+    const { pid } = req.params
+    const { _id } = req.user
+    const user = await User.findById(_id)
+    const alreadyInWishlist = user.wishlist?.find(el => el.toString() === pid)
+    if (alreadyInWishlist) {
+        const response = await User.findByIdAndUpdate(
+            _id,
+            {
+                $pull: { wishlist: pid }
+            },
+            { new: true }
+        )
+        return res.status(200).json({
+            success: response ? true : false,
+            message: response ? "Update your wishlist" : "Failed to update wishlist",
+        });
+    }
+    else {
+        const response = await User.findByIdAndUpdate(
+            _id,
+            {
+                $push: { wishlist: pid }
+            },
+            { new: true }
+        )
+        return res.status(200).json({
+            success: response ? true : false,
+            message: response ? "Update your wishlist" : "Failed to update wishlist",
+        });
+    }
+})
+
+const getWishListById = asyncHandler(async (req, res) => {
+    const { uid } = req.params
+    console.log(uid)
+    const user = await User.findById(uid)
+        .select('-refreshToken -password')
+        .populate('wishlist', 'title thumb price category')
+    return res.status(200).json({
+        success: user ? true : false,
+        rs: user ? user : 'User not found'
+    })
+})
 module.exports = {
     register,
     login,
@@ -550,5 +545,7 @@ module.exports = {
     finalRegister,
     createUsers,
     updateOrder,
-    BookingPitch
+    BookingPitch,
+    updateWishlist,
+    getWishListById
 }

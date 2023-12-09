@@ -27,7 +27,6 @@ const createBrand = asyncHandler(async (req, res) => {
                 });
                 if (pitchCategory) {
                     // Cập nhật mảng brands của category
-                    console.log("response.title:", response.title);
                     pitchCategory.brands.push(response.title);
                     await pitchCategory.save();
                 }
@@ -62,24 +61,20 @@ const updateBrand = asyncHandler(async (req, res) => {
     // find old title
     const oldBrand = await Brand.findById(brandId);
     const oldTitle = oldBrand.title;
-    // console.log("oldBrand.title", oldBrand.title);
     if (req.body && req.body.title) req.body.slug = createSlug(req.body.title); // update slug
     const updatedBrand = await Brand.findByIdAndUpdate(brandId, req.body, {
         new: true,
     });
     // update pitchCategory
-    // console.log("updateBrand.title", updatedBrand.title);
     const categories = updatedBrand.categories;
     await Promise.all(
         categories.map(async (categoryTitle) => {
-            // console.log("categoryTitle", categoryTitle);
             // Tìm category có title tương ứng
             const updatedCategory = await PitchCategory.findOneAndUpdate(
                 { brands: { $all: [oldTitle] } },
                 { $set: { "brands.$": updatedBrand.title } },
                 { new: true }
             );
-            // console.log("YES");
         })
     );
 
@@ -94,12 +89,10 @@ const deleteBrand = asyncHandler(async (req, res) => {
     // find old title
     const deletedBrand = await Brand.findById(brandId);
     const deletedTitle = deletedBrand.title;
-    // console.log("deletedBrand.title", deletedBrand.title);
     // update pitchCategory
     const categories = deletedBrand.categories;
     await Promise.all(
         categories.map(async (categoryTitle) => {
-            // console.log("categoryTitle", categoryTitle);
             // Tìm category có title tương ứng
             const updatedCategory = await PitchCategory.findOneAndUpdate(
                 { brands: { $in: [deletedTitle] } },
@@ -116,30 +109,14 @@ const deleteBrand = asyncHandler(async (req, res) => {
     });
 });
 
-// const updateBrandD = asyncHandler(async (req, res) => {
-//   const { pitchId } = req.params;
-//   if (!req.body.address) throw new Error("Missing Inputs");
-//   const response = await Pitch.findByIdAndUpdate(
-//     pitchId,
-//     { $push: { address: req.body.address } },
-//     { new: true }
-//   );
-//   return res.status(200).json({
-//     success: response ? true : false,
-//     message: response ? response : "Cannot update address pitch",
-//   });
-// });
-
 const ratings = asyncHandler(async (req, res) => {
     const { _id } = req.user;
     const { star, comment, brandId } = req.body;
     if (!star || !brandId) throw new Error("Missing input");
     const ratingBrand = await Brand.findById(brandId);
-    // console.log(ratingPitch);
     const alreadyRating = ratingBrand?.ratings?.find(
         (el) => el.postedBy.toString() === _id
     );
-    // console.log({ alreadyRating });
     if (alreadyRating) {
         // update rating
         await Brand.updateOne(
@@ -160,7 +137,6 @@ const ratings = asyncHandler(async (req, res) => {
             },
             { new: true }
         );
-        // console.log(response);
     }
     // sum ratings
     const updateBrand = await Pitch.findById(brandId);

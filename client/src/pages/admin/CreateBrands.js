@@ -17,7 +17,6 @@ const CreateBrands = () => {
             if (data.category) {
                 data.category = categories?.find(el => el._id === data.category)?.title
                 const finalPayload = { ...data, ...payload }
-                console.log({ ...data, ...payload })
                 const formData = new FormData()
                 for (let i of Object.entries(finalPayload)) {
                     formData.append(i[0], i[1])
@@ -40,7 +39,6 @@ const CreateBrands = () => {
                         thumb: null,
                         images: []
                     })
-                    console.log("CHECK NOTIFICATION")
                     toast.success("Create Pitch Success !")
                 }
                 else {

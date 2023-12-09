@@ -17,3 +17,9 @@ export const apiUpdateCategory = (data, pcid) => axios({
     method: 'put',
     data
 })
+
+export const apiDeleteCategory = (pcid) => axios({
+    url: '/pitchcategory/' + pcid,
+    method: 'delete',
+
+})

@@ -91,3 +91,7 @@ Video 67:
 
 Video 68: 
 - Từ 28p là chỉnh việc mất hình ảnh, tự fix theo code riêng
+
+
+Note Fix Some Bug: 
+- Fix Tự Sroll: xóa overflow-y-auto ở Public

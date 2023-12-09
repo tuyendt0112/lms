@@ -27,10 +27,6 @@ const Pitches = () => {
   }
 
   useEffect(() => {
-    // let param = []
-    // for (let i of params.entries()) param.push(i)
-    // const queries = {}
-    // for (let i of params) queries[i[0]] = i[1]
     const queries = Object.fromEntries([...params])
     let priceQuery = {}
     if (queries.to && queries.from) {
@@ -49,7 +45,7 @@ const Pitches = () => {
     delete queries.from
     const q = { ...priceQuery, ...queries }
     fetchProductsByCategory(q)
-    window.scrollTo(0, 50)
+    window.scrollTo(0, 0)
   }, [params])
 
   const changeActiveFilter = useCallback((name) => {
@@ -69,7 +65,6 @@ const Pitches = () => {
       })
     }
   }, [sort])
-  console.log(pitches)
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
@@ -109,7 +104,7 @@ const Pitches = () => {
           {pitches?.pitches?.map(el => (
             <Pitch
               key={el._id}
-              pid={el.id}
+              pid={el._id}
               pitchData={el}
               normal={true}
             >

@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState, memo } from 'react'
-import { Button, InputForm, MarkDownEditor, Select, Loading } from 'components'
+import React, { useEffect, useState, memo } from 'react'
+import { Button, InputForm, Loading } from 'components'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import { validate, getBase64 } from 'ultils/helper'
+import { getBase64 } from 'ultils/helper'
 import { toast } from 'react-toastify'
 import { apiUpdateCategory } from 'apis'
 import { showModal } from 'store/app/appSilice'
@@ -20,7 +20,6 @@ const UpdateCategory = ({ editPitch, render, setEditPitch }) => {
         dispath(showModal({ isShowModal: true, modalChildren: <Loading /> }))
         const response = await apiUpdateCategory(formData, editPitch._id)
         dispath(showModal({ isShowModal: false, modalChildren: null }))
-        console.log(response)
         if (response.success) {
             toast.success(response.mes)
             render()
@@ -87,7 +86,7 @@ const UpdateCategory = ({ editPitch, render, setEditPitch }) => {
                         </div>
                     }
                     <div className='my-8'>
-                        <Button type='submit'>Update new pitch</Button>
+                        <Button type='submit'>Update category</Button>
                     </div>
                 </form>
             </div >

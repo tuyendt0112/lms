@@ -5,7 +5,6 @@ import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'
 import { FaAngleDoubleDown, FaAngleDoubleRight, FaLightbulb } from 'react-icons/fa'
 import { BsArrowLeftShort } from 'react-icons/bs'
-import { AiFillEnvironment } from 'react-icons/ai'
 import path from 'ultils/path'
 import { BiSolidLogOut } from "react-icons/bi";
 
@@ -25,9 +24,8 @@ const AdminSideBar = ({ open, setOpen }) => {
             setActived(prev => [...prev, tabID])
         }
     }
-    // console.log(actived)
     return (
-        <div className={`bg-dark-purple h-full py-4 ${open ? 'w-72' : 'w-20'} duration-700`}>
+        <div className={`bg-dark-purple overflow-y-auto h-full py-4 ${open ? 'w-72' : 'w-20'} duration-700`}>
             <div>
                 <Link to={'/'} className={`flex flex-col justify-center items-center p-4 gap-2 `}>
                     <img src={logo} alt='logo' className='w-[200px] object-contain' />

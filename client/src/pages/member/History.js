@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { InputForm, Pagination } from 'components'
 import { useForm } from 'react-hook-form'
-import { apiGetPitches, apiDeletePitch, apiGetUserOrder } from 'apis'
-import defaultt from 'assets/default.png'
+import { apiDeletePitch, apiGetUserOrder } from 'apis'
 import moment from 'moment'
 import icons from 'ultils/icons'
 import { useSearchParams, createSearchParams, useNavigate, useLocation } from 'react-router-dom'
@@ -29,10 +28,10 @@ const History = () => {
     setUpdate(!update)
   })
   const fetchPitches = async (params) => {
-    const response = await apiGetUserOrder({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT, owner: current._id })
+    const response = await apiGetUserOrder(current._id)
     if (response.success) {
-      setPitches(response.pitches)
-      setCounts(response.counts)
+      setPitches(response.Booking)
+      setCounts(response.Booking.length)
     }
   }
 
@@ -102,53 +101,29 @@ const History = () => {
         <thead className='text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
           <tr className='bg-sky-900 text-white  py-2'>
             <th className='px-4 py-2 text-center h-[60px] rounded-tl-lg'>#</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Thumb</th>
             <th className='px-4 py-2 text-center h-[60px] '>Title</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Address</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Brand</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Category</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Price</th>
-            <th className='px-4 py-2 text-center h-[60px] '>Ratings</th>
+            <th className='px-4 py-2 text-center h-[60px] '>Total Price</th>
             <th className='px-4 py-2 text-center h-[60px] '>CreateAt</th>
-            <th className='px-4 py-2 text-center  h-[60px] rounded-tr-lg'>Actions</th>
+            <th className='px-4 py-2 text-center h-[60px] '>Status</th>
           </tr>
         </thead>
         <tbody>
-
           {
             pitches?.map((el, index) => (
               <tr className='odd:bg-white odd:dark:bg-gray-300 even:bg-gray-50 even:dark:bg-white border-b dark:border-gray-700"' key={el._id}>
                 <td className='text-center px-6 py-5 '>
                   {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                 </td>
-                <td className='text-center py-2'>
-                  {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-13 ml-5 object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-13 ml-5 object-cover' />}
-                </td>
-                <td className='text-center py-2'>{el.title}</td>
-                <td className='text-center py-2'>{el.address}</td>
-                <td className='text-center py-2'>{el.brand}</td>
-                <td className='text-center py-2'>{el.category}</td>
-                <td className='text-center py-2'>{el.price}</td>
-                <td className='flex items-center justify-center py-9'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
-                <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
-                <td className='text-center py-2'>
-                  <span
-                    className='text-blue-500 hover:underline cursor-pointer px-1'
-                    onClick={() => setEditPitch(el)}>
-                    Edit
-                  </span>
-                  <span
-                    onClick={() => handleDeletePitch(el._id)}
-                    className='text-blue-500 hover:underline cursor-pointer px-1'>
-                    Remove
-                  </span>
-                </td>
+                <td className='text-center py-2'>{el.pitch.title}</td>
+                <td className='text-center py-2'>{el.pitch.price}</td>
+                <td className='text-center py-2'>{moment(el.bookedDate).format('DD/MM/YYYY')}</td>
+                <td className='text-center py-2'>{el.status}</td>
               </tr>
             ))}
         </tbody>
       </table>
       <div className='w-full flex justify-end my-8'>
-        <Pagination totalCount={counts} />
+        <Pagination totalCount={counts} type='orders' />
       </div>
     </div>
   )

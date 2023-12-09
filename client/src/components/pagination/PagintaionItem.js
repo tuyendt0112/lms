@@ -12,7 +12,6 @@ const PagintaionItem = ({ children }) => {
         // for (let i of param) queries[i[0]] = i[1]
         // Hàm có sẵn của Object có chức năng tương tư 4 dòng code trên
         const queries = Object.fromEntries([...params])
-        // console.log("Check Object", queries)
         if (Number(children)) {
             queries.page = children
         }

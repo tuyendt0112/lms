@@ -29,9 +29,6 @@ var userSchema = new mongoose.Schema({
         enum: [1, 2, 3],
         default: 3,
     },
-    address: {
-        type: String,
-    },
     isBlocked: {
         type: String,
         enum: [1, 2],
@@ -53,15 +50,7 @@ var userSchema = new mongoose.Schema({
     registerToken: {
         type: String,
     },
-    // order: [
-    //     {
-    //       pitch: { type: mongoose.Types.ObjectId, ref: "Pitch" },
-    //       bookedDate: { type: Date },
-    //       shift: {
-    //         type: Array,
-    //       },
-    //     },
-    //   ],
+    wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Pitch' }],
 }, {
     timestamps: true
 });

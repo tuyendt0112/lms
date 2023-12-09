@@ -24,6 +24,7 @@ const FeaturePitch = () => {
                 {pitches?.map(el => (
                     <PitchCard
                         key={el._id}
+                        pid={el._id}
                         image={el.images[0]}
                         title={el.title}
                         totalRatings={el.totalRatings}

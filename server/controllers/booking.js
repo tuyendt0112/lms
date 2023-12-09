@@ -24,7 +24,6 @@ const createBooking = asyncHandler(async (req, res) => {
         createData.total = total;
         createData.coupon = coupon;
     }
-    console.log(createData);
     const result = await Booking.create(createData);
     return res.status(200).json({
         success: result ? true : false,

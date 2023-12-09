@@ -18,7 +18,6 @@ const CreatePitch = () => {
             if (data.category) {
                 data.category = categories?.find(el => el._id === data.category)?.title
                 const finalPayload = { ...data, ...payload, owner: current._id }
-                console.log(finalPayload)
                 const formData = new FormData()
                 for (let i of Object.entries(finalPayload)) {
                     formData.append(i[0], i[1])
@@ -41,7 +40,6 @@ const CreatePitch = () => {
                         thumb: null,
                         images: []
                     })
-                    console.log("CHECK NOTIFICATION")
                     toast.success("Create Pitch Success !")
                 }
                 else {
@@ -81,15 +79,6 @@ const CreatePitch = () => {
         setPreview(prev => ({ ...prev, images: imagesPreview }))
     }
 
-    // const handleRemove = (name) => {
-    //     const files = [...watch('images')]
-    //     reset({
-    //         images: files?.filter(el => el.name !== name)
-    //     })
-    //     if (preview.images?.some(el => el.name === name)) {
-    //         setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
-    //     }
-    // }
     useEffect(() => {
         if (watch('thumb'))
             handlePreviewThumb(watch('thumb')[0])
@@ -98,7 +87,6 @@ const CreatePitch = () => {
     useEffect(() => {
         handlePreviewImages(watch('images'))
     }, [watch('images')])
-
     return (
         <div className='w-full'>
             <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
@@ -117,6 +105,15 @@ const CreatePitch = () => {
                         fullWidth
                         style='flex-1'
                         placeholder='Name of new pitch'
+                    />
+                    <Select
+                        label='Owner'
+                        pitchOwn={current}
+                        register={register}
+                        id='owner'
+                        validate={{ required: 'Nedd to be fill' }}
+                        style='flex-1 hidden'
+                        errors={errors}
                     />
                     <div className='w-full my-10 flex gap-4'>
                         <InputForm

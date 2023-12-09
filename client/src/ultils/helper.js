@@ -1,6 +1,5 @@
-import { number } from "yup"
 import icons from "./icons"
-const { AiOutlineStar, AiFillStar, FaStarHalfAlt } = icons
+const { AiOutlineStar, AiFillStar } = icons
 
 export const createSlug = string => string.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('-')
 
@@ -12,7 +11,6 @@ export const renderStarFromNumber = (number, size) => {
     // 2 =>[1,1,0,0,0]
     const stars = []
     number = Math.round(number)
-    console.log("CHECK START RIGHT HERE", number)
     for (let i = 0; i < +number; i++) stars.push(<AiFillStar color="orange" size={size || 16} />)
     for (let i = 5; i > +number; i--) stars.push(<AiOutlineStar color="orange" size={size || 16} />)
     return stars

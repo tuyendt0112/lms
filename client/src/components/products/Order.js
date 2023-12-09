@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiDeleteOrder, apiGetUserOrderStatus } from "apis";
 import defaultImage from "assets/default.png";
 import { shifts } from "ultils/constant";
-import { formatMoney, renderStarFromNumber } from "ultils/helper";
+import { formatMoney } from "ultils/helper";
 import { Button } from "components";
 import { MdDeleteForever } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -15,7 +15,6 @@ const Order = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { current } = useSelector((state) => state.user);
-  //   console.log(current);
   const [order, setOrder] = useState(null);
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);

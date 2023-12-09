@@ -7,7 +7,6 @@ import logo from 'assets/logo.png'
 const { AiFillStar } = icons
 
 const VoteOption = ({ namePitch, handleSubmitVoteOption }) => {
-    console.log("check", namePitch)
     const modalRef = useRef()
     const [chosenScore, setchosenScore] = useState(null)
     const [comment, setcomment] = useState('')

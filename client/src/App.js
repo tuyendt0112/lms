@@ -36,10 +36,10 @@ import { getCategories } from 'store/app/asyncAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { Modal, Order } from 'components';
-import 'react-toastify/dist/ReactToastify.css'
 import { showOrder } from 'store/app/appSilice';
 import DetailOrder from 'pages/public/DetailOrder';
 import Checkout from 'pages/member/CheckOut';
+import 'react-toastify/dist/ReactToastify.css'
 function App() {
   const dispatch = useDispatch()
   const { isShowModal, modalChildren, isShowOrder } = useSelector(

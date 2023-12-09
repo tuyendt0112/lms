@@ -29,7 +29,6 @@ export const apiUpdatePitch = (data, pid) => axios({
     data
 })
 
-
 export const apiDeletePitch = (pid) => axios({
     url: '/pitch/' + pid,
     method: 'delete',
