@@ -18,7 +18,7 @@ var pitchSchema = new mongoose.Schema({
         required: true,
     },
     address: {
-        type: String,
+        type: Array,
         required: true,
     },
     brand: {

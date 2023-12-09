@@ -14,7 +14,7 @@ const path = {
     PITCHES__CATEGORY: ':category',
     FINAL_REGISTER: 'finalregister/:status',
     RESET_PASSWORD: 'reset-password/:token',
-    DETAIL_PITCH__CATEGORY__PID__TITLE: ':category/:pid/:title',
+    DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE: ":category/:brand/:pid/:title",
 
     // Admin Route
     ADMIN: 'admin',

@@ -7,7 +7,7 @@ var pitchCategorySchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    brand: {
+    brands: {
         type: Array,
         // require: true
     },

@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import { formatMoney } from 'ultils/helper'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { showModal } from 'store/app/appSilice'
 import { DetailPitches } from 'pages/public'
@@ -40,8 +40,8 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
     }
     return (
         <div className='w-full text-base pr-[10px]'>
-            <div className='w-full border p-[15px] flex flex-col items-center'
-                onClick={e => navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)}
+            <Link className='w-full border p-[15px] flex flex-col items-center'
+                to={`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setisShowOption(true)
@@ -78,7 +78,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
                     <span className='line-clamp-1'>{pitchData?.title}</span>
                     <span>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }

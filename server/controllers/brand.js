@@ -2,6 +2,7 @@ const Brand = require("../models/brand");
 const PitchCategory = require("../models/pitchCategory");
 const asyncHandler = require("express-async-handler");
 const { createSlug } = require("../ultils/helpers");
+
 const createBrand = asyncHandler(async (req, res) => {
     const { title, description, address, categories, owner } = req.body;
     const thumb = req?.files?.thumb[0]?.path;
@@ -38,6 +39,7 @@ const createBrand = asyncHandler(async (req, res) => {
         createdBrand: response ? response : "Cannot create new brand",
     });
 });
+
 const getBrands = asyncHandler(async (req, res) => {
     const { brandId } = req.params;
     const excludeFields = [
@@ -211,6 +213,8 @@ const getBrandByOwner = asyncHandler(async (req, res) => {
         brandData: brand ? brand : "Cannot get brand",
     });
 });
+
+
 module.exports = {
     createBrand,
     getBrands,

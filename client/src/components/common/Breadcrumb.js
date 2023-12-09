@@ -5,11 +5,12 @@ import icons from 'ultils/icons'
 
 const { IoIosArrowForward } = icons
 
-const Breadcrumb = ({ title, category }) => {
+const Breadcrumb = ({ title, category, brand }) => {
     const routes = [
         { path: "/:category", breadcrumb: category },
         { path: "/", breadcrumb: "Home" },
-        { path: "/:category/:pid/:title", breadcrumb: title },
+        { path: "/:category/:brand", breadcrumb: brand },
+        { path: "/:category/:brand/:pid/:title", breadcrumb: title },
     ]
     const breadcrumb = useBreadcrumbs(routes)
     return (

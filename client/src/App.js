@@ -78,7 +78,7 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.BLOGS} element={<Blog />} />
-          <Route path={path.DETAIL_PITCH__CATEGORY__PID__TITLE} element={<DetailPitches />} />
+          <Route path={path.DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE} element={<DetailPitches />} />
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
           <Route path={path.PITCHES__CATEGORY} element={<Pitches />} />

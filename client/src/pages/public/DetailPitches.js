@@ -1,50 +1,59 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { apiGetPitch, apiGetPitches, apiBooking } from '../../apis'
-import { Breadcrumb, Button, PitchExtraInfo, PitchInformation, CustomSlider } from '../../components'
-import Slider from "react-slick"
-import { formatMoney, formatPrice, renderStarFromNumber } from '../../ultils/helper'
-import { pitchExtraInformation } from '../../ultils/constant'
-import DOMPurify from 'dompurify'
-import clsx from 'clsx'
-import Select from "react-select"
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { apiGetPitch, apiGetPitches, apiBooking } from "../../apis";
+import {
+  Breadcrumb,
+  Button,
+  PitchExtraInfo,
+  PitchInformation,
+  CustomSlider,
+} from "../../components";
+import Slider from "react-slick";
+import ReactImageMagnify from "react-image-magnify";
+import {
+  formatMoney,
+  formatPrice,
+  renderStarFromNumber,
+} from "../../ultils/helper";
+import { pitchExtraInformation } from "../../ultils/constant";
+import DOMPurify, { clearConfig } from "dompurify";
+import clsx from "clsx";
+import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { shifts } from 'ultils/constant'
-import icons from 'ultils/icons'
-import Swal from 'sweetalert2'
-import { useSelector } from 'react-redux'
-import path from 'ultils/path'
-import { toast } from 'react-toastify'
+import { shifts } from "ultils/constant";
+import icons from "ultils/icons";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import path from "ultils/path";
+import { toast } from "react-toastify";
 
 const settings = {
   dots: false,
   infinite: false,
   speed: 500,
   slidesToShow: 3,
-  slidesToScroll: 1
-}
+  slidesToScroll: 1,
+};
 
-const { FaCalendarAlt } = icons
+const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isLoggedIn, current } = useSelector((state) => state.user);
-  const [pitch, setpitch] = useState(null)
-  const [selectedShift, setSelectedShift] = useState([])
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [currentImage, setcurrentImage] = useState(null)
-  const [realtedPitches, setrealtedPitches] = useState(null)
-  const [update, setUpdate] = useState(false)
-  //
-  const params = useParams()
-  const { title } = useParams()
-  const [pid, setpitchid] = useState(null)
-  const [category, setpitchcategory] = useState(null)
+  const [pitch, setpitch] = useState(null);
+  const [selectedShift, setSelectedShift] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [currentImage, setcurrentImage] = useState(null);
+  const [relatedPitches, setrelatedPitches] = useState(null);
+  const [update, setUpdate] = useState(false);
+  const { pid, title, category, brand } = useParams();
   const [selectedHour, setSelectedHour] = useState(null);
 
   const handleClickBooking = async () => {
-
+    // console.log("Selected Shift:", selectedShift);
+    // console.log("Selected Date:", new Date(selectedDate));
+    // console.log("Selected hour:", selectedHour);
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -65,84 +74,97 @@ const DetailPitches = ({ isQuickView, data }) => {
       hour: selectedHour,
     });
     if (response.success) {
-      // setSelectedDate(null);
-      // setSelectedShift(null);
       toast.success(response.message);
     } else toast.error(response.message);
   };
-  useEffect(() => {
-    if (data) {
-      setpitchid(data.pid)
-      setpitchcategory(data.category)
-    }
-    else if (params && params.pid) {
-      setpitchid(params.pid)
-      setpitchcategory(params.category)
-    }
-  }, [data, params])
-
+  // useLayoutEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
   const fetchPitchData = async () => {
-    const response = await apiGetPitch(pid)
+    const response = await apiGetPitch(pid);
     if (response.success) {
-      setpitch(response.pitchData)
-      setcurrentImage(response.pitchData?.images[0])
+      setpitch(response.pitchData);
+      setcurrentImage(response.pitchData?.images[0]);
     }
-  }
+  };
   const fetchPitches = async () => {
-    const response = await apiGetPitches()
-    if (response.success) setrealtedPitches(response.pitches)
-  }
-  useEffect(() => {
-    if (pid) {
-      fetchPitchData()
-      fetchPitches()
-    }
-    window.scrollTo(0, 0)
-  }, [pid])
+    const response = await apiGetPitches({ brand });
+    if (response.success) setrelatedPitches(response.pitches);
+  };
 
   useEffect(() => {
+    // console.log("goi api");
     if (pid) {
-      fetchPitchData()
+      fetchPitchData();
+      fetchPitches();
+      // console.log("goi ap2i");
     }
-
-  }, [update])
+    window.scrollTo(0, 0);
+  }, [pid]);
+  useEffect(() => {
+    if (pid) {
+      fetchPitchData();
+    }
+  }, [update]);
 
   const rerender = useCallback(() => {
-    setUpdate(!update)
-
-  }, [update])
+    setUpdate(!update);
+  }, [update]);
   const handleClickimage = (e, el) => {
-    e.stopPropagation()
-    setcurrentImage(el)
-
-  }
+    e.stopPropagation();
+    setcurrentImage(el);
+  };
+  // console.log(pitch);
   return (
-    <div className={clsx('w-full')}>
-      {!isQuickView && <div className='h-[81px] flex justify-center items-center bg-gray-100'>
-        <div className='w-main'>
-          <h3 className='font-semibold'>{title}</h3>
-          <Breadcrumb title={title} category={category}></Breadcrumb>
+    <div className={clsx("w-full")}>
+      {!isQuickView && (
+        <div className="h-[81px] flex justify-center items-center bg-gray-100">
+          <div className="w-main">
+            <h3 className="font-semibold">{title}</h3>
+            <Breadcrumb
+              title={title}
+              category={category}
+              brand={brand}
+            ></Breadcrumb>
+          </div>
         </div>
-      </div>}
-      <div onClick={e => e.stopPropagation()} className={clsx('bg-white m-auto mt-4 flex', isQuickView ? 'max-w-[900px] gap-16 p-8' : 'w-main')}>
-        <div className={clsx('flex flex-col gap-3 w-2/5 ', isQuickView && 'w-1/2')}>
-          <img src={currentImage} alt='pitch' className='border h-[458px] w-[470px] object-cover' />
-          <div className='w-[458px]'>
-            <Slider className='image-slider' {...settings}>
-              {pitch?.images?.map(el => (
-                <div className='flex w-full gap-2' key={el}>
-                  <img onClick={e => handleClickimage(e, el)} src={el} alt='sub-pitch' className='h-[143px] w-[150px] cursor-pointer border object-cover'></img>
+      )}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={clsx(
+          "bg-white m-auto mt-4 flex",
+          isQuickView ? "max-w-[900px] gap-16 p-8" : "w-main"
+        )}
+      >
+        <div
+          className={clsx("flex flex-col gap-3 w-2/5 ", isQuickView && "w-1/2")}
+        >
+          <img
+            src={currentImage}
+            alt="pitch"
+            className="border h-[458px] w-[470px] object-cover"
+          />
+          <div className="w-[458px]">
+            <Slider className="image-slider" {...settings}>
+              {pitch?.images?.map((el) => (
+                <div className="flex w-full gap-2" key={el}>
+                  <img
+                    onClick={(e) => handleClickimage(e, el)}
+                    src={el}
+                    alt="sub-pitch"
+                    className="h-[143px] w-[150px] cursor-pointer border object-cover"
+                  ></img>
                 </div>
               ))}
             </Slider>
           </div>
         </div>
-        <div className='w-2/5 pr-[24px] gap-4'>
+        <div className="w-2/5 pr-[24px] gap-4">
           <h2 className="text-[30px] font-semibold">{pitch?.title}</h2>
           <h3 className="text-[30px] font-semibold">{`${formatMoney(
             formatPrice(pitch?.price)
           )} VNĐ`}</h3>
-          <div className='flex items-center mt-2'>
+          <div className="flex items-center mt-2">
             {renderStarFromNumber(pitch?.totalRatings, 24)?.map((el, index) => (
               <span key={index}>{el}</span>
             ))}
@@ -206,45 +228,48 @@ const DetailPitches = ({ isQuickView, data }) => {
             </div>
           </div>
           <div>
-            <Button
-              fw
-              handleOnClick={handleClickBooking}
-            >
+            <Button fw handleOnClick={handleClickBooking}>
               Booking
             </Button>
           </div>
         </div>
-        {!isQuickView && <div className='w-1/5'>
-          {
-            pitchExtraInformation.map(el => (
+        {!isQuickView && (
+          <div className="w-1/5">
+            {pitchExtraInformation.map((el) => (
               <PitchExtraInfo
                 key={el.id}
                 title={el.title}
                 icon={el.icon}
                 sub={el.sub}
               />
-            ))
-          }
-        </div>}
+            ))}
+          </div>
+        )}
       </div>
-      {!isQuickView && <div className='w-main m-auto mt-8'>
-        <PitchInformation
-          totalRatings={pitch?.totalRatings}
-          ratings={pitch?.ratings}
-          namePitch={pitch?.title}
-          pid={pitch?._id}
-          rerender={rerender}
-        />
-      </div>}
-      {!isQuickView && <>
-        <div className='w-main m-auto mt-8'>
-          <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
-          <CustomSlider normal={true} pitches={realtedPitches}></CustomSlider>
-        </div >
-        <div className='h-[100px] w-full'></div>
-      </>}
-    </div >
-  )
-}
+      {!isQuickView && (
+        <div className="w-main m-auto mt-8">
+          <PitchInformation
+            totalRatings={pitch?.totalRatings}
+            ratings={pitch?.ratings}
+            namePitch={pitch?.title}
+            pid={pitch?._id}
+            rerender={rerender}
+          />
+        </div>
+      )}
+      {!isQuickView && (
+        <>
+          <div className="w-main m-auto mt-8">
+            <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
+              OTHER PITCHES
+            </h3>
+            <CustomSlider pitches={relatedPitches} normal={true} />
+          </div>
+          <div className="h-[100px] w-full"></div>
+        </>
+      )}
+    </div>
+  );
+};
 
-export default DetailPitches
+export default DetailPitches;

@@ -8,6 +8,7 @@ const Home = () => {
     const { newPitches } = useSelector(state => state.pitch)
     const { categories } = useSelector(state => state.app)
     const { isLoggedIn, current } = useSelector(state => state.user)
+    console.log(categories)
     return (
         <>
 
@@ -35,7 +36,7 @@ const Home = () => {
             <div className='my-8 w-main'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>HOT PITCHES</h3>
                 <div className='flex flex-wrap gap-x-24 gap-y-8 mt-4 min-h-[190px]'>
-                    {categories?.filter(el => el.brand.length > 0).map(el => (
+                    {categories?.filter(el => el.brands.length > 0).map(el => (
                         <div
                             key={el._id}
                             className='w-[396px]'

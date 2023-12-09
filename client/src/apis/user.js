@@ -88,7 +88,13 @@ export const apiUpdateWishlist = (pid) => axios({
     url: "/user/wishlist/" + pid,
     method: "put",
 });
+
 export const apiGetWishlist = (uid) => axios({
     url: "/user/wishlist/" + uid,
+    method: "get",
+});
+
+export const apiGetOwner = () => axios({
+    url: "/user/owner",
     method: "get",
 });

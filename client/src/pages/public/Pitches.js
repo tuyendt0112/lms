@@ -76,14 +76,15 @@ const Pitches = () => {
       <div className='w-main border p-4 flex justify-between mt-8 m-auto'>
         <div className='w-4/5 flex-auto flex flex-col gap-3'>
           <span className='font-semibold text-sm'>Filter by</span>
-          <div className='flex items-center gap-4'>
+          <div className="flex items-center gap-4">
             <SearchItem
-              name='Price'
+              name="Price"
               activeClick={activeClick}
               changeActiveFilter={changeActiveFilter}
+              type="input"
             ></SearchItem>
             <SearchItem
-              name='New'
+              name="Address"
               activeClick={activeClick}
               changeActiveFilter={changeActiveFilter}
             ></SearchItem>
