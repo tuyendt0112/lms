@@ -10,8 +10,9 @@ import useDebounce from 'hooks/useDebounce'
 import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import { formatMoney, formatPrice } from 'ultils/helper'
 
-const { AiFillStar } = icons
+const { AiFillStar, MdEdit, MdDeleteForever } = icons
 
 const ManagePitch = () => {
     const navigate = useNavigate()
@@ -29,14 +30,14 @@ const ManagePitch = () => {
     const fetchPitches = async (params) => {
         const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT })
         if (response.success) {
+            console.log(response)
             setPitches(response.pitches)
-            setCounts(response.counts)
+            setCounts(response.totalCount)
         }
     }
 
     const queryDecounce = useDebounce(watch('q'), 800)
     // const queryDecounce = useDebounce(queries.q, 500)
-
     useEffect(() => {
         if (queryDecounce) {
             navigate({
@@ -99,16 +100,16 @@ const ManagePitch = () => {
             <table className='table-auto w-full '>
                 <thead className='text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr className='bg-sky-900 text-white  py-2'>
-                        <th className='px-4 py-2 text-center h-[60px] rounded-tl-lg'>#</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Thumb</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Title</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Address</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Brand</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Category</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Price</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Ratings</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>CreateAt</th>
-                        <th className='px-4 py-2 text-center  h-[60px] rounded-tr-lg'>Actions</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[30px] rounded-tl-lg'>#</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[50px] '>Thumb</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Title</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[250px] '>Address</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Brand</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Category</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Price</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Ratings</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>CreateAt</th>
+                        <th className='px-4 py-2 text-center  h-[60px] w-[100px] rounded-tr-lg'>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,26 +120,28 @@ const ManagePitch = () => {
                                 <td className='text-center px-6 py-5 '>
                                     {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
-                                <td className='text-center py-2'>
-                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-[70px] object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] ml-5 object-cover' />}
+                                <td className='pl-3'>
+                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-[80px] h-[70px] object-fill ' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] object-cover' />}
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
-                                <td className='text-center py-2'>{el.address}</td>
+                                <td className='text-center line-clamp-1'>{el.address}</td>
                                 <td className='text-center py-2'>{el.brand}</td>
                                 <td className='text-center py-2'>{el.category}</td>
-                                <td className='text-center py-2'>{el.price}</td>
-                                <td className='flex items-center justify-center py-9'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
-                                <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
                                 <td className='text-center py-2'>
+                                    {`${formatMoney(formatPrice(el?.price))} VNĐ`}
+                                </td>
+                                <td className='flex items-center py-10 justify-center '>{el.totalRatings}<AiFillStar className='ml-1' /></td>
+                                <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
+                                <td className='flex items-center justify-center '>
                                     <span
-                                        className='text-blue-500 hover:underline cursor-pointer px-1'
+                                        className='text-green-500 hover:text-green-800 cursor-pointer px-2'
                                         onClick={() => setEditPitch(el)}>
-                                        Edit
+                                        <MdEdit size={20} />
                                     </span>
                                     <span
                                         onClick={() => handleDeletePitch(el._id)}
-                                        className='text-blue-500 hover:underline cursor-pointer px-1'>
-                                        Remove
+                                        className='text-red-500 hover:text-red-800 cursor-pointer px-2'>
+                                        <MdDeleteForever size={20} />
                                     </span>
                                 </td>
                             </tr>

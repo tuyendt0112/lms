@@ -4,6 +4,7 @@ import { Breadcrumb, Pitch, SearchItem, InputSelect, Pagination, InputForm } fro
 import { apiGetPitches } from 'apis'
 import Masonry from 'react-masonry-css'
 import { sorts } from 'ultils/constant'
+import useDebounce from 'hooks/useDebounce'
 
 const breakpointColumnsObj = {
   default: 4,
@@ -19,6 +20,7 @@ const Pitches = () => {
   const [params] = useSearchParams()
   const [sort, setSort] = useState('')
   const { category } = useParams()
+  const [searching, setSearching] = useState('')
 
   const fetchProductsByCategory = async (queries) => {
     if (category && category !== 'pitches') queries.category = category
@@ -59,17 +61,46 @@ const Pitches = () => {
 
   useEffect(() => {
     const queries = Object.fromEntries([...params])
-    let getSort = sort
-    console.log(queries)
-    const q = { ...getSort, ...queries }
-    console.log(q)
+    delete queries?.sort
     if (sort) {
       navigate({
         pathname: `/${category}`,
-        search: createSearchParams({ q }).toString()
+        search: createSearchParams({ sort, ...queries }).toString()
       })
     }
   }, [sort])
+
+  useEffect(() => {
+    const queries = Object.fromEntries([...params])
+
+    delete queries?.q
+    if (searching) {
+      navigate({
+        pathname: `/${category}`,
+        search: createSearchParams({ q: searching, ...queries }).toString()
+      })
+    }
+    else {
+      navigate({
+        pathname: `/${category}`,
+        search: createSearchParams({ ...queries }).toString()
+      })
+    }
+  }, [searching, params])
+
+  //   useEffect(() => {
+  //     if (queryDecounce) {
+  //         navigate({
+  //             pathname: location.pathname,
+  //             search: createSearchParams({ q: queryDecounce }).toString()
+  //         })
+  //     } else {
+  //         navigate({
+  //             pathname: location.pathname,
+  //         })
+  //     }
+  // }, [queryDecounce])
+
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
@@ -98,6 +129,10 @@ const Pitches = () => {
         <div className='w-1/5 flex flex-col gap-3'>
           <span className='font-semibold text-sm'>Search</span>
           <input
+            onChange={(e) => setSearching(e.target.value)}
+            type='type'
+            value={searching}
+            id='q'
             className='form-input my-auto rounded-md w-full text-sm mb-2'
           />
         </div>

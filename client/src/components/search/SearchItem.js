@@ -40,6 +40,7 @@ const SearchItems = ({
     };
     const debouncePriceFrom = useDebounce(price.from, 500);
     const debouncePriceTo = useDebounce(price.to, 500);
+
     useEffect(() => {
         let param = [];
         for (let i of params.entries()) param.push(i);
@@ -62,6 +63,7 @@ const SearchItems = ({
     useEffect(() => {
         if (type === "input") fetchBestPricePitch();
     }, [type]);
+
     useEffect(() => {
         let param = [];
         for (let i of params.entries()) param.push(i);

@@ -10,8 +10,9 @@ import {
     MdGroups,
     MdPersonalInjury,
     MdHistory,
-    MdDeleteForever,
-    MdCategory
+    MdCategory,
+    MdEdit,
+    MdDeleteForever
 } from 'react-icons/md'
 
 import {
@@ -79,7 +80,9 @@ const icons = {
     MdCategory,
     SiBrandfolder,
     FaStar,
-    FaRegStar
+    FaRegStar,
+    MdEdit,
+
 }
 
 export default icons

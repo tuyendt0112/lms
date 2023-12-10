@@ -70,15 +70,6 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
                         {el.name}
                     </span>
                 ))}
-                {/* <span
-            className={`py-2 px-4 cursor-pointer ${
-              activedTab === 5 ? "bg-red-500 border border-b-0" : "bg-gray-200"
-            } `}
-            // key={el.id}
-            onClick={() => setActivedTab(5)}
-          >
-            REVIEW
-          </span> */}
             </div>
             <div className="w-full border p-4">
                 {pitchInforTabs.some((el) => el.id === activedTab) &&

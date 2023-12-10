@@ -9,7 +9,6 @@ const Home = () => {
     const { newPitches } = useSelector(state => state.pitch)
     const { categories } = useSelector(state => state.app)
     const { isLoggedIn, current } = useSelector(state => state.user)
-    console.log(categories)
     return (
         <>
 

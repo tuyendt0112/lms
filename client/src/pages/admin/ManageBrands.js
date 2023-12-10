@@ -22,7 +22,6 @@ const ManageBrands = () => {
     const [counts, setCounts] = useState(0)
     const [editPitch, setEditPitch] = useState(null)
     const [update, setUpdate] = useState(false)
-
     const render = useCallback(() => {
         setUpdate(!update)
     })

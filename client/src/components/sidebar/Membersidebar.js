@@ -25,6 +25,7 @@ const Membersidebar = ({ open, setOpen }) => {
             setActived(prev => [...prev, tabID])
         }
     }
+    console.log(current.role)
     return (
         <div className={`bg-dark-purple h-full py-4 ${open ? 'w-72' : 'w-20'} duration-700`}>
             <div className='w-full flex flex-col items-center justify-center py-4 text-white '>
@@ -38,8 +39,11 @@ const Membersidebar = ({ open, setOpen }) => {
             <div className='mt-10 ml-3 mr-5'>
                 {memberSidebar.map(el => (
                     <Fragment key={el.id}>
-                        {el.type === 'SINGLE' &&
-                            <NavLink
+                        {el.type === 'SINGLE' && el.id > 1 && +current.role === 1
+                            ?
+                            <span></span>
+                            :
+                            < NavLink
                                 to={el.path}
                                 className={({ isActive }) => clsx(isActive && activedStyle, !isActive && notactivedStyle, 'my-2')}
                             >
@@ -87,7 +91,7 @@ const Membersidebar = ({ open, setOpen }) => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

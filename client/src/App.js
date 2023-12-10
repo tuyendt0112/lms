@@ -11,6 +11,7 @@ import {
   Pitches,
   FinalRegister,
   ResetPassword,
+  DetailBrand
 } from 'pages/public'
 import {
   AdminLayout,
@@ -85,6 +86,7 @@ function App() {
           <Route path={path.DETAIL_ORDER} element={<DetailOrder />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={path.ALL} element={<Home />} />
+          <Route path={path.CATEGORY__BRAND} element={<DetailBrand />} />
         </Route>
         {/*Admin Route*/}
         <Route path={path.ADMIN} element={<AdminLayout />}>

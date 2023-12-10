@@ -117,7 +117,7 @@ const DetailPitches = ({ isQuickView, data }) => {
         console.log(pitch?.address[0]);
         setCoords(latLng);
       };
-      getCoords();
+      pitch && getCoords();
     }
   }, [pitch]);
 
@@ -262,14 +262,19 @@ const DetailPitches = ({ isQuickView, data }) => {
         )}
       </div>
       {!isQuickView && (
-        <div className="w-main m-auto mt-8">
-          <PitchInformation
-            totalRatings={pitch?.totalRatings}
-            ratings={pitch?.ratings}
-            namePitch={pitch?.title}
-            pid={pitch?._id}
-            rerender={rerender}
-          />
+        <div>
+          <div className="w-main m-auto mt-8">
+            <PitchInformation
+              totalRatings={pitch?.totalRatings}
+              ratings={pitch?.ratings}
+              namePitch={pitch?.title}
+              pid={pitch?._id}
+              rerender={rerender}
+            />
+            {/* {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />} */}
+            <Map coords={coords} address={pitch?.address[0]} />
+
+          </div>
         </div>
       )}
       {!isQuickView && (
@@ -283,7 +288,6 @@ const DetailPitches = ({ isQuickView, data }) => {
           <div className="h-[100px] w-full"></div>
         </>
       )}
-      {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />}
     </div>
   );
 };

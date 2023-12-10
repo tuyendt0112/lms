@@ -7,7 +7,7 @@ const {
 } = require("../middlewares/verifyToken");
 const uploader = require("../config/cloudinaryconfig");
 // Quest
-router.get("/", controllers.getBrands);
+router.get("/", controllers.getBrand);
 router.put("/ratings", [verifyAccessToken], controllers.ratings);
 //User
 // PitchOwner
@@ -17,6 +17,7 @@ router.get(
     [verifyAccessToken, isAdminAndPitchOwn],
     controllers.getBrandByOwner
 );
+router.get("/title/:btitle", controllers.getBrandByTitle);
 // Admin
 router.put(
     "/uploadimage/:brandId",

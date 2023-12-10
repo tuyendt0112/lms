@@ -41,6 +41,7 @@ var brandSchema = new mongoose.Schema(
                 star: { type: Number },
                 postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
                 comment: { type: String },
+                updatedAt: { type: Date },
             },
         ],
         totalRatings: {

@@ -130,6 +130,18 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
                             placeholder='Price of new pitch'
                             type='number'
                         />
+                        <Select
+                            label='Category'
+                            options={categories?.map(el => ({ code: el.title, value: el.title }))}
+                            register={register}
+                            id='category'
+                            validate={{ required: 'Nedd to be fill' }}
+                            style='flex-1'
+                            errors={errors}
+                        />
+                    </div>
+                    <div className='w-full my-6 flex gap-4'>
+
                         <InputForm
                             label='Address'
                             register={register}
@@ -140,25 +152,6 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
                             }}
                             style='flex-1'
                             placeholder='Address of new pitch'
-                        />
-                    </div>
-                    <div className='w-full my-6 flex gap-4'>
-                        <Select
-                            label='Category'
-                            options={categories?.map(el => ({ code: el.title, value: el.title }))}
-                            register={register}
-                            id='category'
-                            validate={{ required: 'Nedd to be fill' }}
-                            style='flex-1'
-                            errors={errors}
-                        />
-                        <Select
-                            label='Brand (Optional)'
-                            options={categories?.find(el => el.title === watch('category'))?.brand?.map(el => ({ code: el, value: el }))}
-                            register={register}
-                            id='brand'
-                            style='flex-1 max-h-[42px]'
-                            errors={errors}
                         />
                     </div>
                     <MarkDownEditor

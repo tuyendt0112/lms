@@ -4,14 +4,14 @@ import GoogleMapReact from "google-map-react";
 const MarkComponent = ({ icon }) => <div>{icon}</div>;
 const Map = ({ coords, address }) => {
     return (
-        <div className="ml-5 pl-10 h-[400px] w-[700px]  relative">
+        <div className=" pl-10  h-[600px] w-full relative">
             <div className="absolute top-[8px] left-[60px] z-50 max-w-[200px] bg-white shadow-md p-4 text-xs">
                 {address}
             </div>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API }}
                 defaultCenter={coords}
-                defaultZoom={11}
+                defaultZoom={17}
                 center={coords}
             >
                 <MarkComponent

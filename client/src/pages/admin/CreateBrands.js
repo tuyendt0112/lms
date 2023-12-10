@@ -31,7 +31,6 @@ const CreateBrand = () => {
         watch,
     } = useForm();
     const handleCreateBrand = async (data) => {
-        console.log(selectedCategories);
         const invalids = validate(payload, setInvalidFields);
         if (invalids === 0) {
             // if (data.categories) {
@@ -44,7 +43,6 @@ const CreateBrand = () => {
                 owner: selectedOwner,
                 categories: selectedCategories,
             };
-            console.log({ ...data, ...payload });
             const formData = new FormData();
             for (let i of Object.entries(finalPayload)) {
                 formData.append(i[0], i[1]);

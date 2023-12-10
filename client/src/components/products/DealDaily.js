@@ -14,11 +14,15 @@ import poster03 from "assets/poster03.jpg";
 import poster04 from "assets/poster04.jpg";
 import poster05 from "assets/poster05.jpg";
 import poster06 from "assets/poster06.jpg";
+import { Link, useNavigate } from 'react-router-dom'
+import path from 'ultils/path'
+import Button from 'components/buttons/Button'
 const { AiFillStar, AiOutlineMenu } = icons
 let idInterval
 const imageArray = [poster01, poster02, poster03, poster04, poster05, poster06];
 
 const DealDaily = () => {
+    const navigate = useNavigate();
     const [dealdaily, setdealdaily] = useState(null)
     const [hour, sethour] = useState(0)
     const [minute, setminute] = useState(0)
@@ -95,13 +99,23 @@ const DealDaily = () => {
                         <CountDown unit={'Minutes'} number={minute}></CountDown>
                         <CountDown unit={'Seconds'} number={second}></CountDown>
                     </div>
-                    <button
-                        type='button'
-                        className='flex gap-2 items-center justify-center w-full bg-gradient-to-r from-login to-login-2 hover:bg-gray-800 text-white font-medium py-2 rounded-md'
+
+                    <Button
+                        type="button"
+
+                        handleOnClick={() =>
+                            navigate(
+                                `/${dealdaily?.category?.toLowerCase()}/${dealdaily?.brand?.toLowerCase()}/${dealdaily?._id
+                                }/${dealdaily?.title}`
+                            )
+                        }
+                        style='flex w-full gap-2 items-center justify-center  bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-md
+                        shadow-indigo-800/100 hover:shadow-indigo-700/80 text-white font-medium py-2 rounded-md'
                     >
+
                         <AiOutlineMenu></AiOutlineMenu>
                         <span>Option</span>
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div >

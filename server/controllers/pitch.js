@@ -113,6 +113,88 @@ const getPitchs = asyncHandler(async (req, res) => {
 
 })
 
+const getPitches = asyncHandler(async (req, res) => {
+    const queries = { ...req.query };
+
+    // seperate special field
+    const excludeFields = ["limit", "sort", "page", "fields"];
+    excludeFields.forEach(el => delete queries[el]);
+    // Format operators
+    let queryString = JSON.stringify(queries);
+    queryString = queryString.replace(
+        /\b(gte|gt|lt|lte)\b/g,
+        matchedEl => `$${matchedEl}`
+    );
+
+    const formatedQueries = JSON.parse(queryString);
+    // console.log(formatedQueries);
+    let addressQueryObject = {};
+    // filtering
+    if (queries?.title)
+        formatedQueries.title = { $regex: queries.title, $options: "i" };
+    if (queries?.brand)
+        formatedQueries.brand = { $regex: queries.brand, $options: "i" };
+    if (queries?.category) {
+        formatedQueries.category = { $regex: queries.category, $options: "i" };
+    }
+
+    if (queries?.address) {
+        delete formatedQueries.address;
+        const addressArray = queries.address?.split(",");
+        const addressQuery = addressArray.map((el) => ({
+            address: {
+                $regex: el,
+                $options: "i",
+            },
+        }));
+        addressQueryObject = { $and: addressQuery };
+    }
+
+    // console.log(queries.q)
+    // { address: { $regex: queries.q, $options: "i" } },
+
+    if (req.query.q) {
+        delete formatedQueries.q;
+        formatedQueries["$or"] = [
+            { title: { $regex: queries.q, $options: "i" } },
+            { category: { $regex: queries.q, $options: "i" } },
+            { brand: { $regex: queries.q, $options: "i" } },
+        ];
+    }
+    const qr = ({ ...formatedQueries, ...addressQueryObject });
+
+    let queryCommand = Pitch.find(qr);
+
+    // softing
+    if (req.query.sort) {
+        const softBy = req.query.sort.split(",").join(" ");
+        queryCommand = queryCommand.sort(softBy);
+    }
+    // fields limiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(",").join(" ");
+        queryCommand = queryCommand.select(fields);
+    }
+    // pagination
+    // limit
+    //skip: 1 2 3 ....10 => skip = 2
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || process.env.LIMIT_PITCH;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
+    // Execute query
+    //  Số lượng sản phẩm thỏa mãn điều kiện !== số lượng sp trả về 1 lần gọi API
+    queryCommand.exec(async (err, response) => {
+        if (err) throw new Error(err.message);
+
+        const counts = await Pitch.find(qr).countDocuments();
+        return res.status(200).json({
+            success: response ? true : false,
+            pitches: response ? response : "Cannot get pitch",
+            totalCount: counts,
+        });
+    })
+})
 
 const updatePitch = asyncHandler(async (req, res) => {
     const { pid } = req.params
@@ -181,86 +263,8 @@ const uploadImagesPitch = asyncHandler(async (req, res) => {
     })
 })
 
-const getPitches = asyncHandler(async (req, res) => {
-    const queries = { ...req.query };
 
-    // seperate special field
-    const excludeFields = ["limit", "sort", "page", "fields"];
-    excludeFields.forEach((el) => delete queries[el]);
-    // Format operators
-    let queryString = JSON.stringify(queries);
-    queryString = queryString.replace(
-        /\b(gte|gt|lt|lte)\b/g,
-        (matchedEl) => `$${matchedEl}`
-    );
 
-    const formatedQueries = JSON.parse(queryString);
-    // console.log(formatedQueries);
-    let addressQueryObject = {};
-    // filtering
-    if (queries?.name)
-        formatedQueries.name = { $regex: queries.name, $options: "i" };
-    if (queries?.brand)
-        formatedQueries.brand = { $regex: queries.brand, $options: "i" };
-    if (queries?.category) {
-        console.log(queries?.category);
-        formatedQueries.category = { $regex: queries.category, $options: "i" };
-    }
-
-    if (queries?.address) {
-        delete formatedQueries.address;
-        const addressArray = queries.address?.split(",");
-        const addressQuery = addressArray.map((el) => ({
-            address: {
-                $regex: el,
-                $options: "i",
-            },
-        }));
-        addressQueryObject = { $or: addressQuery };
-    }
-    if (req.query.q) {
-        delete formartedQueries.q;
-        formartedQueries["$or"] = [
-            { name: { $regex: queries.q, $options: "i" } },
-            { address: { $regex: queries.q, $options: "i" } },
-            { category: { $regex: queries.q, $options: "i" } },
-            { brand: { $regex: queries.q, $options: "i" } },
-        ];
-    }
-    const qr = { ...addressQueryObject, ...formatedQueries };
-
-    let queryCommand = Pitch.find(qr);
-
-    // softing
-    if (req.query.sort) {
-        const softBy = req.query.sort.split(",").join(" ");
-        queryCommand = queryCommand.sort(softBy);
-    }
-    // fields limiting
-    if (req.query.fields) {
-        const fields = req.query.fields.split(",").join(" ");
-        queryCommand = queryCommand.select(fields);
-    }
-    // pagination
-    // limit
-    //skip: 1 2 3 ....10 => skip = 2
-    const page = +req.query.page || 1;
-    const limit = +req.query.limit || process.env.LIMIT_PITCH;
-    const skip = (page - 1) * limit;
-    queryCommand.skip(skip).limit(limit);
-    // Execute query
-    //  Số lượng sản phẩm thỏa mãn điều kiện !== số lượng sp trả về 1 lần gọi API
-    queryCommand.exec(async (err, response) => {
-        if (err) throw new Error(err.message);
-
-        const counts = await Pitch.find(qr).countDocuments();
-        return res.status(200).json({
-            success: response ? true : false,
-            pitches: response ? response : "Cannot get pitch",
-            totalCount: counts,
-        });
-    });
-});
 module.exports = {
     createPitch,
     getPitch,

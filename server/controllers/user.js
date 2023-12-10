@@ -538,7 +538,6 @@ const updateWishlist = asyncHandler(async (req, res) => {
 
 const getWishListById = asyncHandler(async (req, res) => {
     const { uid } = req.params
-    console.log(uid)
     const user = await User.findById(uid)
         .select('-refreshToken -password')
         .populate('wishlist', 'title thumb price category')

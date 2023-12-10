@@ -111,48 +111,111 @@ const deleteBrand = asyncHandler(async (req, res) => {
     });
 });
 
+// const ratings = asyncHandler(async (req, res) => {
+//   const { _id } = req.user;
+//   const { star, comment, bid, updatedAt } = req.body;
+//   if (!star || !bid) throw new Error("Missing input");
+//   const ratingBrand = await Brand.findById(bid);
+//   const alreadyRating = ratingBrand?.ratings?.find(
+//     (el) => el.postedBy.toString() === _id
+//   );
+//   if (alreadyRating) {
+//     // update rating
+//     await Brand.updateOne(
+//       {
+//         ratings: { $elemMatch: alreadyRating },
+//       },
+//       {
+//         $set: {
+//           "ratings.$.star": star,
+//           "ratings.$.comment": comment,
+//           "ratings.$.updatedAt": updatedAt,
+//         },
+//       },
+//       { new: true }
+//     );
+//   } else {
+//     // add star and comment
+//     await Brand.findByIdAndUpdate(
+//       bid,
+//       {
+//         $push: { ratings: { star, comment, postedBy: _id } },
+//       },
+//       { new: true }
+//     );
+//   }
+//   // sum ratings
+//   const updateBrand = await Pitch.findById(brandId);
+
+//   const ratingCount = updateBrand.ratings.length;
+
+//   const sumRatings = updateBrand.ratings.reduce((sum, el) => sum + +el.star, 0);
+
+//   updatedBrand.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
+//   await updateBrand.save();
+
+//   return res.status(200).json({
+//     status: true,
+//     updateBrand,
+//   });
+// });
 const ratings = asyncHandler(async (req, res) => {
     const { _id } = req.user;
-    const { star, comment, brandId } = req.body;
-    if (!star || !brandId) throw new Error("Missing input");
-    const ratingBrand = await Brand.findById(brandId);
+    const { star, comment, bid, updatedAt } = req.body;
+    if (!star || !bid) throw new Error("Missing inputs");
+    const ratingBrand = await Brand.findById(bid);
     const alreadyRating = ratingBrand?.ratings?.find(
         (el) => el.postedBy.toString() === _id
     );
+
     if (alreadyRating) {
-        // update rating
+        //update star and comment again
         await Brand.updateOne(
             {
                 ratings: { $elemMatch: alreadyRating },
             },
             {
-                $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+                $set: {
+                    "ratings.$.star": star,
+                    "ratings.$.comment": comment,
+                    "ratings.$.updatedAt": updatedAt,
+                },
             },
             { new: true }
         );
     } else {
-        // add star and comment
-        await Brand.findByIdAndUpdate(
-            brandId,
+        //add star and comment first time
+        const response = await Brand.findByIdAndUpdate(
+            bid,
             {
-                $push: { ratings: { star, comment, postedBy: _id } },
+                $push: { ratings: { star, comment, postedBy: _id, updatedAt } },
             },
             { new: true }
         );
     }
-    // sum ratings
-    const updateBrand = await Pitch.findById(brandId);
-
-    const ratingCount = updateBrand.ratings.length;
-
-    const sumRatings = updateBrand.ratings.reduce((sum, el) => sum + +el.star, 0);
-
-    updateBrand.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
-    await updateBrand.save();
-
+    const getBrand = asyncHandler(async (req, res) => {
+        const { bid } = req.params;
+        const pitch = await Brand.findById(bid).populate({
+            path: "ratings",
+            populate: {
+                path: "postedBy",
+                select: "firstname lastname avatar",
+            },
+        });
+        return res.status(200).json({
+            success: pitch ? true : false,
+            pitchData: pitch ? pitch : "Can not get pitch",
+        });
+    });
+    //sumratings
+    const updatedBrand = await Brand.findById(bid);
+    const ratingCount = updatedBrand.ratings.length;
+    const sumRatings = updatedBrand.ratings.reduce((sum, el) => sum + el.star, 0);
+    updatedBrand.totalRatings = Math.round((sumRatings * 10) / ratingCount) / 10;
+    await updatedBrand.save();
     return res.status(200).json({
         status: true,
-        updateBrand,
+        updatedBrand,
     });
 });
 
@@ -213,8 +276,42 @@ const getBrandByOwner = asyncHandler(async (req, res) => {
         brandData: brand ? brand : "Cannot get brand",
     });
 });
-
-
+const getBrand = asyncHandler(async (req, res) => {
+    const { bid } = req.params;
+    const brand = await Brand.findById(bid).populate({
+        path: "ratings",
+        populate: {
+            path: "postedBy",
+            select: "firstname lastname avatar",
+        },
+    });
+    return res.status(200).json({
+        success: brand ? true : false,
+        pitchData: brand ? brand : "Can not get pitch",
+    });
+});
+const getBrandByTitle = asyncHandler(async (req, res) => {
+    const { btitle } = req.params;
+    // console.log("req.params", req.params);
+    // console.log(title);
+    if (!btitle) throw new Error("Missing input");
+    const excludeFields = ["firstname", "lastname", "email"];
+    const response = await Brand.findOne({
+        title: { $regex: btitle, $options: "i" },
+    })
+        .populate("owner", excludeFields)
+        .populate({
+            path: "ratings",
+            populate: {
+                path: "postedBy",
+                select: "firstname lastname avatar",
+            },
+        });
+    return res.status(200).json({
+        success: response ? true : false,
+        BrandData: response ? response : "Cannot get brand",
+    });
+});
 module.exports = {
     createBrand,
     getBrands,
@@ -225,4 +322,6 @@ module.exports = {
     updateBrandAddress,
     uploadImagesBrand,
     getBrandByOwner,
+    getBrandByTitle,
+    getBrand,
 };

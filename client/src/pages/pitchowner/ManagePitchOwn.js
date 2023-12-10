@@ -11,6 +11,7 @@ import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
+import { formatMoney, formatPrice } from 'ultils/helper'
 
 const { AiFillStar } = icons
 
@@ -104,8 +105,8 @@ const ManagePitchOwn = () => {
                     <tr className='bg-sky-900 text-white  py-2'>
                         <th className='px-4 py-2 text-center h-[60px] rounded-tl-lg'>#</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Thumb</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Title</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>Address</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[100px] '>Title</th>
+                        <th className='px-4 py-2 text-center h-[60px] w-[250px] '>Address</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Brand</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Category</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Price</th>
@@ -126,10 +127,12 @@ const ManagePitchOwn = () => {
                                     {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-13 ml-5 object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-13 ml-5 object-cover' />}
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
-                                <td className='text-center py-2'>{el.address}</td>
+                                <td className='text-center line-clamp-1'>{el.address}</td>
                                 <td className='text-center py-2'>{el.brand}</td>
                                 <td className='text-center py-2'>{el.category}</td>
-                                <td className='text-center py-2'>{el.price}</td>
+                                <td className='text-center py-2'>
+                                    {`${formatMoney(formatPrice(el?.price))} VNĐ`}
+                                </td>
                                 <td className='flex items-center justify-center py-9'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
                                 <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
                                 <td className='text-center py-2'>
