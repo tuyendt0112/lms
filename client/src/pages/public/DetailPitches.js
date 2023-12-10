@@ -1,33 +1,34 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiGetPitch, apiGetPitches, apiBooking } from "../../apis";
+import { apiGetPitch, apiGetPitches, apiBooking } from "apis";
 import {
   Breadcrumb,
   Button,
   PitchExtraInfo,
   PitchInformation,
   CustomSlider,
-} from "../../components";
+  Map
+} from "components";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
 import {
   formatMoney,
   formatPrice,
   renderStarFromNumber,
-} from "../../ultils/helper";
-import { pitchExtraInformation } from "../../ultils/constant";
+} from "ultils/helper";
+import { pitchExtraInformation } from "ultils/constant";
 import DOMPurify, { clearConfig } from "dompurify";
 import clsx from "clsx";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { shifts } from "ultils/constant";
 import icons from "ultils/icons";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import path from "ultils/path";
 import { toast } from "react-toastify";
+import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
 const settings = {
   dots: false,
@@ -50,6 +51,7 @@ const DetailPitches = ({ isQuickView, data }) => {
   const [update, setUpdate] = useState(false);
   const { pid, title, category, brand } = useParams();
   const [selectedHour, setSelectedHour] = useState([]);
+  const [coords, setCoords] = useState(null);
 
   const handleClickBooking = async () => {
     console.log("Selected Shift:", selectedShift);
@@ -78,6 +80,7 @@ const DetailPitches = ({ isQuickView, data }) => {
       toast.success(response.message);
     } else toast.error(response.message);
   };
+
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pid);
     if (response.success) {
@@ -85,34 +88,48 @@ const DetailPitches = ({ isQuickView, data }) => {
       setcurrentImage(response.pitchData?.images[0]);
     }
   };
+
   const fetchPitches = async () => {
     const response = await apiGetPitches({ brand });
     if (response.success) setrelatedPitches(response.pitches);
   };
 
   useEffect(() => {
-    // console.log("goi api");
     if (pid) {
       fetchPitchData();
       fetchPitches();
-      // console.log("goi ap2i");
     }
     window.scrollTo(0, 0);
   }, [pid]);
+
   useEffect(() => {
     if (pid) {
       fetchPitchData();
     }
   }, [update]);
 
+  useEffect(() => {
+    if (pitch) {
+      const getCoords = async () => {
+        const result = await geocodeByAddress(pitch?.address[0]);
+        const latLng = await getLatLng(result[0]);
+        console.log(result);
+        console.log(pitch?.address[0]);
+        setCoords(latLng);
+      };
+      getCoords();
+    }
+  }, [pitch]);
+
   const rerender = useCallback(() => {
     setUpdate(!update);
   }, [update]);
+
   const handleClickimage = (e, el) => {
     e.stopPropagation();
     setcurrentImage(el);
   };
-  // console.log(pitch);
+
   return (
     <div className={clsx("w-full")}>
       {!isQuickView && (
@@ -266,6 +283,7 @@ const DetailPitches = ({ isQuickView, data }) => {
           <div className="h-[100px] w-full"></div>
         </>
       )}
+      {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />}
     </div>
   );
 };

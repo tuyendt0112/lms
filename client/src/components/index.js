@@ -11,6 +11,8 @@ export { default as Modal } from './common/Modal';
 export { default as ImageSlider } from './common/ImageSlider';
 export { default as Paypal } from './common/Paypal';
 export { default as Congratulation } from './common/Congratulation';
+export { default as Map } from './common/Map';
+
 // Products
 export { default as BestPrice } from './products/BestPrice';
 export { default as Pitch } from './products/Pitch';

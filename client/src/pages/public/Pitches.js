@@ -57,16 +57,19 @@ const Pitches = () => {
     setSort(value)
   }, [sort])
 
-  // useEffect(() => {
-  //   const queries = Object.fromEntries([...params])
-  //   console.log(queries)
-  //   if (sort) {
-  //     navigate({
-  //       pathname: `/${category}`,
-  //       search: createSearchParams({ sort }).toString()
-  //     })
-  //   }
-  // }, [sort])
+  useEffect(() => {
+    const queries = Object.fromEntries([...params])
+    let getSort = sort
+    console.log(queries)
+    const q = { ...getSort, ...queries }
+    console.log(q)
+    if (sort) {
+      navigate({
+        pathname: `/${category}`,
+        search: createSearchParams({ q }).toString()
+      })
+    }
+  }, [sort])
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
