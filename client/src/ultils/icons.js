@@ -22,7 +22,9 @@ import {
     FaStarHalfAlt,
     FaCalendarAlt,
     FaRegEdit,
-    FaSave
+    FaSave,
+    FaStar,
+    FaRegStar
 } from 'react-icons/fa'
 
 import {
@@ -75,7 +77,9 @@ const icons = {
     TiCancel,
     BsCart,
     MdCategory,
-    SiBrandfolder
+    SiBrandfolder,
+    FaStar,
+    FaRegStar
 }
 
 export default icons

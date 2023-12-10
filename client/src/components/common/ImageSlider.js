@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import React, { useState, useEffect, memo } from "react";
-
-const ImageSlider = ({ imageArray, intervalMinutes }) => {
+const ImageSlider = ({ imageArray, intervalMinutes, style }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -14,7 +14,8 @@ const ImageSlider = ({ imageArray, intervalMinutes }) => {
     }, [imageArray, intervalMinutes]);
     const currentImage = imageArray[currentImageIndex];
     return (
-        <img src={currentImage} alt="poster" className="w-full h-[400px] object-cover" />
+
+        <img src={currentImage} alt="poster" className={clsx('w-full object-cover', style)} />
     );
 };
 

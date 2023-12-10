@@ -2,7 +2,8 @@ import React from 'react'
 import { Banner, Sidebar, BestPrice, DealDaily, FeaturePitch, CustomSlider } from '../../components'
 import { useSelector } from 'react-redux'
 import icons from '../../ultils/icons'
-
+import { Link } from 'react-router-dom'
+import defaultImage from 'assets/default.png'
 const { IoIosArrowForward } = icons
 const Home = () => {
     const { newPitches } = useSelector(state => state.pitch)
@@ -33,9 +34,11 @@ const Home = () => {
                     ></CustomSlider>
                 </div>
             </div>
-            <div className='my-8 w-main'>
-                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-blue-700'>HOT PITCHES</h3>
-                <div className='flex flex-wrap gap-x-24 gap-y-8 mt-4 min-h-[190px]'>
+            <div className="my-8 w-main">
+                <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-blue-700">
+                    HOT PITCHES
+                </h3>
+                {/* <div className='flex flex-wrap gap-x-24 gap-y-8 mt-4 min-h-[190px]'>
                     {categories?.filter(el => el.brands.length > 0).map(el => (
                         <div
                             key={el._id}
@@ -46,7 +49,7 @@ const Home = () => {
                                 <div className='flex-1 text-gray-700'>
                                     <h4 className='font-semibold uppercase'>{el.title}</h4>
                                     <ul className='text-sm'>
-                                        {el?.brand?.map(item => (
+                                        {el?.brands?.map(item => (
                                             <span key={item} className='flex gap-1 items-center'>
                                                 <IoIosArrowForward size={14}></IoIosArrowForward>
                                                 <li>{item}</li>
@@ -57,8 +60,40 @@ const Home = () => {
                             </div>
                         </div>
                     ))}
+                </div> */}
+                <div className="flex flex-wrap gap-4 mt-4">
+                    {categories
+                        ?.filter((el) => el.brands.length > 0)
+                        .map((el) => (
+                            <div key={el._id} className="w-[680px]">
+                                <div className="border flex">
+                                    <img
+                                        src={el?.image || defaultImage}
+                                        alt="picture category"
+                                        className="w-[250px] flex-1 h-[250px] object-cover"
+                                    />
+                                    <div className="flex-1 text-black-700">
+                                        <h4 className="font-semibold uppercase ml-10 mt-3">
+                                            {el.title}
+                                        </h4>
+                                        <ul className="text-sm mt-4 ml-4 text-base ">
+                                            {el?.brands?.map((item) => (
+                                                <span key={item} className="flex gap-1 items-center">
+                                                    <IoIosArrowForward size={14} />
+                                                    <Link
+                                                        to={`/${el.title.toLowerCase()}/${item.toLowerCase()}`}
+                                                    >
+                                                        {item}
+                                                    </Link>
+                                                </span>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                 </div>
-            </div >
+            </div>
         </>
     )
 }

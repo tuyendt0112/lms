@@ -1,21 +1,31 @@
 import icons from "./icons"
-const { AiOutlineStar, AiFillStar } = icons
+const { AiOutlineStar, AiFillStar, FaStarHalfAlt, FaStar, FaRegStar } = icons
 
 export const createSlug = string => string.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('-')
 
 export const formatMoney = number => Number(number?.toFixed(1)).toLocaleString()
 
 export const renderStarFromNumber = (number, size) => {
-    if (!Number(number)) return
-    // 4 => [1,1,1,1,0]
-    // 2 =>[1,1,0,0,0]
-    const stars = []
-    number = Math.round(number)
-    for (let i = 0; i < +number; i++) stars.push(<AiFillStar color="orange" size={size || 16} />)
-    for (let i = 5; i > +number; i--) stars.push(<AiOutlineStar color="orange" size={size || 16} />)
-    return stars
+    if (!Number(number)) return;
 
-}
+    const integerPart = Math.floor(number);
+    const decimalPart = number - integerPart;
+
+    const stars = [];
+
+    for (let i = 0; i < 5; i++) {
+        if (i < integerPart) {
+            stars.push(<FaStar key={i} color="orange" size={size || 16} />);
+        } else if (i === integerPart && decimalPart > 0) {
+            // In ra ngôi sao có phần thập phân
+            stars.push(<FaStarHalfAlt key={i} color="orange" size={size || 16} />);
+        } else {
+            stars.push(<FaRegStar key={i} color="orange" size={size || 16} />);
+        }
+    }
+
+    return stars;
+};
 
 export const validate = (payload, setInvalidFields) => {
     let invalids = 0
@@ -70,3 +80,11 @@ export function getBase64(file) {
 }
 
 export const formattedCategory = (category) => category?.replace(/-/g, " ");
+
+export const convertToTitleCase = (inputString) => {
+    return inputString
+        .replace("/", "") // Loại bỏ dấu /
+        .split("-") // Tách chuỗi bởi dấu -
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Viết hoa chữ cái đầu của mỗi từ
+        .join(" "); // Nối lại thành một chuỗi
+};

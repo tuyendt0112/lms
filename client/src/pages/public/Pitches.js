@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from 'react-router-dom'
-import { Breadcrumb, Pitch, SearchItem, InputSelect, Pagination } from 'components'
+import { Breadcrumb, Pitch, SearchItem, InputSelect, Pagination, InputForm } from 'components'
 import { apiGetPitches } from 'apis'
 import Masonry from 'react-masonry-css'
 import { sorts } from 'ultils/constant'
@@ -17,7 +17,7 @@ const Pitches = () => {
   const [pitches, setpitches] = useState(null)
   const [activeClick, setactiveClick] = useState(null)
   const [params] = useSearchParams()
-  const [sort, setsort] = useState('')
+  const [sort, setSort] = useState('')
   const { category } = useParams()
 
   const fetchProductsByCategory = async (queries) => {
@@ -54,17 +54,19 @@ const Pitches = () => {
   }, [activeClick])
 
   const changeValue = useCallback((value) => {
-    setsort(value)
+    setSort(value)
   }, [sort])
 
-  useEffect(() => {
-    if (sort) {
-      navigate({
-        pathname: `/${category}`,
-        search: createSearchParams({ sort }).toString()
-      })
-    }
-  }, [sort])
+  // useEffect(() => {
+  //   const queries = Object.fromEntries([...params])
+  //   console.log(queries)
+  //   if (sort) {
+  //     navigate({
+  //       pathname: `/${category}`,
+  //       search: createSearchParams({ sort }).toString()
+  //     })
+  //   }
+  // }, [sort])
   return (
     <div className='w-full'>
       <div className='h-[81px] flex justify-center items-center bg-gray-100'>
@@ -73,8 +75,8 @@ const Pitches = () => {
           <Breadcrumb category={category}></Breadcrumb>
         </div>
       </div>
-      <div className='w-main border p-4 flex justify-between mt-8 m-auto'>
-        <div className='w-4/5 flex-auto flex flex-col gap-3'>
+      <div className='w-main border p-4 flex justify-between mt-8 m-auto gap-3'>
+        <div className='w-3/5 flex-auto flex flex-col gap-3'>
           <span className='font-semibold text-sm'>Filter by</span>
           <div className="flex items-center gap-4">
             <SearchItem
@@ -89,6 +91,12 @@ const Pitches = () => {
               changeActiveFilter={changeActiveFilter}
             ></SearchItem>
           </div>
+        </div>
+        <div className='w-1/5 flex flex-col gap-3'>
+          <span className='font-semibold text-sm'>Search</span>
+          <input
+            className='form-input my-auto rounded-md w-full text-sm mb-2'
+          />
         </div>
         <div className='w-1/5 flex flex-col gap-3'>
           <span className='font-semibold text-sm'>Sort by</span>
@@ -114,7 +122,7 @@ const Pitches = () => {
         </Masonry>
       </div>
       <div className='w-main m-auto my-4 flex justify-end'>
-        <Pagination totalCount={pitches?.counts} />
+        <Pagination totalCount={pitches?.totalCount} />
       </div>
       <div className='w-full h-[500px]'></div>
     </div>

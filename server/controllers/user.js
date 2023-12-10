@@ -445,11 +445,18 @@ const updateOrder = asyncHandler(async (req, res) => {
 
 const BookingPitch = asyncHandler(async (req, res) => {
     const { _id } = req.user;
-    const { pitchId, bookedDate, shift, hour } = req.body;
+    const { pitchId, bookedDate, shifts, hours } = req.body;
     // check hour
-    if (!pitchId || !bookedDate || !shift) throw new Error("Missing input");
+    if (
+        !pitchId ||
+        !bookedDate ||
+        !Array.isArray(shifts) ||
+        shifts.length === 0 ||
+        !Array.isArray(hours) ||
+        hours.length !== shifts.length
+    )
+        throw new Error("Missing input");
     const currentDate = new Date();
-
     await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
 
     const bookingDate = new Date(bookedDate);
@@ -457,31 +464,41 @@ const BookingPitch = asyncHandler(async (req, res) => {
     if (
         bookingDate < currentDate.setHours(0, 0, 0, 0) ||
         (bookingDate.getTime() === currentDate.setHours(0, 0, 0, 0) &&
-            hour <= new Date().getHours())
+            hours.some((hour) => hour <= new Date().getHours()))
     ) {
         return res.status(400).json({
             success: false,
             message: "Cannot book a pitch for a past date or time.",
         });
     }
+
     const existingBooking = await Booking.findOne({
         pitch: pitchId,
         bookedDate: bookedDate,
-        shift: shift,
+        shift: { $in: shifts },
     });
     if (existingBooking) {
         // Kiểm tra trường shift
         return res.status(400).json({
             success: false,
-            message: "This pitch already booked.",
+            message: `This pitch already booked for the selected shift(s) ${shifts}}`,
         });
     } else {
-        req.body.bookingBy = _id;
-        req.body.pitch = pitchId;
-        const response = await Booking.create(req.body);
+        const bookingDataArray = shifts.map((shift, index) => ({
+            bookingBy: _id,
+            pitch: pitchId,
+            bookedDate: bookedDate,
+            shift: shift,
+            hour: hours[index], // Gán giá trị giờ tương ứng với mỗi shift
+        }));
+        const response = await Promise.all(
+            bookingDataArray.map((data) => Booking.create(data))
+        );
         return res.status(200).json({
-            success: response ? true : false,
-            message: response ? "Booked" : "something went wrong",
+            success: response.every(Boolean),
+            message: response.every(Boolean)
+                ? "Booked"
+                : "Something went wrong with one or more bookings.",
         });
     }
 });
@@ -530,6 +547,8 @@ const getWishListById = asyncHandler(async (req, res) => {
         rs: user ? user : 'User not found'
     })
 })
+
+
 module.exports = {
     register,
     login,

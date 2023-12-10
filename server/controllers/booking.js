@@ -32,8 +32,9 @@ const createBooking = asyncHandler(async (req, res) => {
 });
 
 const updateStatusBooking = asyncHandler(async (req, res) => {
-    const { _id } = req.body;
-    const status = "Success";
+    const { _id, status } = req.body;
+
+    // const status = "Success";
     if (!_id) throw new Error("Missing input");
     const response = await Booking.findByIdAndUpdate(
         _id,

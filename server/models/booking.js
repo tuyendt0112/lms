@@ -19,6 +19,11 @@ var bookingSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User",
     },
+    status: {
+        type: String,
+        default: "Pending",
+        enum: ["Pending", "Success", "Pay By Cash"],
+    },
     total: Number,
 });
 

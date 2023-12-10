@@ -31,7 +31,7 @@ const ButtonWrapper = ({
     const status = "Success";
     let successCount = 0;
     for (const _id of order) {
-      const response = await apiStatusOrder(_id);
+      const response = await apiStatusOrder({ _id: _id, status: status });
       if (response.success) {
         successCount++;
       }

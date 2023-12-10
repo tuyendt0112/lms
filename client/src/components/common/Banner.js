@@ -10,7 +10,7 @@ const imageArray = [banner1, banner2, banner3, banner4];
 const Banner = () => {
   return (
     <div className='w-full'>
-      <ImageSlider imageArray={imageArray} intervalMinutes={0.05} />
+      <ImageSlider imageArray={imageArray} intervalMinutes={0.05} style='h-[391px]' />
     </div>
   )
 }

@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiGetUserOrder, apiGetUserOrderStatus } from "apis";
 import defaultImage from "assets/default.png";
 import { shifts } from "ultils/constant";
-import { formatMoney } from "ultils/helper";
+import { formatMoney, convertToTitleCase } from "ultils/helper";
 import { Breadcrumb, Button } from "components";
 import path from "ultils/path";
+
 const DetailOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,14 +22,14 @@ const DetailOrder = () => {
   };
   useEffect(() => {
     fetchPitchData();
-  }, []);
+  }, [order]);
 
   return (
     <div className="w-full">
       <div className="h-[81px] flex justify-center items-center bg-gray-100">
         <div className="w-main">
           <h3 className="font-semibold uppercase">My Order </h3>
-          <Breadcrumb category={location?.pathname} />
+          <Breadcrumb category={convertToTitleCase(location?.pathname)} />
         </div>
       </div>
       <div className="flex flex-col border my-8 w-main mx-auto">

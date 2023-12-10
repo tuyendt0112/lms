@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { apiGetUserOrderStatus } from "apis";
+import { apiGetUserOrderStatus, apiStatusOrder } from "apis";
 import { shifts } from "ultils/constant";
 import { formatMoney } from "ultils/helper";
 
-import { Paypal, Congratulation } from "components";
+import { Paypal, Congratulation, Button } from "components";
+import Swal from "sweetalert2";
 
 
 const Checkout = () => {
@@ -18,9 +19,40 @@ const Checkout = () => {
   const [order, setOrder] = useState(null);
   // const [orderIds, setOrderIds] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [showCashButton, setShowCashButton] = useState(false);
+
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);
     if (response.success) setOrder(response.Booking);
+  };
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    setShowCashButton(!showCashButton);
+  };
+  useEffect(() => {
+    // Thực hiện các hành động cần thiết khi trạng thái của checkbox thay đổi
+  }, [isChecked, showCashButton]);
+  const handlePayByCash = async () => {
+    console.log(order);
+    const status = "Pay By Cash";
+    let successCount = 0;
+    for (const _id of order) {
+      const response = await apiStatusOrder({ _id: _id, status: status });
+      console.log(response);
+      if (response.success) {
+        successCount++;
+      }
+    }
+    if (successCount === order.length) {
+      // Nếu tất cả responses thành công, đóng cửa sổ
+      setIsSuccess(true);
+      setTimeout(() => {
+        Swal.fire("Congratulate", "Cash Success", "Success").then(() => {
+          window.close();
+        });
+      }, 500);
+    }
   };
   useEffect(() => {
     fetchPitchData();
@@ -79,7 +111,24 @@ const Checkout = () => {
             )}
           />
         </div>
+
       </div>
+      <div className="items-center flex-1">
+        <label>
+          <input
+            type="checkbox"
+            id="toggleCashButtonCheckbox"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          Pay by Cash
+        </label>
+      </div>
+      {showCashButton && (
+        <div>
+          <Button handleOnClick={handlePayByCash}>Confirm</Button>
+        </div>
+      )}
     </div>
   );
 };

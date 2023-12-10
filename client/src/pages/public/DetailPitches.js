@@ -39,6 +39,7 @@ const settings = {
 
 const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
+  console.log(isQuickView)
   const navigate = useNavigate();
   const { isLoggedIn, current } = useSelector((state) => state.user);
   const [pitch, setpitch] = useState(null);
@@ -48,12 +49,12 @@ const DetailPitches = ({ isQuickView, data }) => {
   const [relatedPitches, setrelatedPitches] = useState(null);
   const [update, setUpdate] = useState(false);
   const { pid, title, category, brand } = useParams();
-  const [selectedHour, setSelectedHour] = useState(null);
+  const [selectedHour, setSelectedHour] = useState([]);
 
   const handleClickBooking = async () => {
-    // console.log("Selected Shift:", selectedShift);
-    // console.log("Selected Date:", new Date(selectedDate));
-    // console.log("Selected hour:", selectedHour);
+    console.log("Selected Shift:", selectedShift);
+    console.log("Selected Date:", new Date(selectedDate));
+    console.log("Selected hour:", selectedHour);
     if (!isLoggedIn) {
       return Swal.fire({
         title: "Almost...",
@@ -68,18 +69,15 @@ const DetailPitches = ({ isQuickView, data }) => {
     }
 
     const response = await apiBooking({
-      shift: selectedShift,
+      shifts: selectedShift,
       bookedDate: selectedDate,
       pitchId: pid,
-      hour: selectedHour,
+      hours: selectedHour,
     });
     if (response.success) {
       toast.success(response.message);
     } else toast.error(response.message);
   };
-  // useLayoutEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
   const fetchPitchData = async () => {
     const response = await apiGetPitch(pid);
     if (response.success) {
@@ -202,11 +200,11 @@ const DetailPitches = ({ isQuickView, data }) => {
                 value: st.value,
                 hour: st.hour,
               }))}
-              // isMulti
+              isMulti
               placeholder={"Select Shift Book"}
               onChange={(selectedOptions) => {
-                setSelectedShift(selectedOptions.value);
-                setSelectedHour(selectedOptions.hour);
+                setSelectedShift(selectedOptions.map((option) => option.value));
+                setSelectedHour(selectedOptions.map((option) => option.hour));
               }}
             />
           </div>
@@ -260,7 +258,7 @@ const DetailPitches = ({ isQuickView, data }) => {
       {!isQuickView && (
         <>
           <div className="w-main m-auto mt-8">
-            <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
+            <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-blue-500">
               OTHER PITCHES
             </h3>
             <CustomSlider pitches={relatedPitches} normal={true} />

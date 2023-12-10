@@ -23,6 +23,14 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
     const handleClickOptions = async (e, flag) => {
         e.stopPropagation()
         if (flag === 'MENU') navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)
+        if (flag === 'QUICK_VIEW') {
+            dispatch(showModal({
+                isShowModal: true, modalChildren: <DetailPitches data={{
+                    pid: pitchData?._id,
+                    category: pitchData?.category
+                }} isQuickView></DetailPitches>
+            }))
+        }
         if (flag === 'WISHLIST') {
             const response = await apiUpdateWishlist(pid)
             if (response.success) {
@@ -31,12 +39,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
 
             } else toast.error(response.messsage)
         }
-        if (flag === 'QUICK_VIEW') {
-            dispatch(showModal({
-                isShowModal: true, modalChildren:
-                    <DetailPitches data={{ id: pitchData?._id, category: pitchData?.category }} isQuickView></DetailPitches>
-            }))
-        }
+
     }
     return (
         <div className='w-full text-base pr-[10px]'>

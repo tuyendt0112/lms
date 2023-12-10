@@ -45,6 +45,7 @@ const CreatePitch = () => {
                 for (let image of finalPayload.images) formData.append("images", image);
             }
             dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+            window.scrollTo(0, 0)
             const response = await apiCreatePitch(formData);
             dispatch(showModal({ isShowModal: false, modalChildren: null }));
             if (response.success) {
@@ -155,35 +156,40 @@ const CreatePitch = () => {
                             placeholder="Name of new pitch"
                         />
                     </div>
-                    <div className="mt-2 pt-3">
-                        <h2>Owner</h2>
-                        <Select
-                            label="Owner"
-                            options={Users?.map((el) => ({
-                                code: el._id,
-                                label: `${el.firstname} ${el.lastname}`,
-                            }))}
-                            id="owner"
-                            placeholder={"Select Owner"}
-                            onChange={(selectedOptions) => {
-                                setSelectedOwner(selectedOptions.code);
-                            }}
-                            errors={errors}
-                        />
-                    </div>
-                    <div className="w-full my-6 flex gap-4 mb-4">
-                        <h2>Category</h2>
-                        <Select
-                            label="Category"
-                            options={categories?.map((el) => ({
-                                code: el._id,
-                                label: el.title,
-                            }))}
-                            id="category"
-                            onChange={(selectedOptions) => {
-                                setSelectedCategories(selectedOptions.label);
-                            }}
-                        />
+
+
+                    <div className="py-10 flex items-center gap-4">
+                        <div className="flex-1 items-center">
+                            <h2>Owner</h2>
+                            <Select
+                                maxMenuHeight={150}
+                                label="Owner"
+                                options={Users?.map((el) => ({
+                                    code: el._id,
+                                    label: `${el.firstname} ${el.lastname}`,
+                                }))}
+                                id="owner"
+                                placeholder={"Select Owner"}
+                                onChange={(selectedOptions) => {
+                                    setSelectedOwner(selectedOptions.code);
+                                }}
+                                errors={errors}
+                            />
+                        </div>
+                        <div className="flex-1 items-center">
+                            <h2>Category</h2>
+                            <Select
+                                label="Category"
+                                options={categories?.map((el) => ({
+                                    code: el._id,
+                                    label: el.title,
+                                }))}
+                                id="category"
+                                onChange={(selectedOptions) => {
+                                    setSelectedCategories(selectedOptions.label);
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className="w-full my-10 flex gap-4">
                         <InputForm

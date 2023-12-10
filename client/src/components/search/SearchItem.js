@@ -91,17 +91,17 @@ const SearchItems = ({
     }, [price]);
     return (
         <div
-            className="p-3 cursor-pointer text-gray-500 text-xs gap-6 relative border border-gray-800 flex justify-between items-center"
+            className="p-3 cursor-pointer text-gray-500 text-xs gap-6 relative border border-gray-800 flex justify-between items-center rounded-md"
             onClick={() => changeActiveFilter(name)}
         >
             <span className="capitalize">{name}</span>
             <AiOutlineDown></AiOutlineDown>
             {activeClick === name && (
-                <div className="absolute  z-10 top-[calc(100%+1px)] border left-0 w-fit p-4 bg-white min-w-[200px]">
+                <div className="absolute  z-10 top-[calc(100%+1px)] border left-0 w-fit p-4 bg-white min-w-[200px] ">
                     {type === "checkbox" && (
                         <div className="p-2">
                             <div className="p-4 items-center flex justify-between gap-8 border-b ">
-                                <span>{`${selected.length} selected`}</span>
+                                <span className="text-main">{`${selected.length} selected`}</span>
                                 <span
                                     className="underline cursor-pointer hover:text-main whitespace-nowrap"
                                     onClick={(e) => {
@@ -141,7 +141,7 @@ const SearchItems = ({
                     {type === "input" && (
                         <div onClick={(e) => e.stopPropagation()}>
                             <div className="p-4 items-center flex justify-between gap-8 border-b">
-                                <span className="whitespace-nowrap">{`The highest price is ${Number(
+                                <span className="whitespace-nowrap text-main">{`The highest price is ${Number(
                                     bestPrice
                                 ).toLocaleString()} VNĐ `}</span>
                                 <span
@@ -155,11 +155,11 @@ const SearchItems = ({
                                     Reset
                                 </span>
                             </div>
-                            <div className="flex items-center p-2 gap-2">
+                            <div className="flex items-center p-2 gap-2 rou">
                                 <div className="flex items-center gap-2">
                                     <label htmlFor="from">From</label>
                                     <input
-                                        className="form-input"
+                                        className="form-input rounded-md"
                                         type="number"
                                         id="from"
                                         value={price.from}
@@ -171,7 +171,7 @@ const SearchItems = ({
                                 <div className="flex items-center gap-2">
                                     <label htmlFor="to">To</label>
                                     <input
-                                        className="form-input"
+                                        className="form-input rounded-md"
                                         type="number"
                                         id="to"
                                         value={price.to}

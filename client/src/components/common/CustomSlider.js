@@ -4,22 +4,17 @@ import Slider from "react-slick";
 
 const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 2
 };
 const CustomSlider = ({ pitches, activedTab, normal }) => {
-    {
-        pitches?.map((el, index) => (console.log(el)
-        ))
-    }
     return (
         <>
             {pitches && <Slider className='custom-slider' {...settings}>
                 {pitches?.map((el, index) => (
                     <>
-                        <h1>hello</h1>
                         <Pitch
                             key={index}
                             pid={el.id}
