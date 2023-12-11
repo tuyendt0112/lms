@@ -445,7 +445,7 @@ const updateOrder = asyncHandler(async (req, res) => {
 
 const BookingPitch = asyncHandler(async (req, res) => {
     const { _id } = req.user;
-    const { pitchId, bookedDate, shifts, hours } = req.body;
+    const { pitchId, bookedDate, shifts, hours, total } = req.body;
     // check hour
     if (
         !pitchId ||
@@ -457,7 +457,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
     )
         throw new Error("Missing input");
     const currentDate = new Date();
-    await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
+    // await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
 
     const bookingDate = new Date(bookedDate);
 
@@ -490,6 +490,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
             bookedDate: bookedDate,
             shift: shift,
             hour: hours[index], // Gán giá trị giờ tương ứng với mỗi shift
+            total: total,
         }));
         const response = await Promise.all(
             bookingDataArray.map((data) => Booking.create(data))

@@ -7,6 +7,6 @@ router.post("/", verifyAccessToken, ctrls.createBooking);
 router.put("/status", [verifyAccessToken], ctrls.updateStatusBooking);
 router.get("/all", [verifyAccessToken, isAdmin], ctrls.getBookings);
 router.get("/get-order/:userId", verifyAccessToken, ctrls.getUserBookingStatus);
-router.delete("/:bookingId", verifyAccessToken, ctrls.deleteBooking);
+router.delete("/:bid", verifyAccessToken, ctrls.deleteBooking);
 router.get("/:userId", verifyAccessToken, ctrls.getUserBooking);
 module.exports = router;

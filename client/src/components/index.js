@@ -13,7 +13,6 @@ export { default as Paypal } from './common/Paypal';
 export { default as Congratulation } from './common/Congratulation';
 export { default as Map } from './common/Map';
 export { default as BrandRating } from './common/BrandRating';
-
 // Products
 export { default as BestPrice } from './products/BestPrice';
 export { default as Pitch } from './products/Pitch';
@@ -52,3 +51,8 @@ export { default as VoteOption } from './vote/VoteOption';
 export { default as Comment } from './vote/Comment';
 // Loader
 export { default as Loader } from './loader/Loader';
+// Chart
+export { default as NewDashBoard } from './chart/NewDashBoard';
+export { default as Piechart } from './chart/Piechart';
+export { default as Barchart } from './chart/Barchart';
+export { default as Chart } from './chart/Chart';

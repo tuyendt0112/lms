@@ -40,8 +40,10 @@ const settings = {
 
 const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
-  console.log(isQuickView)
   const navigate = useNavigate();
+  const params = useParams()
+  const [pid, setpitchid] = useState(null)
+  const [category, setpitchcategory] = useState(null)
   const { isLoggedIn, current } = useSelector((state) => state.user);
   const [pitch, setpitch] = useState(null);
   const [selectedShift, setSelectedShift] = useState([]);
@@ -49,7 +51,7 @@ const DetailPitches = ({ isQuickView, data }) => {
   const [currentImage, setcurrentImage] = useState(null);
   const [relatedPitches, setrelatedPitches] = useState(null);
   const [update, setUpdate] = useState(false);
-  const { pid, title, category, brand } = useParams();
+  const { title, brand } = useParams();
   const [selectedHour, setSelectedHour] = useState([]);
   const [coords, setCoords] = useState(null);
 
@@ -75,6 +77,7 @@ const DetailPitches = ({ isQuickView, data }) => {
       bookedDate: selectedDate,
       pitchId: pid,
       hours: selectedHour,
+      total: pitch?.price
     });
     if (response.success) {
       toast.success(response.message);
@@ -120,6 +123,17 @@ const DetailPitches = ({ isQuickView, data }) => {
       pitch && getCoords();
     }
   }, [pitch]);
+
+  useEffect(() => {
+    if (data) {
+      setpitchid(data.pid)
+      setpitchcategory(data.category)
+    }
+    else if (params && params.pid) {
+      setpitchid(params.pid)
+      setpitchcategory(params.category)
+    }
+  }, [data, params])
 
   const rerender = useCallback(() => {
     setUpdate(!update);

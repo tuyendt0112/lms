@@ -99,3 +99,8 @@ export const apiGetOwner = () => axios({
     method: "get",
 });
 
+export const apiGetAllOrder = (params) => axios({
+    url: '/booking/all/',
+    method: 'get',
+    params
+})

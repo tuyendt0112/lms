@@ -16,13 +16,20 @@ const DetailOrder = () => {
   const location = useLocation();
   const { current } = useSelector((state) => state.user);
   const [order, setOrder] = useState(null);
+  const [orderChanged, setOrderChanged] = useState(false);
   const fetchPitchData = async () => {
     const response = await apiGetUserOrderStatus(current?._id);
-    if (response.success) setOrder(response.Booking);
+    if (response.success) {
+      setOrder(response.Booking);
+      setOrderChanged(false);
+    }
+
+    // console.log(response.Booking);
   };
+
   useEffect(() => {
     fetchPitchData();
-  }, [order]);
+  }, [orderChanged, order]);
 
   return (
     <div className="w-full">
@@ -53,9 +60,7 @@ const DetailOrder = () => {
             <span className="col-span-4 w-full flex items-center justify-center">
               <div className="flex gap-2">
                 <div className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-main text-xl">
-                    {el.pitch?.title}
-                  </span>
+                  <span className="text-main text-xl">{el.pitch?.title}</span>
                   <span className="text-md">{el.pitch?.category}</span>
                   <span className="text-md">{el.pitch?.address}</span>
                 </div>
@@ -100,6 +105,7 @@ const DetailOrder = () => {
             className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 shadow-lg shadow-rose-700/100 hover:shadow-rose-700/70 text-white px-4 py-2 rounded-md text-center w-[112px] h-[42px] "
             target="_blank"
             to={`/${path.CHECKOUT}`}
+            onClick={() => setOrderChanged(true)}
           >
             Check Out
           </Link>

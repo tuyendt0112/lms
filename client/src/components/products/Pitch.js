@@ -22,7 +22,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
     dispatch = useDispatch()
     const handleClickOptions = async (e, flag) => {
         e.stopPropagation()
-        if (flag === 'MENU') navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)
+        if (flag === 'MENU') navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)
         if (flag === 'QUICK_VIEW') {
             dispatch(showModal({
                 isShowModal: true, modalChildren: <DetailPitches data={{
@@ -43,8 +43,8 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
     }
     return (
         <div className='w-full text-base pr-[10px]'>
-            <Link className='w-full border p-[15px] flex flex-col items-center'
-                to={`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`}
+            <div className='w-full border p-[15px] flex flex-col items-center'
+                onClick={e => navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setisShowOption(true)
@@ -81,7 +81,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
                     <span className='line-clamp-1'>{pitchData?.title}</span>
                     <span>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
                 </div>
-            </Link>
+            </div>
         </div>
     )
 }

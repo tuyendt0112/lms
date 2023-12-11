@@ -147,21 +147,47 @@ const getPitches = asyncHandler(async (req, res) => {
                 $options: "i",
             },
         }));
-        addressQueryObject = { $and: addressQuery };
+        if (req.query.q) {
+            if (addressQuery.length >= 2) {
+                addressQueryObject = { $or: addressQuery };
+            }
+            else {
+                addressQueryObject = { $and: addressQuery };
+            }
+        }
+        else {
+            addressQueryObject = { $or: addressQuery };
+        }
     }
-
     // console.log(queries.q)
     // { address: { $regex: queries.q, $options: "i" } },
-
     if (req.query.q) {
         delete formatedQueries.q;
-        formatedQueries["$or"] = [
-            { title: { $regex: queries.q, $options: "i" } },
-            { category: { $regex: queries.q, $options: "i" } },
-            { brand: { $regex: queries.q, $options: "i" } },
-        ];
+        if (queries?.address) {
+            console.log("CHAY HAM 1")
+            formatedQueries["$or"] = [
+                { title: { $regex: queries.q, $options: "i" } },
+                { address: addressQueryObject["$or"]?.[0].address },
+                { category: { $regex: queries.q, $options: "i" } },
+                { brand: { $regex: queries.q, $options: "i" } },
+            ];
+        }
+        else {
+            console.log("CHAY HAM 2")
+            formatedQueries["$or"] = [
+                { title: { $regex: queries.q, $options: "i" } },
+                { address: { $regex: queries.q, $options: "i" } },
+                { category: { $regex: queries.q, $options: "i" } },
+                { brand: { $regex: queries.q, $options: "i" } },
+            ];
+        }
     }
-    const qr = ({ ...formatedQueries, ...addressQueryObject });
+    const qr = ({ ...addressQueryObject, ...formatedQueries });
+    // console.log("CHECK Address", addressQueryObject["$or"]?.[0])
+    // console.log("CHECK FORMAT 1", formatedQueries["$or"]?.[1])
+    // console.log("CHECK FORMAT 2", formatedQueries["$or"]?.[2])
+    // console.log("CHECK FORMAT", formatedQueries["$or"])
+    console.log("CHECK QR: ", qr)
 
     let queryCommand = Pitch.find(qr);
 

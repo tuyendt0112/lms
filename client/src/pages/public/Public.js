@@ -16,19 +16,28 @@ const Public = () => {
     }, []);
 
     return (
-        isLoading ? (
-            <Loader />
-        ) : (
-            <div className='max-h-screen flex flex-col items-center'>
-                <TopHeader></TopHeader>
-                <Header></Header>
-                <Navigation></Navigation>
-                <div className='w-full flex items-center flex-col'>
-                    <Outlet></Outlet>
-                </div>
-                <Footer></Footer>
+        // isLoading ? (
+        //     <Loader />
+        // ) : (
+        //     <div className='max-h-screen flex flex-col items-center'>
+        //         <TopHeader></TopHeader>
+        //         <Header></Header>
+        //         <Navigation></Navigation>
+        //         <div className='w-full flex items-center flex-col'>
+        //             <Outlet></Outlet>
+        //         </div>
+        //         <Footer></Footer>
+        //     </div>
+        // )
+        <div className='max-h-screen flex flex-col items-center'>
+            <TopHeader></TopHeader>
+            <Header></Header>
+            <Navigation></Navigation>
+            <div className='w-full flex items-center flex-col'>
+                <Outlet></Outlet>
             </div>
-        )
+            <Footer></Footer>
+        </div>
 
     )
 }

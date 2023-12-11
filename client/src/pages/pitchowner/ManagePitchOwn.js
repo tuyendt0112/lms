@@ -34,7 +34,7 @@ const ManagePitchOwn = () => {
         const response = await apiGetPitches({ ...params, limit: process.env.REACT_APP_PITCH_LIMIT, owner: current._id })
         if (response.success) {
             setPitches(response.pitches)
-            setCounts(response.counts)
+            setCounts(response.totalCount)
         }
     }
 
