@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Booking = require('../models/booking')
+const Pitch = require('../models/pitch')
 
 const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
@@ -11,7 +12,7 @@ const { users } = require('../ultils/constant')
 
 
 const register = asyncHandler(async (req, res) => {
-    const { email, password, firstname, lastname } = req.body
+    const { email, password, firstname, lastname, role } = req.body
     if (!email || !password || !lastname || !firstname)
         return res.status(400).json({
             success: false,
@@ -24,7 +25,7 @@ const register = asyncHandler(async (req, res) => {
         const token = makeToken()
         const emailedited = btoa(email) + '@' + token
         const newUser = await User.create({
-            email: emailedited, password, firstname, lastname
+            email: emailedited, password, firstname, lastname, role
         })
         if (newUser) {
             const html = `
@@ -484,6 +485,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
             message: `This pitch already booked for the selected shift(s) ${shifts}}`,
         });
     } else {
+        const pitchInfo = await Pitch.findById(pitchId);
         const bookingDataArray = shifts.map((shift, index) => ({
             bookingBy: _id,
             pitch: pitchId,
@@ -491,6 +493,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
             shift: shift,
             hour: hours[index], // Gán giá trị giờ tương ứng với mỗi shift
             total: total,
+            owner: pitchInfo.owner,
         }));
         const response = await Promise.all(
             bookingDataArray.map((data) => Booking.create(data))

@@ -136,13 +136,13 @@ const CreatePitch = () => {
     };
 
     return (
-        <div className="w-full">
-            <h1 className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b">
-                <span>Create Pitch</span>
-            </h1>
+        <div className='w-full flex flex-col gap-4 px-4 '>
+            <div className='p-4 border-b w-full flex items-center '>
+                <h1 className='text-3xl font-bold tracking-tight'>Create Pitch</h1>
+            </div>
             <div className="p-4">
                 <form onSubmit={handleSubmit(handleCreatePitch)}>
-                    <div className="w-full my-6 flex gap-4">
+                    <div className="w-full py-5 ">
                         <InputForm
                             label="Name pitch"
                             register={register}
@@ -156,11 +156,9 @@ const CreatePitch = () => {
                             placeholder="Name of new pitch"
                         />
                     </div>
-
-
-                    <div className="py-10 flex items-center gap-4">
+                    <div className="w-full pt-10 pb-5 flex items-center gap-4">
                         <div className="flex-1 items-center">
-                            <h2>Owner</h2>
+                            <h2 className="font-bold">Owner:</h2>
                             <Select
                                 maxMenuHeight={150}
                                 label="Owner"
@@ -177,8 +175,9 @@ const CreatePitch = () => {
                             />
                         </div>
                         <div className="flex-1 items-center">
-                            <h2>Category</h2>
+                            <h2 className="font-bold">Category:</h2>
                             <Select
+                                maxMenuHeight={150}
                                 label="Category"
                                 options={categories?.map((el) => ({
                                     code: el._id,
@@ -191,7 +190,7 @@ const CreatePitch = () => {
                             />
                         </div>
                     </div>
-                    <div className="w-full my-10 flex gap-4">
+                    <div className="w-full pb-5 flex gap-4">
                         <InputForm
                             label="Price pitch"
                             register={register}
@@ -216,8 +215,7 @@ const CreatePitch = () => {
                             placeholder="Address of new pitch"
                         />
                     </div>
-
-                    <div>
+                    <div className="w-full pt-10 pb-5">
                         <InputForm
                             label="Brand"
                             register={register}
@@ -230,7 +228,7 @@ const CreatePitch = () => {
                             disable={true}
                         />
                     </div>
-                    <div className="mt-10">
+                    <div className="w-full pt-10">
                         <MarkDownEditor
                             name="description"
                             changeValue={changeValue}
@@ -255,15 +253,17 @@ const CreatePitch = () => {
                             </small>
                         )}
                     </div>
-                    {preview.thumb && (
-                        <div className="my-4">
-                            <img
-                                src={preview.thumb}
-                                alt="thumbnail"
-                                className="w-[200px] object-contain"
-                            />
-                        </div>
-                    )}
+                    {
+                        preview.thumb && (
+                            <div className="my-4">
+                                <img
+                                    src={preview.thumb}
+                                    alt="thumbnail"
+                                    className="w-[200px] object-contain"
+                                />
+                            </div>
+                        )
+                    }
                     <div className="flex flex-col gap-2 mt-8">
                         <label className="font-semibold" htmlFor="pitches">
                             Upload Image Of Pitch
@@ -280,37 +280,39 @@ const CreatePitch = () => {
                             </small>
                         )}
                     </div>
-                    {preview.images.length > 0 && (
-                        <div className="my-4 flex w-full gap-3 flex-wrap">
-                            {preview.images.map((el) => (
-                                <div
-                                    onMouseEnter={() => setHover(el.name)}
-                                    onMouseLeave={() => setHover(null)}
-                                    key={el.name}
-                                    className="w-fit relative"
-                                >
-                                    <img
-                                        src={el.path}
-                                        alt="thumbnail"
-                                        className="w-[200px] object-contain"
-                                    />
-                                    {/* {hover === el.name &&
+                    {
+                        preview.images.length > 0 && (
+                            <div className="my-4 flex w-full gap-3 flex-wrap">
+                                {preview.images.map((el) => (
+                                    <div
+                                        onMouseEnter={() => setHover(el.name)}
+                                        onMouseLeave={() => setHover(null)}
+                                        key={el.name}
+                                        className="w-fit relative"
+                                    >
+                                        <img
+                                            src={el.path}
+                                            alt="thumbnail"
+                                            className="w-[200px] object-contain"
+                                        />
+                                        {/* {hover === el.name &&
                                         <div
                                             onClick={() => handleRemove(el.name)}
                                             className='absolute inset-0 bg-overlay cursor-pointer flex items-center justify-center' >
                                             <IoTrashBin size={24} color='white' />
                                         </div>
                                     } */}
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }
                     <div className="my-8">
                         <Button type="submit">Create new pitch</Button>
                     </div>
-                </form>
-            </div>
-        </div>
+                </form >
+            </div >
+        </div >
     );
 };
 

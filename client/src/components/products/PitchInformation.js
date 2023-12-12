@@ -57,30 +57,7 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
     }
     return (
         <div>
-            <div className="flex items-center gap-2 relative bottom-[-1px]">
-                {pitchInforTabs.map((el) => (
-                    <span
-                        className={`py-2 px-4 cursor-pointer ${activedTab === +el.id
-                            ? "bg-red-500 border border-b-0"
-                            : "bg-gray-200"
-                            } `}
-                        key={el.id}
-                        onClick={() => setActivedTab(el.id)}
-                    >
-                        {el.name}
-                    </span>
-                ))}
-            </div>
-            <div className="w-full border p-4">
-                {pitchInforTabs.some((el) => el.id === activedTab) &&
-                    pitchInforTabs
-                        .find((el) => el.id === activedTab)
-                        ?.content?.map((e) => (
-                            <li className="leading-6" key={e}>
-                                {e}
-                            </li>
-                        ))}
-            </div>
+
             <div className=" flex flex-col py-4 w-main">
                 <div className='flex border border-red-500'>
                     <div className="flex-4 flex-col flex items-center justify-center   ">

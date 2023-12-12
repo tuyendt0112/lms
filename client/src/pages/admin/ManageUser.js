@@ -98,10 +98,10 @@ const ManageUser = () => {
     }, [editUser])
 
     return (
-        <div className='w-full'>
-            <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
-                <span>Manage User</span>
-            </h1>
+        <div className="w-full flex flex-col gap-4 px-4">
+            <div className="p-4 border-b w-full flex items-center ">
+                <h1 className="text-3xl font-bold tracking-tight">Manage User</h1>
+            </div>
             <div className='w-full p-4'>
                 <div className='flex w-full justify-end items-center px-1 pb-4'>
                     {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
@@ -207,20 +207,21 @@ const ManageUser = () => {
                                                 : <span>{blockStatus.find(status => status.code === +el.isBlocked)?.value}</span>}
                                         </td>
                                         <td className='px-6 py-5 text-center'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
-                                        <td className={clsx('px-6 py-5 text-center flex justify-center items-center', editUser && 'mt-2')}>
-                                            {editUser?._id === el._id
-                                                ?
-                                                <>
-                                                    <button className='px-2 text-2xl text-gray-700 hover:text-green-700 cursor-pointer' type='submit'><FaSave /></button>
-                                                    <span onClick={() => setEditUser(null)} className='px-2 text-2xl text-gray-700 hover:text-red-700 cursor-pointer'><TiCancel /></span>
-                                                </>
-                                                :
-                                                <>
-                                                    <span onClick={() => setEditUser(el)} className='px-2 text-2xl text-gray-700 hover:text-green-700 cursor-pointer'><FaRegEdit /></span>
-                                                    <span onClick={() => handleDeleteUser(el._id)} className='px-2 text-2xl text-gray-700 hover:text-red-700 cursor-pointer'><MdDeleteForever /></span>
-                                                </>
-
-                                            }
+                                        <td className='text-center'>
+                                            <div className='flex items-center justify-center '>
+                                                {editUser?._id === el._id
+                                                    ?
+                                                    <>
+                                                        <button className='px-2 text-2xl text-green-500 hover:text-green-700 cursor-pointer' type='submit'><FaSave /></button>
+                                                        <span onClick={() => setEditUser(null)} className='px-2 text-2xl text-red-500 hover:text-red-700 cursor-pointer'><TiCancel /></span>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <span onClick={() => setEditUser(el)} className='px-2 text-2xl text-green-500 hover:text-green-700 cursor-pointer'><FaRegEdit /></span>
+                                                        <span onClick={() => handleDeleteUser(el._id)} className='px-2 text-2xl text-red-500 hover:text-red-700 cursor-pointer'><MdDeleteForever /></span>
+                                                    </>
+                                                }
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -232,7 +233,7 @@ const ManageUser = () => {
                 <div className='w-full flex justify-end mt-2'>
                     <Pagination
                         totalCount={user?.counts}
-                        type='user' />
+                        type='users' />
                 </div>
             </div>
         </div >

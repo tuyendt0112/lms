@@ -4,7 +4,7 @@ import GoogleMapReact from "google-map-react";
 const MarkComponent = ({ icon }) => <div>{icon}</div>;
 const Map = ({ coords, address }) => {
     return (
-        <div className=" pl-10  h-[600px] w-full relative">
+        <div className="   h-[600px] w-full relative">
             <div className="absolute top-[8px] left-[60px] z-50 max-w-[200px] bg-white shadow-md p-4 text-xs">
                 {address}
             </div>

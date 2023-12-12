@@ -278,6 +278,8 @@ const DetailPitches = ({ isQuickView, data }) => {
       {!isQuickView && (
         <div>
           <div className="w-main m-auto mt-8">
+            <Map coords={coords} address={pitch?.address[0]} />
+
             <PitchInformation
               totalRatings={pitch?.totalRatings}
               ratings={pitch?.ratings}
@@ -286,7 +288,6 @@ const DetailPitches = ({ isQuickView, data }) => {
               rerender={rerender}
             />
             {/* {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />} */}
-            <Map coords={coords} address={pitch?.address[0]} />
 
           </div>
         </div>

@@ -31,7 +31,7 @@ import {
   History,
   Wishlist
 } from 'pages/member'
-import { PitchOwnerLayout, ManagePitchOwn, PersonalOwn, CreatePitchOwn } from 'pages/pitchowner'
+import { PitchOwnerLayout, ManagePitchOwn, PersonalOwn, CreatePitchOwn, CreateOwnerBrand, ManageOwnerOrder } from 'pages/pitchowner'
 import path from 'ultils/path'
 import { getCategories } from 'store/app/asyncAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -110,6 +110,8 @@ function App() {
         <Route path={path.PITCHOWNER} element={<PitchOwnerLayout />}>
           <Route path={path.MANAGE_PITCHOWN} element={<ManagePitchOwn />} />
           <Route path={path.CREATE_PITCHOWN} element={<CreatePitchOwn />} />
+          <Route path={path.CREATE_BRAND_PITCHOWNER} element={<CreateOwnerBrand />} />
+          <Route path={path.MANAGE_ORDER_PITCHOWNER} element={<ManageOwnerOrder />} />
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />}></Route>

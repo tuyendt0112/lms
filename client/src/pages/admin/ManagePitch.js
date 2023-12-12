@@ -11,6 +11,7 @@ import UpdatePitch from 'pages/admin/UpdatePitch'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { formatMoney, formatPrice } from 'ultils/helper'
+import { FaRegEdit } from 'react-icons/fa'
 
 const { AiFillStar, MdEdit, MdDeleteForever } = icons
 
@@ -83,7 +84,7 @@ const ManagePitch = () => {
                     />
                 </div>
             }
-            <div className='p-4 border-b w-full  flex justify-between items-center '>
+            <div className='p-4 border-b w-full flex items-center '>
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Pitches</h1>
             </div>
             <div className='flex w-full justify-end items-center px-1'>
@@ -120,29 +121,42 @@ const ManagePitch = () => {
                                 <td className='text-center px-6 py-5 '>
                                     {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
-                                <td className='pl-3'>
-                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-[80px] h-[70px] object-fill ' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] object-cover' />}
+                                <td className='text-center py-2'>
+                                    <div className='flex items-center justify-center'>
+                                        {el.thumb ? <img src={el.thumb} alt='thumb' className='w-[80px] h-[70px] object-fill ' /> : <img src={defaultt} alt='thumb' className='w-20 h-[70px] object-cover' />}
+                                    </div>
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
-                                <td className='text-center line-clamp-1'>{el.address}</td>
+                                <td className='text-center py-2'>
+                                    <div className='line-clamp-1'>
+                                        {el.address}
+                                    </div>
+                                </td>
                                 <td className='text-center py-2'>{el.brand}</td>
                                 <td className='text-center py-2'>{el.category}</td>
                                 <td className='text-center py-2'>
                                     {`${formatMoney(formatPrice(el?.price))} VNĐ`}
                                 </td>
-                                <td className='flex items-center py-10 justify-center '>{el.totalRatings}<AiFillStar className='ml-1' /></td>
+                                <td className='text-center py-2'>
+                                    <div className='flex items-center justify-center '>
+                                        {el.totalRatings}
+                                        <AiFillStar className='ml-1' />
+                                    </div>
+                                </td>
                                 <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
-                                <td className='flex items-center justify-center '>
-                                    <span
-                                        className='text-green-500 hover:text-green-800 cursor-pointer px-2'
-                                        onClick={() => setEditPitch(el)}>
-                                        <MdEdit size={20} />
-                                    </span>
-                                    <span
-                                        onClick={() => handleDeletePitch(el._id)}
-                                        className='text-red-500 hover:text-red-800 cursor-pointer px-2'>
-                                        <MdDeleteForever size={20} />
-                                    </span>
+                                <td className='text-center py-2'>
+                                    <div className='flex items-center justify-center'>
+                                        <span
+                                            className='text-green-500 hover:text-green-700 cursor-pointer px-2 text-2xl'
+                                            onClick={() => setEditPitch(el)}>
+                                            <FaRegEdit />
+                                        </span>
+                                        <span
+                                            onClick={() => handleDeletePitch(el._id)}
+                                            className='text-red-500 hover:text-red-700 cursor-pointer px-2 text-2xl'>
+                                            <MdDeleteForever />
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

@@ -12,6 +12,8 @@ import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { formatMoney, formatPrice } from 'ultils/helper'
+import { FaRegEdit } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
 
 const { AiFillStar } = icons
 
@@ -124,28 +126,40 @@ const ManagePitchOwn = () => {
                                     {((+params.get('page') > 1 ? +params.get('page') - 1 : 0) * process.env.REACT_APP_PITCH_LIMIT) + index + 1}
                                 </td>
                                 <td className='text-center py-2'>
-                                    {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-13 ml-5 object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-13 ml-5 object-cover' />}
+                                    <div className='flex items-center justify-center'>
+                                        {el.thumb ? <img src={el.thumb} alt='thumb' className='w-20 h-13 ml-5 object-cover' /> : <img src={defaultt} alt='thumb' className='w-20 h-13 ml-5 object-cover' />}
+                                    </div>
                                 </td>
                                 <td className='text-center py-2'>{el.title}</td>
-                                <td className='text-center line-clamp-1'>{el.address}</td>
+                                <td className='text-center py-2'>
+                                    <div className='line-clamp-1'>
+                                        {el.address}
+                                    </div>
+                                </td>
                                 <td className='text-center py-2'>{el.brand}</td>
                                 <td className='text-center py-2'>{el.category}</td>
                                 <td className='text-center py-2'>
                                     {`${formatMoney(formatPrice(el?.price))} VNĐ`}
                                 </td>
-                                <td className='flex items-center justify-center py-9'>{el.totalRatings}<AiFillStar className='ml-1' /></td>
+                                <td className=' text-center py-2'>
+                                    <div className='flex items-center justify-center'>
+                                        {el.totalRatings}
+                                        <AiFillStar className='ml-1' />
+                                    </div>                                    </td>
                                 <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
                                 <td className='text-center py-2'>
-                                    <span
-                                        className='text-blue-500 hover:underline cursor-pointer px-1'
-                                        onClick={() => setEditPitch(el)}>
-                                        Edit
-                                    </span>
-                                    <span
-                                        onClick={() => handleDeletePitch(el._id)}
-                                        className='text-blue-500 hover:underline cursor-pointer px-1'>
-                                        Remove
-                                    </span>
+                                    <div className='flex items-center justify-center'>
+                                        <span
+                                            className='text-green-500 hover:text-green-700 cursor-pointer px-2 text-2xl'
+                                            onClick={() => setEditPitch(el)}>
+                                            <FaRegEdit />
+                                        </span>
+                                        <span
+                                            onClick={() => handleDeletePitch(el._id)}
+                                            className='text-red-500 hover:text-red-700 cursor-pointer px-2 text-2xl'>
+                                            <MdDeleteForever />
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

@@ -21,7 +21,7 @@ const Wishlist = () => {
   return (
     <div className='w-full relative px-6'>
       <header className='text-3xl font-semibold py-4 border-b border-b-blue-200'>
-        Personal
+        Personal Wishlist
       </header>
       <div className='w-[1192px] grid grid-cols-3 gap-4'>
         {wishList?.rs?.wishlist?.map((el) => (

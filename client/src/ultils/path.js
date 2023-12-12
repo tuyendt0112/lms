@@ -40,5 +40,8 @@ const path = {
     PERSONALOWN: 'personal',
     MANAGE_PITCHOWN: 'manage-pitch',
     CREATE_PITCHOWN: 'create-pitch',
+    MANAGE_BRAND_PITCHOWNER: "manage-pitchowner-brands",
+    CREATE_BRAND_PITCHOWNER: "create-pitchowner-brands",
+    MANAGE_ORDER_PITCHOWNER: "manage-pitchowner-order",
 }
 export default path

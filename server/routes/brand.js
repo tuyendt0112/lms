@@ -13,6 +13,11 @@ router.put("/ratings", [verifyAccessToken], controllers.ratings);
 // PitchOwner
 
 router.get(
+    "/all",
+    [verifyAccessToken, isAdminAndPitchOwn],
+    controllers.getAllBrands
+);
+router.get(
     "/:userId",
     [verifyAccessToken, isAdminAndPitchOwn],
     controllers.getBrandByOwner
@@ -35,19 +40,28 @@ router.post(
     controllers.createBrand
 );
 router.put(
-    "/:brandId",
-    [verifyAccessToken, isAdminAndPitchOwn, isAdmin],
+    "/",
+    [verifyAccessToken, isAdminAndPitchOwn],
+    uploader.fields([
+        { name: "images", maxCount: 10 },
+        { name: "thumb", maxCount: 1 },
+    ]),
     controllers.updateBrand
 );
 router.delete(
-    "/:brandId",
-    [verifyAccessToken, isAdminAndPitchOwn, isAdmin],
+    "/:bid",
+    [verifyAccessToken, isAdminAndPitchOwn],
     controllers.deleteBrand
 );
 router.put(
     "/address/:brandId",
     [verifyAccessToken, isAdminAndPitchOwn],
     controllers.updateBrandAddress
+);
+router.get(
+    "/all",
+    [verifyAccessToken, isAdminAndPitchOwn],
+    controllers.getAllBrands
 );
 router.put(
     "/description/:brandId",

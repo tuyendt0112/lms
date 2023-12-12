@@ -10,6 +10,7 @@ import { formatMoney } from "ultils/helper";
 
 import { Paypal, Congratulation, Button } from "components";
 import Swal from "sweetalert2";
+import { FaMoneyBillWave } from "react-icons/fa";
 
 
 const Checkout = () => {
@@ -34,7 +35,6 @@ const Checkout = () => {
     // Thực hiện các hành động cần thiết khi trạng thái của checkbox thay đổi
   }, [isChecked, showCashButton]);
   const handlePayByCash = async () => {
-    console.log(order);
     const status = "Pay By Cash";
     let successCount = 0;
     for (const _id of order) {
@@ -62,7 +62,7 @@ const Checkout = () => {
     // setOrderIds(orderIds);
   }, [order]);
   return (
-    <div className=" flex flex-col py-8 w-full   h-full max-h-screen overflow-y-auto gap-6">
+    <div className=" flex flex-col py-8 w-full  h-full max-h-screen overflow-y-auto gap-6 bg-gray-100">
       {isSuccess && <Congratulation />}
       <div className="w-[full] flex justify-center items-center ">
         <img src={paypal} alt="" className="h-[200px] object-contain" />
@@ -101,7 +101,12 @@ const Checkout = () => {
             </span>
           </span>
         </div>
-        <div className="w-full mx-auto  ">
+        <div className="flex flex-col w-full justify-center items-center">
+          <button className="bg-green-700 w-[200px] h-[35px] rounded-md font-bold flex items-center justify-center m-3 text-white hover:text-green-800 hover:bg-green-300 duration-300 " onClick={() => handlePayByCash()}>
+            <span className="italic ">Pay By Cash</span>
+            <FaMoneyBillWave className="ml-2" />
+          </button>
+
           <Paypal
             payload={{ order: order }}
             setIsSuccess={setIsSuccess}
@@ -111,24 +116,7 @@ const Checkout = () => {
             )}
           />
         </div>
-
       </div>
-      <div className="items-center flex-1">
-        <label>
-          <input
-            type="checkbox"
-            id="toggleCashButtonCheckbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-          Pay by Cash
-        </label>
-      </div>
-      {showCashButton && (
-        <div>
-          <Button handleOnClick={handlePayByCash}>Confirm</Button>
-        </div>
-      )}
     </div>
   );
 };

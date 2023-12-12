@@ -1,15 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, InputForm, MarkDownEditor, Select, Loading } from "components";
+import {
+    Button,
+    InputForm,
+    MarkDownEditor,
+    // Select,
+    Loading,
+} from "components";
+import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
-import { apiCreatePitch, apiGetBrandByOwner } from "apis";
+import { apiCreateBrand } from "apis";
 import { showModal } from "store/app/appSilice";
 
-const CreatePitch = () => {
+const CreateOwnerBrand = () => {
     const dispatch = useDispatch();
     const { categories } = useSelector((state) => state.app);
+
     const { current } = useSelector((state) => state.user);
     const {
         register,
@@ -18,60 +26,52 @@ const CreatePitch = () => {
         handleSubmit,
         watch,
     } = useForm();
-    const handleCreatePitch = async (data) => {
+    const handleCreateBrand = async (data) => {
+        console.log(selectedCategories);
         const invalids = validate(payload, setInvalidFields);
         if (invalids === 0) {
-            if (data.category) {
-                data.category = categories?.find(
-                    (el) => el._id === data.category
-                )?.title;
-                const finalPayload = {
-                    ...data,
-                    ...payload,
-                    owner: current._id,
-                    brand: brand?.title,
-                };
-                const formData = new FormData();
-                for (let i of Object.entries(finalPayload)) {
-                    formData.append(i[0], i[1]);
-                }
-                if (finalPayload.thumb) {
-                    formData.append("thumb", finalPayload.thumb[0]);
-                }
-                if (finalPayload.images) {
-                    for (let image of finalPayload.images)
-                        formData.append("images", image);
-                }
-                dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-                window.scrollTo(0, 0)
-                const response = await apiCreatePitch(formData);
-                dispatch(showModal({ isShowModal: false, modalChildren: null }));
-                if (response.success) {
-                    reset();
-                    setPayload({
-                        description: "",
-                    });
-                    setPreview({
-                        thumb: null,
-                        images: [],
-                    });
-                    toast.success("Create Pitch Success !");
-                } else {
-                    toast.error("Fail!!!");
-                }
+            // if (data.categories) {
+            //   data.category = categories?.find(
+            //     (el) => el._id === data.category
+            //   )?.title;
+            const finalPayload = {
+                ...data,
+                ...payload,
+                owner: current._id,
+                categories: selectedCategories,
+            };
+            console.log({ ...data, ...payload });
+            const formData = new FormData();
+            for (let i of Object.entries(finalPayload)) {
+                formData.append(i[0], i[1]);
+            }
+            if (finalPayload.thumb) {
+                formData.append("thumb", finalPayload.thumb[0]);
+            }
+            if (finalPayload.images) {
+                for (let image of finalPayload.images) formData.append("images", image);
+            }
+            dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+            window.scrollTo(0, 0)
+            const response = await apiCreateBrand(formData);
+            console.log(formData);
+            dispatch(showModal({ isShowModal: false, modalChildren: null }));
+            if (response.success) {
+                reset();
+                setPayload({
+                    description: "",
+                });
+                setPreview({
+                    thumb: null,
+                    images: [],
+                });
+                // console.log("CHECK NOTIFICATION");
+                toast.success("Create Brand Success !");
+            } else {
+                toast.error("Fail!!!");
             }
         }
     };
-    const [brand, setBrand] = useState(null);
-    const fetchBrandByOwner = async (uid) => {
-        const response = await apiGetBrandByOwner(uid);
-        // console.log(response);
-        if (response.success) setBrand(response.brandData);
-    };
-    useEffect(() => {
-        fetchBrandByOwner(current._id);
-        console.log("eeeee");
-    }, []);
     const [payload, setPayload] = useState({
         description: "",
     });
@@ -79,6 +79,7 @@ const CreatePitch = () => {
         thumb: null,
         images: [],
     });
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [invalidFields, setInvalidFields] = useState([]);
     const changeValue = useCallback(
         (e) => {
@@ -105,7 +106,16 @@ const CreatePitch = () => {
         }
         setPreview((prev) => ({ ...prev, images: imagesPreview }));
     };
-
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    // const handleRemove = (name) => {
+    //     const files = [...watch('images')]
+    //     reset({
+    //         images: files?.filter(el => el.name !== name)
+    //     })
+    //     if (preview.images?.some(el => el.name === name)) {
+    //         setPreview(prev => ({ ...prev, images: prev.images?.filter(el => el.name !== name) }))
+    //     }
+    // }
     useEffect(() => {
         if (watch("thumb")) handlePreviewThumb(watch("thumb")[0]);
     }, [watch("thumb")]);
@@ -113,95 +123,64 @@ const CreatePitch = () => {
     useEffect(() => {
         handlePreviewImages(watch("images"));
     }, [watch("images")]);
+
     return (
-        <div className='w-full flex flex-col gap-4 px-4 '>
-            <div className='p-4 border-b w-full flex items-center '>
-                <h1 className='text-3xl font-bold tracking-tight'>Create Pitch</h1>
-            </div>
+        <div className="w-full">
+            <h1 className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b">
+                <span>Create Your Brand</span>
+            </h1>
             <div className="p-4">
-                <form onSubmit={handleSubmit(handleCreatePitch)}>
-                    <div className="w-full pt-5 pb-10">
-                        <InputForm
-                            label="Name pitch"
-                            register={register}
-                            errors={errors}
-                            id="title"
-                            validate={{
-                                required: "Need to be fill",
-                            }}
-                            fullWidth
-                            style="flex-1"
-                            placeholder="Name of new pitch"
-                        />
+                <form onSubmit={handleSubmit(handleCreateBrand)}>
+                    <InputForm
+                        label="Name Brand"
+                        register={register}
+                        errors={errors}
+                        id="title"
+                        validate={{
+                            required: "Require",
+                        }}
+                        fullWidth
+                        placeholder="Name of Your Brand"
+                    />
+                    <div className="w-full mt-12 mb-6 flex flex-col gap-4 ">
+                        <span className="font-bold">Category</span>
                         <Select
-                            label="Owner"
-                            pitchOwn={current}
-                            register={register}
-                            id="owner"
-                            validate={{ required: "Nedd to be fill" }}
-                            style="flex-1 hidden"
-                            errors={errors}
+                            maxMenuHeight={100}
+                            id="category"
+                            options={categories?.map((category) => ({
+                                label: category.title,
+                                value: category._id,
+                            }))}
+                            isMulti
+                            onChange={(selectedOptions) => {
+                                const selectedValues = selectedOptions.map(
+                                    (option) => option.label
+                                );
+                                setSelectedCategories(selectedValues);
+                            }}
                         />
                     </div>
-                    <div className="w-full pt-5 pb-10 flex gap-4">
-                        <InputForm
-                            label="Price pitch"
-                            register={register}
-                            errors={errors}
-                            id="price"
-                            validate={{
-                                required: "Need to be fill",
-                            }}
-                            style="flex-1"
-                            placeholder="Price of new pitch"
-                            type="number"
-                        />
+                    <div className="w-full mb-12 flex gap-4 ">
                         <InputForm
                             label="Address"
                             register={register}
                             errors={errors}
                             id="address"
                             validate={{
-                                required: "Need to be fill",
+                                required: "Require",
                             }}
                             style="flex-1"
-                            placeholder="Address of new pitch"
+                            placeholder="Address of Your Brand"
                         />
                     </div>
-                    <div className="w-full pt-5 pb-10 flex gap-4">
-                        <Select
-                            label="Category"
-                            options={categories?.map((el) => ({
-                                code: el._id,
-                                value: el.title,
-                            }))}
-                            register={register}
-                            id="category"
-                            validate={{ required: "Nedd to be fill" }}
-                            style="flex-1"
-                            errors={errors}
-                        />
-                        <InputForm
-                            label="Brand"
-                            register={register}
-                            errors={errors}
-                            id="brand"
-                            validate={{}}
-                            style="flex-1"
-                            value={brand?.title}
-                            placeholder={`${brand?.title || "brand"}`}
-                            disable={true}
-                        />
-                    </div>
-                    <div className="w-full pt-5">
-                        <MarkDownEditor
-                            name="description"
-                            changeValue={changeValue}
-                            label="Description"
-                            invalidFields={invalidFields}
-                            setInvalidFields={setInvalidFields}
-                        />
-                    </div>
+
+                    <MarkDownEditor
+                        name="description"
+                        changeValue={changeValue}
+                        label="Description"
+                        invalidFields={invalidFields}
+                        setInvalidFields={setInvalidFields}
+                    />
                     <div className="flex flex-col gap-2 mt-8">
                         <label className="font-semibold" htmlFor="thumb">
                             Upload thumb
@@ -268,7 +247,7 @@ const CreatePitch = () => {
                         </div>
                     )}
                     <div className="my-8">
-                        <Button type="submit">Create new pitch</Button>
+                        <Button type="submit">Create new brand</Button>
                     </div>
                 </form>
             </div>
@@ -276,4 +255,4 @@ const CreatePitch = () => {
     );
 };
 
-export default CreatePitch;
+export default CreateOwnerBrand;

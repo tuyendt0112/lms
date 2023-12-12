@@ -52,7 +52,7 @@ const UpdateCategory = ({ editPitch, render, setEditPitch }) => {
         })
     }, [editPitch])
     return (
-        <div className='w-full flex flex-col gap-4 relative'>
+        <div className='w-full flex flex-col gap-4 px-4 relative'>
             <div className='p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0'>
                 <h1 className='text-3xl font-bold tracking-tight'>Update Category</h1>
                 <span className='text-main hover:underline cursor-pointer' onClick={() => setEditPitch(null)}>Cancle</span>

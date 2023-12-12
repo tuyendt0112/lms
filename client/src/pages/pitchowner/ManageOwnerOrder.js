@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { InputForm, Pagination } from "components";
 import { useForm } from "react-hook-form";
-import { apiGetAllOrder, apiDeleteOrder } from "apis";
+import { apiGetAllOrderPitchOwner, apiDeleteOrder } from "apis";
 import defaultt from "assets/default.png";
 import moment from "moment";
 import icons from "ultils/icons";
@@ -12,16 +12,18 @@ import {
     useNavigate,
     useLocation,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 import useDebounce from "hooks/useDebounce";
-
+import { formatMoney } from "ultils/helper";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { MdDeleteForever } from "react-icons/md";
 
-const ManageOrder = () => {
+const ManageOwnerOrder = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [params] = useSearchParams();
+    const { current } = useSelector((state) => state.user);
     const {
         register,
         formState: { errors },
@@ -35,7 +37,8 @@ const ManageOrder = () => {
         setUpdate(!update);
     });
     const fetchOrderData = async (params) => {
-        const response = await apiGetAllOrder({
+        const response = await apiGetAllOrderPitchOwner({
+            owner: current?._id,
             ...params,
             limit: process.env.REACT_APP_PITCH_LIMIT,
         });
@@ -89,7 +92,7 @@ const ManageOrder = () => {
         });
     };
     return (
-        <div className="w-full flex flex-col gap-4 px-4 ">
+        <div className="w-full flex flex-col gap-4 px-4 relative">
             {/* {editPitch && (
         <div className="absolute inset-0 win-h-screen bg-gray-100 z-50">
           <UpdatePitch
@@ -99,7 +102,7 @@ const ManageOrder = () => {
           />
         </div>
       )} */}
-            <div className="p-4 border-b w-full flex items-center ">
+            <div className="p-4 border-b w-full  flex justify-between items-center ">
                 <h1 className="text-3xl font-bold tracking-tight">Manage Order</h1>
             </div>
             <div className="flex flex-col gap-2">
@@ -128,7 +131,6 @@ const ManageOrder = () => {
                     </form>
                 </div>
             </div>
-
             <table className="table-auto w-full ">
                 <thead className="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr className="bg-sky-900 text-white  py-2">
@@ -169,12 +171,12 @@ const ManageOrder = () => {
                                         <img
                                             src={defaultt}
                                             alt="thumb"
-                                            className="w-20 h-[70px] object-cover"
+                                            className="w-20 h-[70px] ml-5 object-cover"
                                         />
                                     )}
                                 </div>
                             </td>
-                            <td className="text-center py-2">{el?.pitch?.title}</td>
+                            <td className="text-center py-2">{el.pitch.title}</td>
                             <td className="text-center py-2">
                                 {shifts.find((s) => +s.value === +el.shift)?.time}
                             </td>
@@ -185,7 +187,7 @@ const ManageOrder = () => {
                                 {moment(el.createdAt).format("DD/MM/YYYY")}
                             </td>
                             <td className="text-center py-2">
-                                <div>
+                                <div className="flex items-center justify-center">
                                     <span onClick={() => handleDeletePitch(el._id)} className='flex items-center justify-center text-2xl text-red-500 hover:text-red-700 cursor-pointer'><MdDeleteForever /></span>
                                 </div>
                             </td>
@@ -194,10 +196,16 @@ const ManageOrder = () => {
                 </tbody>
             </table>
             <div className="w-full flex justify-end my-8">
-                <Pagination totalCount={counts} type="orders" />
+                <Pagination totalCount={counts} type="order" />
+            </div>
+            <div className="w-full flex justify-end my-8">
+                <span className="mt-2.5 mr-2 font-bold"> Total Profit : </span>
+                <span className="text-main text-3xl font-semibold">
+                    {formatMoney(order?.reduce((sum, el) => sum + Number(el.total), 0)) + 'VND'}
+                </span>
             </div>
         </div>
     );
 };
 
-export default ManageOrder;
+export default ManageOwnerOrder;

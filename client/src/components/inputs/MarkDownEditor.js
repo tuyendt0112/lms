@@ -6,7 +6,7 @@ const MarkDownEditor = ({ label, value, changeValue, name, invalidFields, setInv
     return (
         <div className='flex flex-col '>
             <span className='font-bold'>
-                {label}
+                {label}:
             </span>
             <Editor
                 apiKey={process.env.REACT_APP_MCETINY}

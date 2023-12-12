@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, InputForm } from 'components'
+import { Button, InputForm, Loading } from 'components'
 import { useDispatch, useSelector } from 'react-redux'
 import avatar from 'assets/defaultava.png'
 import moment from 'moment'
 import { apiUpdateCurrent } from 'apis'
 import { getCurrent } from 'store/user/asyncAction'
 import { toast } from 'react-toastify'
+import { showModal } from 'store/app/appSilice'
 
 const Personal = () => {
     const { register, formState: { errors, isDirty }, handleSubmit, reset } = useForm()
+    const dispath = useDispatch()
     const { current } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -25,8 +27,10 @@ const Personal = () => {
         if (data.avatar.length > 0) { } formData.append('avatar', data.avatar[0])
         delete data.avatar
         for (let i of Object.entries(data)) formData.append(i[0], i[1])
-
+        dispath(showModal({ isShowModal: true, modalChildren: <Loading /> }))
+        window.scrollTo(0, 0)
         const response = await apiUpdateCurrent(formData)
+        dispath(showModal({ isShowModal: false, modalChildren: null }))
         if (response.success) {
             dispatch(getCurrent())
             toast.success(response.mes)

@@ -24,6 +24,7 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
             finalPayload.images = data.images?.length === 0 ? preview.images : data.images
             for (let image of finalPayload.images) formData.append('images', image)
             dispath(showModal({ isShowModal: true, modalChildren: <Loading /> }))
+            window.scrollTo(0, 0)
             const response = await apiUpdatePitch(formData, editPitch._id)
             dispath(showModal({ isShowModal: false, modalChildren: null }))
             if (response.success) {
@@ -99,25 +100,27 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
 
     }, [editPitch])
     return (
-        <div className='w-full flex flex-col gap-4 relative'>
+        <div className='w-full flex flex-col gap-4 px-4 relative'>
             <div className='p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0'>
                 <h1 className='text-3xl font-bold tracking-tight'>Update Pitch</h1>
                 <span className='text-main hover:underline cursor-pointer' onClick={() => setEditPitch(null)}>Cancle</span>
             </div>
             <div className='p-4'>
                 <form onSubmit={handleSubmit(handleUpdatePitch)}>
-                    <InputForm
-                        label='Name pitch'
-                        register={register}
-                        errors={errors}
-                        id='title'
-                        validate={{
-                            required: 'Need to be fill'
-                        }}
-                        fullWidth
-                        placeholder='Name of new pitch'
-                    />
-                    <div className='w-full my-10 flex gap-4'>
+                    <div className='w-full pt-5 pb-10'>
+                        <InputForm
+                            label='Name pitch'
+                            register={register}
+                            errors={errors}
+                            id='title'
+                            validate={{
+                                required: 'Need to be fill'
+                            }}
+                            fullWidth
+                            placeholder='Name of new pitch'
+                        />
+                    </div>
+                    <div className='w-full pt-5 pb-10 flex gap-4'>
                         <InputForm
                             label='Price pitch'
                             register={register}
@@ -140,8 +143,7 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
                             errors={errors}
                         />
                     </div>
-                    <div className='w-full my-6 flex gap-4'>
-
+                    <div className='w-full pt-5 pb-10 flex gap-4'>
                         <InputForm
                             label='Address'
                             register={register}
@@ -154,14 +156,16 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
                             placeholder='Address of new pitch'
                         />
                     </div>
-                    <MarkDownEditor
-                        name='description'
-                        changeValue={changeValue}
-                        label='Description'
-                        invalidFields={invalidFields}
-                        setInvalidFields={setInvalidFields}
-                        value={payload.description}
-                    />
+                    <div className='w-full pt-5 '>
+                        <MarkDownEditor
+                            name='description'
+                            changeValue={changeValue}
+                            label='Description'
+                            invalidFields={invalidFields}
+                            setInvalidFields={setInvalidFields}
+                            value={payload.description}
+                        />
+                    </div>
                     <div className='flex flex-col gap-2 mt-8'>
                         <label className='font-semibold' htmlFor="thumb">Upload thumb</label>
                         <input

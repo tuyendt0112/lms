@@ -50,13 +50,13 @@ const CreateCategory = () => {
     }, [watch('thumb')])
 
     return (
-        <div className='w-full'>
-            <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
-                <span>Create Category</span>
-            </h1>
+        <div className='w-full flex flex-col gap-4 px-4 '>
+            <div className='p-4 border-b w-full flex items-center '>
+                <h1 className='text-3xl font-bold tracking-tight'>Create Category</h1>
+            </div>
             <div className='p-4'>
                 <form onSubmit={handleSubmit(handleCreatePitch)}>
-                    <div className='w-full my-6 flex gap-4'>
+                    <div className='w-full pt-5 pb-10 flex gap-4'>
                         <InputForm
                             label='Name category'
                             register={register}
@@ -70,7 +70,7 @@ const CreateCategory = () => {
                             placeholder='Name of new category'
                         />
                     </div>
-                    <div className='flex flex-col gap-2 mt-10'>
+                    <div className='w-full pt-5 flex flex-col gap-2'>
                         <label className='font-semibold' htmlFor="thumb">Upload thumb</label>
                         <input
                             type='file'

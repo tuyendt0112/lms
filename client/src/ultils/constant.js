@@ -12,18 +12,18 @@ export const navigation = [
         value: 'PITCHES',
         path: `/${path.PITCHES}`
     },
+    // {
+    //     id: 3,
+    //     value: 'BLOGS',
+    //     path: `/${path.BLOGS}`
+    // },
+    // {
+    //     id: 4,
+    //     value: 'OUR SERVICES',
+    //     path: `/${path.OUR_SERVICE}`
+    // },
     {
         id: 3,
-        value: 'BLOGS',
-        path: `/${path.BLOGS}`
-    },
-    {
-        id: 4,
-        value: 'OUR SERVICES',
-        path: `/${path.OUR_SERVICE}`
-    },
-    {
-        id: 5,
         value: 'FAQs',
         path: `/${path.FAQ}`
     }
@@ -167,6 +167,13 @@ export const adminSideBar = [
     },
     {
         id: 3,
+        type: 'SINGLE',
+        text: 'Manage Orders',
+        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <FaMoneyBill />
+    },
+    {
+        id: 4,
         type: 'PARENT',
         text: 'Pitches',
         icon: <FaProductHunt />,
@@ -181,25 +188,19 @@ export const adminSideBar = [
             },
         ]
     },
-    {
-        id: 4,
-        type: 'SINGLE',
-        text: 'Manage Orders',
-        path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
-        icon: <FaMoneyBill />
-    },
+
     {
         id: 5,
         type: 'PARENT',
-        text: 'Cateogry',
+        text: 'Category',
         icon: <MdCategory />,
         submenu: [
             {
-                text: 'Create Cateogry',
+                text: 'Create Category',
                 path: `/${path.ADMIN}/${path.CREATE_CATEGORY}`
             },
             {
-                text: 'Manage Cateogry',
+                text: 'Manage Category',
                 path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`
             },
         ]
@@ -223,25 +224,37 @@ export const adminSideBar = [
 ]
 
 export const pitchOwnerSideBar = [
-
     {
         id: 1,
-        type: 'PARENT',
-        text: 'Manage pitches',
+        type: "PARENT",
+        text: "Manage pitches",
         icon: <FaProductHunt />,
         submenu: [
             {
-                text: 'Create pitch',
-                path: `/${path.PITCHOWNER}/${path.CREATE_PITCHOWN}`
+                text: "Create pitch",
+                path: `/${path.PITCHOWNER}/${path.CREATE_PITCHOWN}`,
             },
             {
-                text: 'Manage pitches',
-                path: `/${path.PITCHOWNER}/${path.MANAGE_PITCHOWN}`
+                text: "Manage pitches",
+                path: `/${path.PITCHOWNER}/${path.MANAGE_PITCHOWN}`,
             },
-        ]
+        ],
     },
-]
-
+    {
+        id: 2,
+        type: "SINGLE",
+        text: "Create Brand",
+        path: `/${path.PITCHOWNER}/${path.CREATE_BRAND_PITCHOWNER}`,
+        icon: <SiBrandfolder />,
+    },
+    {
+        id: 3,
+        type: "SINGLE",
+        text: "Manage Orders",
+        path: `/${path.PITCHOWNER}/${path.MANAGE_ORDER_PITCHOWNER}`,
+        icon: <FaMoneyBill />,
+    },
+];
 export const memberSidebar = [
     {
         id: 1,

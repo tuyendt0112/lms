@@ -24,18 +24,21 @@ const Login = () => {
     email: '',
     password: '',
     firstname: '',
-    lastname: ''
+    lastname: '',
+    role: '',
   })
   const [invalidFields, setinvalidFields] = useState([])
   const [isForgotPassword, setisForgotPassword] = useState(false)
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isRegister, setisRegister] = useState(false)
+  const [isRegisterPitchOwner, setisRegisterPitchOwner] = useState(false)
   const resetPayload = () => {
     setpayload({
       email: '',
       password: '',
       firstname: '',
-      lastname: ''
+      lastname: '',
+      role: ''
     })
   }
   const [isVerifiedEmail, setisVerifiedEmail] = useState(false)
@@ -51,13 +54,16 @@ const Login = () => {
   }
   useEffect(() => {
     resetPayload()
-  }, [isRegister])
+  }, [isRegister, isRegisterPitchOwner])
   //SUBMIT 
   const handleSubmit = useCallback(async () => {
-    const { firstname, lastname, ...data } = payload
-    const invalids = isRegister ? validate(payload, setinvalidFields) : validate(data, setinvalidFields)
+    if (isRegisterPitchOwner) payload.role = '2'
+    else payload.role = '3'
+    const { firstname, lastname, role, ...data } = payload
+    const invalids = isRegister ? validate(payload, setinvalidFields) : isRegisterPitchOwner ? validate(payload, setinvalidFields) : validate(data, setinvalidFields)
+    console.log(invalids)
     if (invalids === 0) {
-      if (isRegister) {
+      if (isRegister || isRegisterPitchOwner) {
         dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
         const response = await apiRegister(payload)
         dispatch(showModal({ isShowModal: false, modalChildren: null }))
@@ -82,6 +88,7 @@ const Login = () => {
     if (response.success) {
       Swal.fire('Congratulation', response.mes, 'success').then(() => {
         setisRegister(false)
+        setisRegisterPitchOwner(false)
         resetPayload()
       })
     } else {
@@ -141,44 +148,81 @@ const Login = () => {
       </div>
       <div className='absolute top-0 bottom-0 left-1/2 right-0 items-center justify-center flex bg-gradient-to-r from-login to-login-2'>
         <div className='max-w-[400px] w-full mx-auto bg-transeparent p-8 px-8 rounded-lg'>
-          <h2 className='text-4xl font-bold text-center text-white'>{isRegister ? 'SIGN UP' : 'SIGN IN'}</h2>
-          <div className=' flex text-dark py-1'>
+          <h2 className='text-4xl font-bold text-center text-white'>{isRegister ? 'SIGN UP' : isRegisterPitchOwner ? 'PITCH OWNER ' : 'SIGN IN'}</h2>
+          <div className=' flex py-1'>
             {
-              !isRegister &&
-              <>
-                <p className='mr-2 text-white'>
-                  Don't have an account?
-                </p>
-                <span className='text-blue-500 hover:text-white hover:underline cursor-pointer ' onClick={() => setisRegister(true)}>Sign Up</span>
-              </>
+              !isRegister && !isRegisterPitchOwner &&
+              <div>
+                <div className='flex'>
+                  <p className='mr-2 text-white'>
+                    Don't have an account?
+                  </p>
+                  <span className='text-blue-500 hover:text-white hover:underline cursor-pointer ' onClick={() => setisRegister(true)}>Sign Up</span>
+                </div>
+                <div className='flex'>
+                  <p className='mr-2 text-white'>
+                    Or create your own brand?
+                  </p>
+                  <span className='text-blue-500 hover:text-white hover:underline cursor-pointer ' onClick={() => setisRegisterPitchOwner(true)}>Let' Go</span>
+                </div>
+              </div>
             }
           </div>
-          {isRegister && <div className='flex items-center gap-2 pb-2'>
-            <div style={{ position: 'relative' }}>
-              <InputFields
-                value={payload.firstname}
-                setValue={setpayload}
-                nameKey='firstname'
-                invalidFields={invalidFields}
-                setInvalidFields={setinvalidFields}
-                fullWidth
-              />
-              <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
-              />
+          {isRegister && !isRegisterPitchOwner &&
+            <div className='flex items-center gap-4 pb-1'>
+              <div style={{ position: 'relative' }}>
+                <InputFields
+                  value={payload.firstname}
+                  setValue={setpayload}
+                  nameKey='firstname'
+                  invalidFields={invalidFields}
+                  setInvalidFields={setinvalidFields}
+                  fullWidth
+                />
+                <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
+                />
+              </div>
+              <div style={{ position: 'relative' }}>
+                <InputFields
+                  value={payload.lastname}
+                  setValue={setpayload}
+                  nameKey='lastname'
+                  invalidFields={invalidFields}
+                  setInvalidFields={setinvalidFields}
+                  fullWidth
+                />
+                <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
+                />
+              </div>
             </div>
-            <div style={{ position: 'relative' }}>
-              <InputFields
-                value={payload.lastname}
-                setValue={setpayload}
-                nameKey='lastname'
-                invalidFields={invalidFields}
-                setInvalidFields={setinvalidFields}
-                fullWidth
-              />
-              <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
-              />
+          }
+          {isRegisterPitchOwner && !isRegister &&
+            <div className='flex items-center gap-4 pb-1'>
+              <div style={{ position: 'relative' }}>
+                <InputFields
+                  value={payload.firstname}
+                  setValue={setpayload}
+                  nameKey='firstname'
+                  invalidFields={invalidFields}
+                  setInvalidFields={setinvalidFields}
+                  fullWidth
+                />
+                <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
+                />
+              </div>
+              <div style={{ position: 'relative' }}>
+                <InputFields
+                  value={payload.lastname}
+                  setValue={setpayload}
+                  nameKey='lastname'
+                  invalidFields={invalidFields}
+                  setInvalidFields={setinvalidFields}
+                  fullWidth
+                />
+                <FaPen style={{ position: 'absolute', top: 18, left: 12, }}
+                />
+              </div>
             </div>
-          </div>
           }
           <div className='flex flex-col py-1'>
             <div style={{ position: 'relative' }}>
@@ -219,7 +263,7 @@ const Login = () => {
             </div>
           </div>
           <div className='flex justify-between text-black py-1 '>
-            {!isRegister &&
+            {!isRegister && !isRegisterPitchOwner &&
               <>
                 <Link className='text-white hover:underline cursor-pointer' to={`/${path.HOME}`}>Homepage</Link>
                 <span onClick={() => setisForgotPassword(true)} className='text-white hover:underline cursor-pointer'>Forgot password</span>
@@ -231,20 +275,25 @@ const Login = () => {
             fw
             style='w-full my-2 py-2 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg shadow-violet-700/70 hover:shadow-violet-500/80 rounded-md'
           >
-            {isRegister ? 'Register' : 'Login'}
+            {isRegister ? 'Register' : isRegisterPitchOwner ? 'Register' : 'Login'}
           </Button>
           <div className='flex items-center justify-between my-2 w-full'>
 
-            {isRegister &&
+            {isRegister && !isRegisterPitchOwner &&
               <>
+                <span className='text-white hover:underline cursor-pointer w-full flex items-center justify-center' onClick={() => setisRegister(false)}> <FaStepBackward /> Back to Login</span>
+              </>
+            }
 
-                <span className='text-white hover:underline cursor-pointer w-full flex items-center justify-center' onClick={() => setisRegister(false)}><FaStepBackward /> Back to Login</span>
+            {isRegisterPitchOwner && !isRegister &&
+              <>
+                <span className='text-white hover:underline cursor-pointer w-full flex items-center justify-center' onClick={() => setisRegisterPitchOwner(false)}> <FaStepBackward /> Back to Login</span>
               </>
             }
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 export default Login

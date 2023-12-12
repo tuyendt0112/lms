@@ -54,9 +54,8 @@ const CreateBrand = () => {
                 for (let image of finalPayload.images) formData.append("images", image);
             }
             dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-            // console.log(formData);
+            window.scrollTo(0, 0)
             const response = await apiCreateBrand(formData);
-            // console.log(formData);
             dispatch(showModal({ isShowModal: false, modalChildren: null }));
             if (response.success) {
                 reset();
@@ -129,25 +128,26 @@ const CreateBrand = () => {
         // console.log(selectedBrand);
     }, []);
     return (
-        <div className="w-full">
-            <h1 className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b">
-                <span>Create Your Brand</span>
-            </h1>
+        <div className='w-full flex flex-col gap-4 px-4 '>
+            <div className='p-4 border-b w-full flex items-center '>
+                <h1 className='text-3xl font-bold tracking-tight'>Create Brand</h1>
+            </div>
             <div className="p-4">
                 <form onSubmit={handleSubmit(handleCreateBrand)}>
-                    <InputForm
-                        label="Name Brand"
-                        register={register}
-                        errors={errors}
-                        id="title"
-                        validate={{
-                            required: "Require",
-                        }}
-                        fullWidth
-                        placeholder="Name of Your Brand"
-
-                    />
-                    <div className="py-10 flex items-center gap-4">
+                    <div className="w-full py-5">
+                        <InputForm
+                            label="Name Brand"
+                            register={register}
+                            errors={errors}
+                            id="title"
+                            validate={{
+                                required: "Require",
+                            }}
+                            fullWidth
+                            placeholder="Name of Your Brand"
+                        />
+                    </div>
+                    <div className="w-full pt-10 pb-5 flex items-center gap-4">
                         <div className="flex-1 items-center">
                             <h2 className="font-semibold">Owner: </h2>
                             <Select
@@ -184,7 +184,7 @@ const CreateBrand = () => {
                             />
                         </div>
                     </div>
-                    <div className="w-full py-10 flex ">
+                    <div className="w-full pb-5 ">
                         <InputForm
                             label="Address"
                             register={register}
@@ -197,14 +197,15 @@ const CreateBrand = () => {
                             placeholder="Address of Your Brand"
                         />
                     </div>
-
-                    <MarkDownEditor
-                        name="description"
-                        changeValue={changeValue}
-                        label="Description"
-                        invalidFields={invalidFields}
-                        setInvalidFields={setInvalidFields}
-                    />
+                    <div className="w-full pt-10">
+                        <MarkDownEditor
+                            name="description"
+                            changeValue={changeValue}
+                            label="Description"
+                            invalidFields={invalidFields}
+                            setInvalidFields={setInvalidFields}
+                        />
+                    </div>
                     <div className="flex flex-col gap-2 mt-8">
                         <label className="font-semibold" htmlFor="thumb">
                             Upload thumb

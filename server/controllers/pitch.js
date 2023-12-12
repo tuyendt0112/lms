@@ -6,7 +6,7 @@ const createPitch = asyncHandler(async (req, res) => {
     const { title, description, address, brand, price, category, owner } = req.body
     const thumb = req?.files?.thumb[0]?.path
     const images = req.files?.images?.map(el => el.path)
-    if (!title || !description || !address || !price || !category || !owner) throw new Error('Missing inputs')
+    if (!title || !description || !address || !price || !category || !owner || !brand) throw new Error('Missing inputs')
     req.body.slug = slugify(title)
     if (thumb) req.body.thumb = thumb
     if (images) req.body.images = images
@@ -164,7 +164,6 @@ const getPitches = asyncHandler(async (req, res) => {
     if (req.query.q) {
         delete formatedQueries.q;
         if (queries?.address) {
-            console.log("CHAY HAM 1")
             formatedQueries["$or"] = [
                 { title: { $regex: queries.q, $options: "i" } },
                 { address: addressQueryObject["$or"]?.[0].address },
@@ -173,7 +172,6 @@ const getPitches = asyncHandler(async (req, res) => {
             ];
         }
         else {
-            console.log("CHAY HAM 2")
             formatedQueries["$or"] = [
                 { title: { $regex: queries.q, $options: "i" } },
                 { address: { $regex: queries.q, $options: "i" } },
@@ -183,11 +181,6 @@ const getPitches = asyncHandler(async (req, res) => {
         }
     }
     const qr = ({ ...addressQueryObject, ...formatedQueries });
-    // console.log("CHECK Address", addressQueryObject["$or"]?.[0])
-    // console.log("CHECK FORMAT 1", formatedQueries["$or"]?.[1])
-    // console.log("CHECK FORMAT 2", formatedQueries["$or"]?.[2])
-    // console.log("CHECK FORMAT", formatedQueries["$or"])
-    console.log("CHECK QR: ", qr)
 
     let queryCommand = Pitch.find(qr);
 
@@ -235,7 +228,7 @@ const updatePitch = asyncHandler(async (req, res) => {
     const updatePitch = await Pitch.findByIdAndUpdate(pid, req.body, { new: true })
     return res.status(200).json({
         success: updatePitch ? true : false,
-        updatePitch: updatePitch ? "Updated" : 'Can not update pitch'
+        mes: updatePitch ? "Updated" : 'Can not update pitch'
     })
 })
 const deletePitch = asyncHandler(async (req, res) => {
@@ -243,7 +236,7 @@ const deletePitch = asyncHandler(async (req, res) => {
     const deletePitch = await Pitch.findByIdAndDelete(pid)
     return res.status(200).json({
         success: deletePitch ? true : false,
-        deletePitch: deletePitch ? "Deleted" : 'Can not delete pitch'
+        mes: deletePitch ? "Deleted" : 'Can not delete pitch'
     })
 })
 const ratings = asyncHandler(async (req, res) => {

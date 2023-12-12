@@ -98,10 +98,11 @@ const deleteCategory = asyncHandler(async (req, res) => {
     const response = await PitchCategory.findByIdAndDelete(pcid)
     return res.json({
         success: response ? true : false,
-        deleteCategory: response ? response : 'Can not delete pitch - category'
+        mes: response ? 'Deleted' : 'Can not delete pitch - category'
     })
 
 })
+
 const uploadImagesCategories = asyncHandler(async (req, res) => {
     const { pcid } = req.params
     if (!req.files) throw new Error('Missing inputs')
@@ -110,12 +111,20 @@ const uploadImagesCategories = asyncHandler(async (req, res) => {
         status: response ? true : false,
         updatedCategory: response ? response : 'Cannot upload images pitches'
     })
-    return res.json('OKE')
 })
+
+const getAllCategories = asyncHandler(async (req, res) => {
+    const response = await PitchCategory.find();
+    return res.json({
+        success: response ? true : false,
+        PitchCategoriess: response ? response : "Can not get data",
+    });
+});
 module.exports = {
     createCategory,
     getCategories,
     updateCategory,
     deleteCategory,
-    uploadImagesCategories
+    uploadImagesCategories,
+    getAllCategories
 }

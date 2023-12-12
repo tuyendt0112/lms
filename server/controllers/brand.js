@@ -39,6 +39,7 @@ const createBrand = asyncHandler(async (req, res) => {
         createdBrand: response ? response : "Cannot create new brand",
     });
 });
+const getCateByBrand = asyncHandler(async (req, res) => { });
 
 const getBrands = asyncHandler(async (req, res) => {
     const { brandId } = req.params;
@@ -59,18 +60,37 @@ const getBrands = asyncHandler(async (req, res) => {
     });
 });
 const updateBrand = asyncHandler(async (req, res) => {
-    const { brandId } = req.params;
+    const { bid } = req.body;
+    const files = req?.files;
     // find old title
-    const oldBrand = await Brand.findById(brandId);
+
+    if (files?.thumb) {
+        req.body.thumb = files?.thumb[0].path;
+    }
+    if (files?.images) {
+        req.body.thumb = files?.images?.map((el) => el.path);
+    }
+    const oldBrand = await Brand.findById(bid);
     const oldTitle = oldBrand.title;
-    if (req.body && req.body.title) req.body.slug = createSlug(req.body.title); // update slug
-    const updatedBrand = await Brand.findByIdAndUpdate(brandId, req.body, {
+    const oldCategories = oldBrand.categories;
+    // if (req.body && req.body.title) req.body.slug = slugify(req.body.title);'
+    if (req.body.categories === "null") {
+        req.body.categories = oldCategories;
+    } else if (typeof req.body.categories === "string") {
+        const Cate = req.body.categories;
+        let categoryArray = [];
+        categoryArray = Cate.split(",");
+        req.body.categories = categoryArray;
+    }
+
+    if (req.body && req.body?.title) req.body.slug = createSlug(req.body.title); // update slug
+    const updatedBrand = await Brand.findByIdAndUpdate(bid, req.body, {
         new: true,
     });
     // update pitchCategory
-    const categories = updatedBrand.categories;
+    const categories = updatedBrand?.categories;
     await Promise.all(
-        categories.map(async (categoryTitle) => {
+        categories?.map(async (categoryTitle) => {
             // Tìm category có title tương ứng
             const updatedCategory = await PitchCategory.findOneAndUpdate(
                 { brands: { $all: [oldTitle] } },
@@ -82,14 +102,14 @@ const updateBrand = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
         success: updatedBrand ? true : false,
-        updatedBrand: updatedBrand ? updatedBrand : "Cannot update brand",
+        message: updatedBrand ? "Updated" : "Cannot update brand",
     });
 });
 const deleteBrand = asyncHandler(async (req, res) => {
-    const { brandId } = req.params;
+    const { bid } = req.params;
 
     // find old title
-    const deletedBrand = await Brand.findById(brandId);
+    const deletedBrand = await Brand.findById(bid);
     const deletedTitle = deletedBrand.title;
     // update pitchCategory
     const categories = deletedBrand.categories;
@@ -104,10 +124,10 @@ const deleteBrand = asyncHandler(async (req, res) => {
         })
     );
 
-    const response = await Brand.findByIdAndDelete(brandId);
+    const response = await Brand.findByIdAndDelete(bid);
     return res.status(200).json({
         success: response ? true : false,
-        deletedBrand: response ? response : "Cannot delete brand",
+        message: response ? "Deleted" : "Cannot delete brand",
     });
 });
 
@@ -312,6 +332,74 @@ const getBrandByTitle = asyncHandler(async (req, res) => {
         BrandData: response ? response : "Cannot get brand",
     });
 });
+
+const getAllBrands = asyncHandler(async (req, res) => {
+    const queries = { ...req.query };
+    // tách các trường đặc biệt ra khỏi query
+    const exlcludeFields = ["limit", "sort", "page", "fields"];
+    exlcludeFields.forEach((el) => delete queries[el]);
+
+    //Format lại các operators cho đúng cú pháp mongoose
+    let queryString = JSON.stringify(queries);
+    queryString = queryString.replace(
+        /\b(gte|gt|lt|lte)\b/g,
+        (matchedEl) => `$${matchedEl}`
+    );
+    const formartedQueries = JSON.parse(queryString);
+    // formartedQueries['$or'] = [
+    //     { role: { $regex: queries.q, $options: 'i' } }
+    // ]
+    // Filtering
+    // regex: tìm từ bắt đầu bằng chữ truyền vào
+    // options: 'i' không phân biệt viết hoa viết thường
+    // doc: https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+    if (queries?.title)
+        formartedQueries.title = { $regex: queries.title, $options: "i" };
+
+    if (req.query.q) {
+        delete formartedQueries.q;
+        formartedQueries["$or"] = [
+            { title: { $regex: queries.q, $options: "i" } },
+            { address: { $regex: queries.q, $options: "i" } },
+            //   { email: { $regex: queries.q, $options: "i" } },
+        ];
+    }
+    let queryCommand = Brand.find(formartedQueries);
+
+    //Sorting
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(",").join(" ");
+        queryCommand = queryCommand.sort(sortBy);
+    }
+
+    // Fields litmiting
+    if (req.query.fields) {
+        const fields = req.query.fields.split(",").join(" ");
+        queryCommand = queryCommand.select(fields);
+    }
+
+    //Pagination
+    //limit : số object lấy về 1 lần gọi API
+    //skip 2 (bỏ qua 2 cái đầu)
+    // +2 => 2
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || process.env.LIMIT_USERS;
+    const skip = (page - 1) * limit;
+    queryCommand.skip(skip).limit(limit);
+
+    // Executed query
+    // Số lượng sân thỏa điều kiện
+    queryCommand.exec(async (err, response) => {
+        if (err) throw new Error(err.message);
+
+        const counts = await Brand.find(formartedQueries).countDocuments();
+        return res.status(200).json({
+            success: response ? true : false,
+            Brands: response ? response : "Cannot get brands",
+            totalCount: counts,
+        });
+    });
+});
 module.exports = {
     createBrand,
     getBrands,
@@ -324,4 +412,5 @@ module.exports = {
     getBrandByOwner,
     getBrandByTitle,
     getBrand,
+    getAllBrands,
 };
