@@ -14,7 +14,6 @@ const ImageSlider = ({ imageArray, intervalMinutes, style }) => {
     }, [imageArray, intervalMinutes]);
     const currentImage = imageArray[currentImageIndex];
     return (
-
         <img src={currentImage} alt="poster" className={clsx('w-full object-cover', style)} />
     );
 };

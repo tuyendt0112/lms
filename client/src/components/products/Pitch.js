@@ -79,7 +79,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
                         <span key={index}>{el}</span>
                     ))}</span>
                     <span className='line-clamp-1'>{pitchData?.title}</span>
-                    <span>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
+                    <span className='text-main'>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
                 </div>
             </div>
         </div>

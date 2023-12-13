@@ -78,8 +78,8 @@ const DealDaily = () => {
     }, [second, minute, hour, expireTime])
 
     return (
-        <div className='border w-full h-[731px] flex flex-col gap-2'>
-            <div className=''>
+        <div className='border w-full h-[1080px] flex flex-col gap-4'>
+            <div>
                 <div className='flex items-center justify-between p-2 w-full'>
                     <span className='flex-1 flex justify-center'><AiFillStar size={20} color='blue'></AiFillStar></span>
                     <span className='flex-8 font-bold text-[20px] flex justify-center'>DEAL DAILY</span>
@@ -99,10 +99,8 @@ const DealDaily = () => {
                         <CountDown unit={'Minutes'} number={minute}></CountDown>
                         <CountDown unit={'Seconds'} number={second}></CountDown>
                     </div>
-
                     <Button
                         type="button"
-
                         handleOnClick={() =>
                             navigate(
                                 `/${dealdaily?.category?.toLowerCase()}/${dealdaily?.brand?.toLowerCase()}/${dealdaily?._id
@@ -118,8 +116,8 @@ const DealDaily = () => {
                     </Button>
                 </div>
             </div>
-            <div >
-                <ImageSlider imageArray={imageArray} intervalMinutes={0.05} style='h-[245px]' />
+            <div className='pt-4 '>
+                <ImageSlider imageArray={imageArray} intervalMinutes={0.03} style='h-[531px]' />
             </div>
         </div>
     )

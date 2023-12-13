@@ -111,7 +111,7 @@ const ManageUser = () => {
                             register={register}
                             errors={errors}
                             fullWidth
-                            placeholder='Search products by title, description ...' />
+                            placeholder='Search user by email, name, role ...' />
                     </form>
                 </div>
                 <form onSubmit={handleSubmit(handleUpdate)}>

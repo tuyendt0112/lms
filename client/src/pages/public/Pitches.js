@@ -149,13 +149,15 @@ const Pitches = () => {
           className="my-masonry-grid flex mx-[-10px] pl-3"
           columnClassName="my-masonry-grid_column">
           {pitches?.pitches?.map(el => (
-            <Pitch
-              key={el._id}
-              pid={el._id}
-              pitchData={el}
-              normal={true}
-            >
-            </Pitch>
+            <div className='cursor-pointer'>
+              <Pitch
+                key={el._id}
+                pid={el._id}
+                pitchData={el}
+                normal={true}
+              >
+              </Pitch>
+            </div>
           ))}
         </Masonry>
       </div>

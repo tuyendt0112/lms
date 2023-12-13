@@ -13,11 +13,8 @@ const Wishlist = () => {
 
   useEffect(() => {
     fetchWishList(current?._id)
-  }, [])
+  }, [wishList])
 
-  const rerender = useCallback(() => {
-
-  }, [])
   return (
     <div className='w-full relative px-6'>
       <header className='text-3xl font-semibold py-4 border-b border-b-blue-200'>
