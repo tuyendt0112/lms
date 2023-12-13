@@ -117,7 +117,7 @@ const DealDaily = () => {
                 </div>
             </div>
             <div className='pt-4 '>
-                <ImageSlider imageArray={imageArray} intervalMinutes={0.03} style='h-[531px]' />
+                <ImageSlider imageArray={imageArray} intervalMinutes={0.03} style='h-[546px]' />
             </div>
         </div>
     )

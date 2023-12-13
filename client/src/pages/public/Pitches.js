@@ -126,14 +126,14 @@ const Pitches = () => {
             ></SearchItem>
           </div>
         </div>
-        <div className='w-1/5 flex flex-col gap-3'>
-          <span className='font-semibold text-sm'>Search</span>
+        <div className='w-1/5 flex flex-col gap-3  '>
+          <span className='font-semibold text-sm '>Search</span>
           <input
             onChange={(e) => setSearching(e.target.value)}
             type='type'
             value={searching}
             id='q'
-            className='form-input my-auto rounded-md w-full text-sm mb-2'
+            className='form-input my-auto rounded-md w-full text-sm mb-1 '
           />
         </div>
         <div className='w-1/5 flex flex-col gap-3'>

@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import icons from 'ultils/icons'
+import { FaFacebookF } from "react-icons/fa";
 
 const { MdEmail } = icons
 const Footer = () => {
@@ -11,7 +12,10 @@ const Footer = () => {
                         <span className='text-[20px] text-gray-100'>SIGN UP TO BOOKING PITCHES</span>
                         <small className='text-[13px] text-gray-300'>Receive weekly football news</small>
                     </div>
-                    <div className='flex-1 flex ỉtems-center'>
+                    <div className='text-3xl hover:text-yellow-500 transition duration-500 hover:scale-125 hover:-translate-x-5 cursor-pointer transform'>
+                        <FaFacebookF />
+                    </div>
+                    {/* <div className='flex-1 flex ỉtems-center'>
                         <input type='text'
                             className='p-4 pr-0 rounded-l-full w-full bg-white outline-none text-black placeholder:text-sm 
                         placeholder:text-black placeholder:italic placeholder:opacity-50'
@@ -20,10 +24,10 @@ const Footer = () => {
                         <div className='h-[56px] w-[56px] bg-blue-700 rounded-r-full flex items-center justify-center text-white'>
                             <MdEmail size={18}></MdEmail>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
-            <div className='h-[407px] w-full bg-gray-800 flex items-center justify-center text-white text-[13px]' >
+            <div className='h-[250px] w-full bg-gray-800 flex items-center justify-center text-white text-[13px]' >
                 <div className='w-main flex'>
                     <div className='flex-2 flex flex-col gap-2'>
                         <h3 className='mb-[20px] text-[15px] font-medium border-l-2 border-blue-900 pl-[15px]'>ABOUT US</h3>

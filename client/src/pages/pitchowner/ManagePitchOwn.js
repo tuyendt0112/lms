@@ -92,13 +92,14 @@ const ManagePitchOwn = () => {
                 <h1 className='text-3xl font-bold tracking-tight'>Manage Pitches</h1>
             </div>
             <div className='flex w-full justify-end items-center px-1'>
-                {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                <form className='w-[45%]' >
+                {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                <form className='w-[300px]' >
                     <InputForm
                         id='q'
                         register={register}
                         errors={errors}
                         fullWidth
+                        transform
                         placeholder='Search products by title, description ...' />
                 </form>
             </div>
@@ -113,7 +114,7 @@ const ManagePitchOwn = () => {
                         <th className='px-4 py-2 text-center h-[60px] '>Category</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Price</th>
                         <th className='px-4 py-2 text-center h-[60px] '>Ratings</th>
-                        <th className='px-4 py-2 text-center h-[60px] '>CreateAt</th>
+                        <th className='px-4 py-2 text-center h-[60px] '>Create At</th>
                         <th className='px-4 py-2 text-center  h-[60px] rounded-tr-lg'>Actions</th>
                     </tr>
                 </thead>

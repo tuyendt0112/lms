@@ -101,7 +101,7 @@ const DetailBrand = () => {
                     )}
                 </div>
             </div>
-            <div className="flex items-center gap-2 relative bottom-[-1px]">
+            <div className="flex items-center gap-2 w-main bottom-[-1px] m-auto">
                 {pitchInforTabs.map((el) => (
                     <span
                         className={`py-2 px-4 cursor-pointer ${activedTab === +el.id
@@ -115,9 +115,9 @@ const DetailBrand = () => {
                     </span>
                 ))}
             </div>
-            <div className="w-full border p-4">
+            <div className="w-main m-auto border p-4">
                 {activedTab === 1 &&
-                    <div className="w-full">
+                    <div className="w-full py-2">
                         <h2 className="font-semibold pt-2">Address:</h2>
                         {showBrand?.address}
                         <h2 className="font-semibold pt-2  ">Description:</h2>
@@ -141,10 +141,10 @@ const DetailBrand = () => {
                     </div>
                 }
                 {activedTab === 2 &&
-                    <div className="flexw w-full justify-center items-center">
+                    <div className="w-full py-2">
                         <div>
-                            <h2 className="font-semibold pt-2">Thông Tin Chủ Sân:</h2>
-                            <h2 className="font-semibold pt-2">Tên:</h2>
+                            <h2 className="font-semibold pt-2">Pitch Owner Information:</h2>
+                            <h2 className="font-semibold pt-2">Name:</h2>
                             {`${showBrand?.owner?.firstname} ${showBrand?.owner?.lastname}`}
 
                             <h2 className="font-semibold pt-2">Email:</h2>
@@ -153,7 +153,7 @@ const DetailBrand = () => {
                     </div>
                 }
                 {activedTab === 3 &&
-                    <div className="flex items-center justify-center py-2">
+                    <div className="w-full py-2">
                         <h2 className="font-semibold ">Category:</h2>
                         {showBrand?.categories?.map((el) => (
                             <span className="ml-2">{el}</span>
@@ -173,10 +173,14 @@ const DetailBrand = () => {
                 </div>
             </div>
             <div>
-                <h3 className="text-[25px] text-main font-semibold py-[15px] border-b-2 border-main text-center">
-                    HOT PITCH
-                </h3>
-                <CustomSlider pitches={relatedPitches} normal={true} />
+                <div className="w-main m-auto mt-8">
+
+                    <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-blue-500">
+                        HOT PITCH
+                    </h3>
+                    <CustomSlider pitches={relatedPitches} normal={true} />
+                </div>
+                <div className="h-[100px] w-full"></div>
             </div>
         </div>
     );

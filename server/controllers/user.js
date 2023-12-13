@@ -306,7 +306,7 @@ const getUsers = asyncHandler(async (req, res) => {
         formartedQueries['$or'] = [
             { firstname: { $regex: queries.q, $options: 'i' } },
             { lastname: { $regex: queries.q, $options: 'i' } },
-            { email: { $regex: queries.q, $options: 'i' } }
+            { email: { $regex: queries.q, $options: 'i' } },
         ]
     }
     let queryCommand = User.find(formartedQueries)

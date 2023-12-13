@@ -198,7 +198,7 @@ const getPitches = asyncHandler(async (req, res) => {
     // limit
     //skip: 1 2 3 ....10 => skip = 2
     const page = +req.query.page || 1;
-    const limit = +req.query.limit || process.env.LIMIT_PITCH;
+    const limit = +req.query.limit || process.env.LIMIT_PITCHS;
     const skip = (page - 1) * limit;
     queryCommand.skip(skip).limit(limit);
     // Execute query

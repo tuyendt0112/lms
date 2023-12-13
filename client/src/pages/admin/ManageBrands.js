@@ -100,13 +100,14 @@ const ManageBrand = () => {
                 <h1 className="text-3xl font-bold tracking-tight">Manage Brands</h1>
             </div>
             <div className="flex w-full justify-end items-center px-1">
-                {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                <form className="w-[45%]">
+                {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                <form className="w-[300px]">
                     <InputForm
                         id="q"
                         register={register}
                         errors={errors}
                         fullWidth
+                        transform
                         placeholder="Search products by title, address ..."
                     />
                 </form>
@@ -131,7 +132,7 @@ const ManageBrand = () => {
                             Ratings
                         </th>
                         <th className="px-4 py-2 text-center h-[60px] w-[100px] ">
-                            CreateAt
+                            Create At
                         </th>
                         <th className="px-4 py-2 text-center  h-[60px] w-[100px] rounded-tr-lg">
                             Actions

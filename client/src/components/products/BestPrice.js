@@ -58,8 +58,8 @@ const BestPrice = () => {
                 <CustomSlider pitches={pitchs} activedTab={activedTab}></CustomSlider>
             </div>
             <div className='w-full flex gap-4 mt-8'>
-                <img src={banner} alt='banner' className='flex-1 object-cover w-[458px] h-[487px]'></img>
-                <img src={banner2} alt='banner' className='flex-1 object-cover w-[458px] h-[487px]'></img>
+                <img src={banner} alt='banner' className='flex-1 object-cover w-[458px] h-[550px]'></img>
+                <img src={banner2} alt='banner' className='flex-1 object-cover w-[458px] h-[550px]'></img>
             </div>
         </div>
     )

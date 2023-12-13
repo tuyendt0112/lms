@@ -49,7 +49,7 @@ const PitchOwnerSidebar = ({ open, setOpen }) => {
                         }
                         {el.type === 'PARENT' &&
                             <div onClick={() => handleShowTabs(+el.id)} className='flex flex-col'>
-                                <div className='flex items-center justify-between px-4 py-2 my-2 hover:bg-blue-200 cursor-pointer'>
+                                <div className='flex items-center justify-between px-4 py-2 hover:bg-blue-200 cursor-pointer'>
                                     <div className='flex items-center gap-2'>
                                         <span className='text-white'>{el.icon}</span>
                                         <span className={`text-white duration-200 ${!open && 'hidden'}`}>{el.text}</span>

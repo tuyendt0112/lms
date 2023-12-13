@@ -107,25 +107,27 @@ const ManageOwnerOrder = () => {
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex w-full justify-end items-center px-1">
-                    {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                    <form className="w-[45%]">
+                    {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                    <form className="w-[300px]">
                         <InputForm
                             id="qpitch"
                             register={register}
                             errors={errors}
                             fullWidth
+                            transform
                             placeholder="Search pitch ..."
                         />
                     </form>
                 </div>
                 <div className="flex w-full justify-end items-center px-1">
-                    {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                    <form className="w-[45%]">
+                    {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                    <form className="w-[300px]">
                         <InputForm
                             id="q"
                             register={register}
                             errors={errors}
                             fullWidth
+                            transform
                             placeholder="Search status ..."
                         />
                     </form>

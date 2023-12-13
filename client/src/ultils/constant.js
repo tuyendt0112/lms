@@ -103,17 +103,17 @@ export const pitchInforTabs = [
             "Tại đây, chúng tôi cam kết mang đến cho bạn không chỉ là một trận đấu, mà còn là trải nghiệm hoàn hảo cùng những dịch vụ chất lượng. Hãy đến và cảm nhận sự khác biệt ngay hôm nay! ⚽🌟 .",
         ],
     },
-    {
-        id: 4,
-        name: "PAYMENT",
-        content: [
-            "Thẻ Tín Dụng/Thẻ Ghi Nợ: ",
-            "Ví Điện Tử (Digital Wallet): PayPal,MOMO ,Apple Pay, hoặc Google Pay.",
-            "Chuyển Khoản Ngân Hàng",
-            "Chuyển Khoản Trực Tiếp",
-            "Thanh Toán Tiền Mặt:",
-        ],
-    },
+    // {
+    //     id: 4,
+    //     name: "PAYMENT",
+    //     content: [
+    //         "Thẻ Tín Dụng/Thẻ Ghi Nợ: ",
+    //         "Ví Điện Tử (Digital Wallet): PayPal,MOMO ,Apple Pay, hoặc Google Pay.",
+    //         "Chuyển Khoản Ngân Hàng",
+    //         "Chuyển Khoản Trực Tiếp",
+    //         "Thanh Toán Tiền Mặt:",
+    //     ],
+    // },
 ];
 
 export const sorts = [

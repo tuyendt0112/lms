@@ -104,14 +104,15 @@ const ManageUser = () => {
             </div>
             <div className='w-full p-4'>
                 <div className='flex w-full justify-end items-center px-1 pb-4'>
-                    {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-                    <form className='w-[45%] ' >
+                    {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+                    <form className='w-[300px] ' >
                         <InputForm
                             id='q'
                             register={register}
                             errors={errors}
                             fullWidth
-                            placeholder='Search user by email, name, role ...' />
+                            transform
+                            placeholder='Search user by email, name, ...' />
                     </form>
                 </div>
                 <form onSubmit={handleSubmit(handleUpdate)}>

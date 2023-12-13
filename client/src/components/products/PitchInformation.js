@@ -86,7 +86,7 @@ const PitchInformation = ({ totalRatings, ratings, namePitch, pid, rerender }) =
                 </div>
                 <div className="p-4 flex items-center justify-center text-sm flex-col gap-2">
                     <span>Do you review this pitch?</span>
-                    <Button handleOnClick={handleVoteNow}>Rate now</Button>
+                    <Button size handleOnClick={handleVoteNow}>Rate now</Button>
                 </div>
                 <div className="flex flex-col gap-4">
                     {ratings?.map((el) => (

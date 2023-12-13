@@ -1,7 +1,6 @@
 const Booking = require("../models/booking");
 const User = require("../models/user");
 const Pitch = require("../models/pitch");
-const Coupon = require("../models/coupon");
 const asyncHandler = require("express-async-handler");
 const booking = require("../models/booking");
 const mongoose = require("mongoose");

@@ -88,13 +88,14 @@ const History = () => {
         <h1 className='text-3xl font-bold tracking-tight'>History</h1>
       </div>
       <div className='flex w-full justify-end items-center px-1'>
-        {/* <form className='w-[45%]' onSubmit={handleSubmit(handleManagePitch)}> */}
-        <form className='w-[45%]' >
+        {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
+        <form className='w-[300px]' >
           <InputForm
             id='q'
             register={register}
             errors={errors}
             fullWidth
+            transform
             placeholder='Search products by title, description ...' />
         </form>
       </div>
@@ -104,7 +105,7 @@ const History = () => {
             <th className='px-4 py-2 text-center h-[60px] rounded-tl-lg'>#</th>
             <th className='px-4 py-2 text-center h-[60px] '>Title</th>
             <th className='px-4 py-2 text-center h-[60px] '>Total Price</th>
-            <th className='px-4 py-2 text-center h-[60px] '>CreateAt</th>
+            <th className='px-4 py-2 text-center h-[60px] '>Create At</th>
             <th className='px-4 py-2 text-center h-[60px] '>Status</th>
           </tr>
         </thead>
