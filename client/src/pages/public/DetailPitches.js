@@ -7,15 +7,11 @@ import {
   PitchExtraInfo,
   PitchInformation,
   CustomSlider,
-  Map
+  Map,
 } from "components";
 import Slider from "react-slick";
 import ReactImageMagnify from "react-image-magnify";
-import {
-  formatMoney,
-  formatPrice,
-  renderStarFromNumber,
-} from "ultils/helper";
+import { formatMoney, formatPrice, renderStarFromNumber } from "ultils/helper";
 import { pitchExtraInformation } from "ultils/constant";
 import DOMPurify, { clearConfig } from "dompurify";
 import clsx from "clsx";
@@ -41,9 +37,9 @@ const settings = {
 const { FaCalendarAlt } = icons;
 const DetailPitches = ({ isQuickView, data }) => {
   const navigate = useNavigate();
-  const params = useParams()
-  const [pid, setpitchid] = useState(null)
-  const [category, setpitchcategory] = useState(null)
+  const params = useParams();
+  const [pid, setpitchid] = useState(null);
+  const [category, setpitchcategory] = useState(null);
   const { isLoggedIn, current } = useSelector((state) => state.user);
   const [pitch, setpitch] = useState(null);
   const [selectedShift, setSelectedShift] = useState([]);
@@ -77,7 +73,8 @@ const DetailPitches = ({ isQuickView, data }) => {
       bookedDate: selectedDate,
       pitchId: pid,
       hours: selectedHour,
-      total: pitch?.price
+      total: pitch?.price,
+      namePitch: pitch?.title,
     });
     if (response.success) {
       toast.success(response.message);
@@ -126,14 +123,13 @@ const DetailPitches = ({ isQuickView, data }) => {
 
   useEffect(() => {
     if (data) {
-      setpitchid(data.pid)
-      setpitchcategory(data.category)
+      setpitchid(data.pid);
+      setpitchcategory(data.category);
+    } else if (params && params.pid) {
+      setpitchid(params.pid);
+      setpitchcategory(params.category);
     }
-    else if (params && params.pid) {
-      setpitchid(params.pid)
-      setpitchcategory(params.category)
-    }
-  }, [data, params])
+  }, [data, params]);
 
   const rerender = useCallback(() => {
     setUpdate(!update);
@@ -250,9 +246,9 @@ const DetailPitches = ({ isQuickView, data }) => {
                 dateFormat="dd/MM/yyyy"
                 // minDate={new Date()}
                 placeholderText="Select Date Book"
-              // showPopperArrow={false}
-              // className="w-full border-none outline-none"
-              // popperClassName="datepicker-popper"
+                // showPopperArrow={false}
+                // className="w-full border-none outline-none"
+                // popperClassName="datepicker-popper"
               />
             </div>
           </div>
@@ -288,7 +284,6 @@ const DetailPitches = ({ isQuickView, data }) => {
               rerender={rerender}
             />
             {/* {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />} */}
-
           </div>
         </div>
       )}

@@ -434,66 +434,9 @@ const createUsers = asyncHandler(async (req, res) => {
   });
 });
 
-const updateOrder = asyncHandler(async (req, res) => {
-  try {
-    const { pitchId, bookedDate, shift } = req.body;
-
-    // Kiểm tra bookedDate
-    const currentDate = new Date();
-    if (new Date(bookedDate) < currentDate) {
-      return res.status(400).json({
-        success: false,
-        message: "Ngày đặt sân phải bằng hoặc lớn hơn ngày hiện tại.",
-      });
-    }
-
-    // Kiểm tra trong trường pitches của model booking
-    const existingBooking = await Booking.findOne({
-      "pitches.pitch": pitchId,
-      "pitches.bookedDate": bookedDate,
-    });
-
-    if (existingBooking) {
-      // Kiểm tra trường shift
-      const foundShift = existingBooking.pitches.find(
-        (pitch) =>
-          pitch.pitch.toString() === pitchId &&
-          pitch.shift.some((s) => shift.includes(s))
-      );
-
-      if (foundShift) {
-        return res.status(400).json({
-          success: false,
-          message: "Sân đã được đặt vào thời gian và ca sân đã chọn.",
-        });
-      }
-    }
-
-    // Nếu không có lỗi, thêm vào trường order của model user
-    const userId = req.user._id; // Lấy user ID từ token hoặc middleware xác thực
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { $push: { order: { pitch: pitchId, bookedDate, shift } } },
-      { new: true }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: "Đặt sân thành công.",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: "Đã xảy ra lỗi khi xử lý yêu cầu.",
-    });
-  }
-});
-
 const BookingPitch = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { pitchId, bookedDate, shifts, hours, total } = req.body;
+  const { pitchId, bookedDate, shifts, hours, total, namePitch } = req.body;
   // check hour
   if (
     !pitchId ||
@@ -541,6 +484,7 @@ const BookingPitch = asyncHandler(async (req, res) => {
       hour: hours[index], // Gán giá trị giờ tương ứng với mỗi shift
       total: total,
       owner: pitchInfo.owner,
+      namePitch: namePitch,
     }));
     const response = await Promise.all(
       bookingDataArray.map((data) => Booking.create(data))
@@ -611,7 +555,7 @@ module.exports = {
   updateUsersByAdmin,
   finalRegister,
   createUsers,
-  updateOrder,
+
   BookingPitch,
   updateWishlist,
   getWishListById,
