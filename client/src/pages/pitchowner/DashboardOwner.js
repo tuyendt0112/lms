@@ -7,22 +7,22 @@ import {
   ChartPrice,
 } from "components";
 import { formatMoney, formatPrice } from "ultils/helper";
+import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { apiGetOrderByAdmin } from "apis";
+import { apiGetAllOrderPitchOwner } from "apis";
 
-const Dashboard = () => {
+const DashboardOwner = () => {
   const [order, setOrder] = useState(null);
   const [counts, setCounts] = useState(0);
-
-  const fetchOrderData = async () => {
-    const response = await apiGetOrderByAdmin();
+  const { current } = useSelector((state) => state.user);
+  const fetchOrderData = async (params) => {
+    const response = await apiGetAllOrderPitchOwner({
+      owner: current?._id,
+      ...params,
+    });
     if (response.success) {
-      setOrder(response.allOrder);
-      //   setCounts(response.allOrder.length());
-      //   console.log(response.allOrder);
-      //   console.log(
-      //     response.allOrder?.reduce((sum, el) => sum + Number(el.total), 0)
-      //   );
+      setOrder(response.Bookings);
+      setCounts(response.totalCount);
     }
   };
 
@@ -34,9 +34,9 @@ const Dashboard = () => {
       <NewDashBoard></NewDashBoard>
       <div className="w-full flex flex-col items-center ">
         <div>
-          <Piechart></Piechart>
-          {/* <Chart /> */}
-          <Barchart />
+          {/* <Piechart></Piechart>
+            {/* <Chart /> */}
+          {/* <Barchart /> */}
         </div>
 
         <div>
@@ -58,4 +58,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardOwner;
