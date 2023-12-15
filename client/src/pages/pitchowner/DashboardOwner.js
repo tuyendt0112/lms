@@ -31,7 +31,7 @@ const DashboardOwner = () => {
   }, []);
   return (
     <div>
-      <NewDashBoard></NewDashBoard>
+      {/* <NewDashBoard></NewDashBoard> */}
       <div className="w-full flex flex-col items-center ">
         <div>
           {/* <Piechart></Piechart>
