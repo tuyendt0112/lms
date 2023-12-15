@@ -1,4 +1,5 @@
 const Pitch = require('../models/pitch')
+const Brand = require('../models/brand')
 const asyncHandler = require('express-async-handler')
 const slugify = require('slugify')
 
@@ -7,6 +8,11 @@ const createPitch = asyncHandler(async (req, res) => {
     const thumb = req?.files?.thumb[0]?.path
     const images = req.files?.images?.map(el => el.path)
     if (!title || !description || !address || !price || !category || !owner || !brand) throw new Error('Missing inputs')
+    // const findingBrand = await Brand.find({ title: { $regex: brand, $options: "i" } })
+    const findingBrand = await Brand.find({ title: { $regex: brand, $options: "i" } })
+    console.log(findingBrand)
+    console.log("CHECK ID", findingBrand[0]?._id)
+    const checktest = await Brand.findByIdAndUpdate(findingBrand[0]?._id, { totalPitch: findingBrand[0]?.totalPitch + 1 }, { new: true })
     req.body.slug = slugify(title)
     if (thumb) req.body.thumb = thumb
     if (images) req.body.images = images

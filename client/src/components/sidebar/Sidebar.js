@@ -14,7 +14,7 @@ const Sidebar = () => {
           to={formattedCategory(el.title)}
           className={({ isActive }) => isActive
             ? 'bg-main text-white px-5 pt -[25px] pb-[20px] text-sm hover:text-main'
-            : 'px-5 pt-[25px] pb-[20px] text-sm hover:text-main'}
+            : 'px-5 pt-[25px] pb-[20px] text-sm hover:text-main hover:text-lg duration-100'}
         >
           {el.title}
         </NavLink>

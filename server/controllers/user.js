@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const Booking = require("../models/booking");
 const Pitch = require("../models/pitch");
+const Brand = require("../models/brand");
+const PitchCategory = require("../models/pitchCategory");
 
 const asyncHandler = require("express-async-handler");
 const {
@@ -391,6 +393,32 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const deleteUsers = asyncHandler(async (req, res) => {
   const { uid } = req.params;
+  const roleResponse = await User.findById(uid);
+  if (+roleResponse.role === 2) {
+    // delete brand
+
+    const deletedBrand = await Brand.findOne({ owner: uid });
+    if (deletedBrand) {
+      const deletedTitle = deletedBrand.title;
+      // update pitchCategory
+      const categories = deletedBrand.categories;
+      await Promise.all(
+        categories.map(async (categoryTitle) => {
+          // Tìm category có title tương ứng
+          await PitchCategory.findOneAndUpdate(
+            { brands: { $in: [deletedTitle] } },
+            { $pull: { brands: deletedTitle } },
+            { new: true }
+          );
+        })
+      );
+      await Brand.findByIdAndDelete({
+        _id: deletedBrand._id,
+      });
+      // delete Pitches
+      await Pitch.deleteMany({ brand: deletedBrand.title });
+    }
+  }
   const response = await User.findByIdAndDelete(uid);
   return res.status(200).json({
     success: response ? true : false,
@@ -555,7 +583,6 @@ module.exports = {
   updateUsersByAdmin,
   finalRegister,
   createUsers,
-
   BookingPitch,
   updateWishlist,
   getWishListById,

@@ -48,6 +48,10 @@ var brandSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        totalPitch: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true }
 );

@@ -37,15 +37,18 @@ const AreaChartMonth = ({ order }) => {
   };
 
   return (
-    <ResponsiveContainer width={300} height={300}>
-      <AreaChart data={generateMonthlyChartData()}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" />
-      </AreaChart>
-    </ResponsiveContainer>
+    <div className="w-full">
+      <ResponsiveContainer width={300} height={300}>
+        <AreaChart data={generateMonthlyChartData()}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8" />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+
   );
 };
 export default AreaChartMonth;

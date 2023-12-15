@@ -6,12 +6,16 @@ export const createSlug = string => string.toLowerCase().normalize("NFD").replac
 export const formatMoney = number => Number(number?.toFixed(1)).toLocaleString()
 
 export const renderStarFromNumber = (number, size) => {
-    if (!Number(number)) return;
-
     const integerPart = Math.floor(number);
     const decimalPart = number - integerPart;
 
     const stars = [];
+    if (!Number(number)) {
+        for (let i = 0; i < 5; i++) {
+            stars.push(<FaRegStar key={i} color="orange" size={size || 16} />);
+        }
+        return stars
+    }
 
     for (let i = 0; i < 5; i++) {
         if (i < integerPart) {
@@ -23,7 +27,6 @@ export const renderStarFromNumber = (number, size) => {
             stars.push(<FaRegStar key={i} color="orange" size={size || 16} />);
         }
     }
-
     return stars;
 };
 

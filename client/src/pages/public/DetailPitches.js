@@ -158,7 +158,7 @@ const DetailPitches = ({ isQuickView, data }) => {
         onClick={(e) => e.stopPropagation()}
         className={clsx(
           "bg-white m-auto mt-4 flex",
-          isQuickView ? "max-w-[900px] gap-16 p-8" : "w-main"
+          isQuickView ? "max-w-[1200px] gap-16 p-8" : "w-main"
         )}
       >
         <div
@@ -169,7 +169,7 @@ const DetailPitches = ({ isQuickView, data }) => {
             alt="pitch"
             className="border h-[458px] w-[470px] object-cover"
           />
-          <div className="w-[458px]">
+          <div className="w-[458px] ml-2">
             <Slider className="image-slider" {...settings}>
               {pitch?.images?.map((el) => (
                 <div className="flex w-full gap-2" key={el}>
@@ -246,9 +246,9 @@ const DetailPitches = ({ isQuickView, data }) => {
                 dateFormat="dd/MM/yyyy"
                 // minDate={new Date()}
                 placeholderText="Select Date Book"
-                // showPopperArrow={false}
-                // className="w-full border-none outline-none"
-                // popperClassName="datepicker-popper"
+              // showPopperArrow={false}
+              // className="w-full border-none outline-none"
+              // popperClassName="datepicker-popper"
               />
             </div>
           </div>
