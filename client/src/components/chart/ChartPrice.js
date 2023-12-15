@@ -16,6 +16,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 const ChartPrice = ({ order }) => {
@@ -47,11 +48,21 @@ const ChartPrice = ({ order }) => {
 
   return (
     <ResponsiveContainer width={300} height={300}>
-      <BarChart data={generateMonthlyRevenueChartData()}>
+      <BarChart data={generateMonthlyRevenueChartData()} margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" />
-        <YAxis />
+        <XAxis dataKey="month" style={{
+          fill: 'rgba(255,255,255)'
+        }} />
+        <YAxis style={{
+          fill: 'rgba(255,255,255)'
+        }} />
         <Tooltip />
+        <Legend />
         <Bar dataKey="revenue" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
