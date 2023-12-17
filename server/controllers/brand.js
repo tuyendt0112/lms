@@ -40,7 +40,7 @@ const createBrand = asyncHandler(async (req, res) => {
     createdBrand: response ? response : "Cannot create new brand",
   });
 });
-const getCateByBrand = asyncHandler(async (req, res) => {});
+const getCateByBrand = asyncHandler(async (req, res) => { });
 
 const getBrands = asyncHandler(async (req, res) => {
   const { brandId } = req.params;

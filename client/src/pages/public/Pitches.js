@@ -6,13 +6,6 @@ import Masonry from 'react-masonry-css'
 import { sorts } from 'ultils/constant'
 import useDebounce from 'hooks/useDebounce'
 
-const breakpointColumnsObj = {
-  default: 4,
-  1100: 3,
-  700: 2,
-  500: 1
-};
-
 const Pitches = () => {
   const navigate = useNavigate()
   const [pitches, setpitches] = useState(null)
@@ -110,7 +103,7 @@ const Pitches = () => {
         </div>
       </div>
       <div className='w-main border p-4 flex justify-between mt-8 m-auto gap-3'>
-        <div className='w-3/5 flex-auto flex flex-col gap-3'>
+        {/* <div className='w-3/5 flex-auto flex flex-col gap-3'>
           <span className='font-semibold text-sm'>Filter by</span>
           <div className="flex items-center gap-4">
             <SearchItem
@@ -125,7 +118,7 @@ const Pitches = () => {
               changeActiveFilter={changeActiveFilter}
             ></SearchItem>
           </div>
-        </div>
+        </div> */}
         <div className='w-1/5 flex flex-col gap-3  '>
           <span className='font-semibold text-sm '>Search</span>
           <input
@@ -145,7 +138,7 @@ const Pitches = () => {
       </div>
       <div className='mt-8 w-main m-auto'>
         <Masonry
-          breakpointCols={3}
+          breakpointCols={1}
           className="my-masonry-grid flex mx-[-10px] pl-3"
           columnClassName="my-masonry-grid_column">
           {pitches?.pitches?.map(el => (

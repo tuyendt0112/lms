@@ -22,14 +22,18 @@ import {
   ManageUser,
   ManageBrands,
   ManageCategory,
+  ManageDepartment,
+  ManageMajor,
+  CreateDepartment,
+  CreateMajor,
   CreateBrands,
   CreateCategory,
+
 } from "pages/admin";
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
   PitchOwnerLayout,
   ManagePitchOwn,
-  PersonalOwn,
   CreatePitchOwn,
   CreateOwnerBrand,
   ManageOwnerOrder,
@@ -103,8 +107,12 @@ function App() {
           <Route path={path.MANAGE_USER} element={<ManageUser />} />
           <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
           <Route path={path.MANAGE_BRANDS} element={<ManageBrands />} />
+          <Route path={path.MANAGE_DEPARTMENT} element={<ManageDepartment />} />
+          <Route path={path.MANAGE_MAJOR} element={<ManageMajor />} />
           <Route path={path.CREATE_CATEGORY} element={<CreateCategory />} />
           <Route path={path.CREATE_BRANDS} element={<CreateBrands />} />
+          <Route path={path.CREATE_DEPARTMENT} element={<CreateDepartment />} />
+          <Route path={path.CREATE_MAJOR} element={<CreateMajor />} />
         </Route>
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>

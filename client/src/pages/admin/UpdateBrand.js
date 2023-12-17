@@ -240,4 +240,4 @@ const UpdateBrand = ({ editBrand, render, setEditBrand }) => {
     );
 };
 
-export default memo(UpdateBrand);
+export default UpdateBrand;

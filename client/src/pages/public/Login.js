@@ -69,8 +69,8 @@ const Login = () => {
     const invalids = isRegister
       ? validate(payload, setinvalidFields)
       : isRegisterPitchOwner
-      ? validate(payload, setinvalidFields)
-      : validate(data, setinvalidFields);
+        ? validate(payload, setinvalidFields)
+        : validate(data, setinvalidFields);
     console.log(invalids);
     if (invalids === 0) {
       if (isRegister || isRegisterPitchOwner) {
@@ -94,7 +94,7 @@ const Login = () => {
                 userData: rs.userData,
               })
             );
-            navigate(`/${path.HOME}`);
+            navigate(`/${path.PITCHES}`);
           } else if (+rs.isBlocked === 1) {
             Swal.fire({
               title: " You are blocked",
@@ -189,8 +189,8 @@ const Login = () => {
             {isRegister
               ? "SIGN UP"
               : isRegisterPitchOwner
-              ? "PITCH OWNER "
-              : "SIGN IN"}
+                ? "PITCH OWNER "
+                : "SIGN IN"}
           </h2>
           <div className=" flex py-1">
             {!isRegister && !isRegisterPitchOwner && (
@@ -336,8 +336,8 @@ const Login = () => {
             {isRegister
               ? "Register"
               : isRegisterPitchOwner
-              ? "Register"
-              : "Login"}
+                ? "Register"
+                : "Login"}
           </Button>
           <div className="flex items-center justify-between my-2 w-full">
             {isRegister && !isRegisterPitchOwner && (

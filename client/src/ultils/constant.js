@@ -231,6 +231,38 @@ export const adminSideBar = [
       },
     ],
   },
+  {
+    id: 7,
+    type: "PARENT",
+    text: "Department",
+    icon: <SiBrandfolder />,
+    submenu: [
+      {
+        text: "Create Department",
+        path: `/${path.ADMIN}/${path.CREATE_DEPARTMENT}`,
+      },
+      {
+        text: "Manage Department",
+        path: `/${path.ADMIN}/${path.MANAGE_DEPARTMENT}`,
+      },
+    ],
+  },
+  {
+    id: 8,
+    type: "PARENT",
+    text: "Major",
+    icon: <SiBrandfolder />,
+    submenu: [
+      {
+        text: "Create Major",
+        path: `/${path.ADMIN}/${path.CREATE_MAJOR}`,
+      },
+      {
+        text: "Manage Major",
+        path: `/${path.ADMIN}/${path.MANAGE_MAJOR}`,
+      },
+    ],
+  },
 ];
 
 export const pitchOwnerSideBar = [

@@ -13,6 +13,7 @@ import icons from 'ultils/icons'
 import { toast } from 'react-toastify';
 import { apiUpdateWishlist } from 'apis'
 import { getCurrent } from 'store/user/asyncAction'
+import DOMPurify from 'dompurify';
 
 const { AiFillEye, AiOutlineMenu, BsFillSuitHeartFill } = icons
 const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
@@ -43,7 +44,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
     }
     return (
         <div className='w-full text-base pr-[10px]'>
-            <div className='w-full border p-[15px] flex flex-col items-center'
+            <div className='w-full border-2 p-[15px] flex flex-col items-center'
                 onClick={e => navigate(`/${pitchData?.category?.toLowerCase()}/${pitchData?.brand?.toLowerCase()}/${pitchData?._id}/${pitchData?.title}`)}
                 onMouseEnter={e => {
                     e.stopPropagation()
@@ -55,6 +56,7 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
                 }}
             >
                 <div className='w-full relative'>
+
                     {isShowOption && <div className='absolute bottom-[-10px] left-0 right-0 flex justify-center gap-2 animate-slide-top'>
                         <span onClick={(e) => handleClickOptions(e, 'QUICK_VIEW')}><SelectOption icon={<AiFillEye></AiFillEye>}></SelectOption></span>
                         <span onClick={(e) => handleClickOptions(e, 'MENU')}><SelectOption icon={<AiOutlineMenu></AiOutlineMenu>}></SelectOption></span>
@@ -70,19 +72,31 @@ const Pitch = ({ pitchData, isNew, normal, navigate, dispatch, pid }) => {
                             </SelectOption>
                         </span>
                     </div>}
-                    <img src={pitchData?.thumb || defaultt} alt="" className='w-[450px] h-[250px] object-cover'></img>
+                    <div className='flex start gap-2'>
+                        <img src={pitchData?.thumb || defaultt} alt="" className='w-[350px] h-[250px] object-cover'></img>
+                        <div className='flex flex-col gap-2'>
+                            <span className=' text-main font-bold'>{pitchData?.title}</span>
+                            {/* <span className='line-clamp-4'>{pitchData?.description}</span> */}
+                            <span
+                                className="text-sm line-clamp-[15] "
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(pitchData?.description[0]),
+                                }}
+                            ></span>
+                            {/* <span className=''>{`${formatMoney(pitchData?.price)} VNĐ`}</span> */}
+                        </div>
+                    </div>
                     {!normal && <img src={isNew ? label2 : label} alt='' className={`absolute top-[-20px] left-[-20px] ${isNew ? 'w-[70px]' : 'w-[70px]'} h-[50px] object-cover`}></img>}
                     {!normal && <span className='font-bold  top-[-12px] left-[-10px] text-white absolute'>{isNew ? 'New' : 'Best'}</span>}
                 </div>
-                <div className='flex flex-col mt-[15px] items-start gap-1 w-full'>
+                {/* <div className='flex flex-col mt-[15px] items-start gap-1 w-full'>
                     <span className='flex h-4'>{renderStarFromNumber(pitchData?.totalRatings)?.map((el, index) => (
                         <span key={index}>{el}</span>
-                    ))}</span>
-                    <span className='line-clamp-1'>{pitchData?.title}</span>
-                    <span className='text-main'>{`${formatMoney(pitchData?.price)} VNĐ`}</span>
-                </div>
+                    ))}</span> 
+
+                </div> */}
             </div>
-        </div>
+        </div >
     )
 }
 

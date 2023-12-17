@@ -28,6 +28,11 @@ const path = {
   MANAGE_BRANDS: "manage-brands",
   CREATE_BRANDS: "create-brands",
 
+  MANAGE_DEPARTMENT: "manage-department",
+  CREATE_DEPARTMENT: "create-department",
+  MANAGE_MAJOR: "manage-major",
+  CREATE_MAJOR: "create-major",
+
   // Member Route
   MEMBER: "member",
   PERSONAL: "personal",
