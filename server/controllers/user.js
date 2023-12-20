@@ -1,9 +1,4 @@
 const User = require("../models/user");
-const Booking = require("../models/booking");
-const Pitch = require("../models/pitch");
-const Brand = require("../models/brand");
-const PitchCategory = require("../models/pitchCategory");
-
 const asyncHandler = require("express-async-handler");
 const {
   generateAccessToken,
@@ -13,172 +8,40 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 const makeToken = require("uniqid");
-const { users } = require("../ultils/constant");
 
-const register = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname, role } = req.body;
-  if (!email || !password || !lastname || !firstname)
+const createUser = asyncHandler(async (req, res) => {
+  const { email, password, firstname, lastname, role, major, department } =
+    req.body;
+  if (
+    !email ||
+    !password ||
+    !lastname ||
+    !firstname ||
+    !role ||
+    !major ||
+    !department
+  )
     return res.status(400).json({
       success: false,
       mes: "Missing inputs",
     });
+  // not a student
+  if (!role === "3") {
+    req.body.schoolYear = "";
+  } else {
+    if (!req.body.codeId) throw new Error("Missing studentID");
+  }
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
   else {
-    const token = makeToken();
-    const emailedited = btoa(email) + "@" + token;
-    const newUser = await User.create({
-      email: emailedited,
-      password,
-      firstname,
-      lastname,
-      role,
-    });
-    if (newUser) {
-      const html = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Email Template</title>
-                <style>
-                    body {
-                        font-family: 'Helvetica', Arial, sans-serif;
-                        background-color: #f4f4f4;
-                        margin: 0;
-                        padding: 0;
-                    }
-      
-                    .container {
-                        max-width: 560px;
-                        margin: 0 auto;
-                        font-family: 'Helvetica', Arial, sans-serif;
-                    }
-      
-                    .header {
-                        background-color:#ffffff;
-                        color: #fff;
-                        text-align: center;
-                        padding: 20px;
-                    }
-      
-                    .logo img {
-                        max-width: 100%;
-                        height: auto;
-                    }
-      
-                    .content {
-                        background-color: #ffffff;
-                        color: #353740;
-                        padding: 40px 20px;
-                        text-align: left;
-                        line-height: 1.5;
-                    }
-      
-                    h1 {
-                        color: #202123;
-                        font-size: 32px;
-                        line-height: 40px;
-                        margin: 0 0 20px;
-                    }
-                    .code{
-                      font-size: 16px;
-                      line-height: 24px;
-                      margin: 0 0 24px;
-                      text-align: center; 
-                    }
-                    p {
-                      font-size: 16px;
-                      line-height: 24px;
-                      margin: 0 0 24px; 
-                  }
-      
-                    .cta-button {
-                        display: inline-block;
-                        text-decoration: none;
-                        background: #10a37f;
-                        border-radius: 3px;
-                        color: white;
-                        font-size: 16px;
-                        line-height: 24px;
-                        font-weight: 400;
-                        padding: 12px 20px 11px;
-                        margin: 0px;
-                    }
-      
-                    .footer {
-                        background: #ffffff;
-                        color: #6e6e80;
-                        padding: 0 20px 20px;
-                        font-size: 13px;
-                        line-height: 1.4;
-                        text-align: left;
-                    }
-                </style>
-            </head>
-            <body>
-                <center>
-                    <table class="container" style="width: 100%; border-collapse: collapse !important;">
-                        <tr>
-                            <td class="header">
-                                <img src="https://res.cloudinary.com/dmj8tbay1/image/upload/v1701228568/logo_ykataq.png" width="200" height="80" alt="BookingPitches Logo">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="content">
-                                <h1>Verify your email address</h1>
-                                <p>
-                                    To continue setting up your BookingPitches account, please verify that this is your email address.
-                                </p>
-                                <p class"code">
-                                    ${token}
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="footer">
-                                <p>
-                                    This link will expire in 1 minutes. If you did not make this request, please disregard this email.
-                                    For help, contact us through our <a href="" target="_blank">FAQ</a>.
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                </center>
-            </body>
-            </html>
-          `;
-      sendMail({ email, html, subject: "Complete Register Debug Boy" });
-    }
-    setTimeout(async () => {
-      await User.deleteOne({ email: emailedited });
-    }, [600000]);
-    return res.json({
+    const newUser = await User.create(req.body);
+    return res.status(200).json({
       success: newUser ? true : false,
       mes: newUser
-        ? "Please check your email to active account"
-        : "Something went wrong, please try again123123",
+        ? "create is sucessfully. Please login"
+        : "Something went wrong",
     });
   }
-});
-const finalRegister = asyncHandler(async (req, res) => {
-  //const cookie = req.cookies
-  const { token } = req.params;
-  const notActivedEmail = await User.findOne({
-    email: new RegExp(`${token}$`),
-  });
-  if (notActivedEmail) {
-    notActivedEmail.email = atob(notActivedEmail?.email?.split("@")[0]);
-    notActivedEmail.save();
-  }
-  return res.json({
-    success: notActivedEmail ? true : false,
-    mes: notActivedEmail
-      ? "Register is succesfully. Please go login"
-      : "Something went wrong, please try again",
-  });
 });
 
 const login = asyncHandler(async (req, res) => {
@@ -194,8 +57,7 @@ const login = asyncHandler(async (req, res) => {
   const response = await User.findOne({ email });
   if (response && (await response.isCorrectPassword(password))) {
     // tách password và role ra khỏi response
-    const { isBlocked, password, role, refreshToken, ...userData } =
-      response.toObject();
+    const { password, role, refreshToken, ...userData } = response.toObject();
     //tạo accesstoken
     const accessToken = generateAccessToken(response._id, role);
     //tạo refreshtoken
@@ -215,7 +77,6 @@ const login = asyncHandler(async (req, res) => {
       success: true,
       accessToken,
       userData,
-      isBlocked: isBlocked,
     });
   } else {
     throw new Error("Invalid credentials");
@@ -223,7 +84,10 @@ const login = asyncHandler(async (req, res) => {
 });
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-refreshToken -password");
+  const user = await User.findById(_id)
+    .select("-refreshToken -password ")
+    .populate("major", "title -_id")
+    .populate("department", "title -_id");
   return res.status(200).json({
     success: user ? true : false,
     rs: user ? user : "User not found",
@@ -334,9 +198,7 @@ const getUsers = asyncHandler(async (req, res) => {
     (matchedEl) => `$${matchedEl}`
   );
   const formartedQueries = JSON.parse(queryString);
-  // formartedQueries['$or'] = [
-  //     { role: { $regex: queries.q, $options: 'i' } }
-  // ]
+
   // Filtering
   // regex: tìm từ bắt đầu bằng chữ truyền vào
   // options: 'i' không phân biệt viết hoa viết thường
@@ -392,55 +254,27 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 const deleteUsers = asyncHandler(async (req, res) => {
-  const { uid } = req.params;
-  const roleResponse = await User.findById(uid);
-  if (+roleResponse.role === 2) {
-    // delete brand
-
-    const deletedBrand = await Brand.findOne({ owner: uid });
-    if (deletedBrand) {
-      const deletedTitle = deletedBrand.title;
-      // update pitchCategory
-      const categories = deletedBrand.categories;
-      await Promise.all(
-        categories.map(async (categoryTitle) => {
-          // Tìm category có title tương ứng
-          await PitchCategory.findOneAndUpdate(
-            { brands: { $in: [deletedTitle] } },
-            { $pull: { brands: deletedTitle } },
-            { new: true }
-          );
-        })
-      );
-      await Brand.findByIdAndDelete({
-        _id: deletedBrand._id,
-      });
-      // delete Pitches
-      await Pitch.deleteMany({ brand: deletedBrand.title });
-    }
-  }
-  const response = await User.findByIdAndDelete(uid);
+  const { _id } = req.query;
+  if (!_id) throw new Error("User not match");
+  const response = await User.findByIdAndDelete(_id);
   return res.status(200).json({
     success: response ? true : false,
-    mes: response
-      ? `User with email ${response.email} has been deleted `
+    deletedUser: response
+      ? `User with role ${response.role} has email ${response.email} , name : ${response.name} has been deleted `
       : "No user deleted",
   });
 });
 
 const updateUsers = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { firstname, lastname, email } = req.body;
-  const data = { firstname, lastname, email };
-  if (req.file) data.avatar = req.file.path;
   if (!_id || Object.keys(req.body).length === 0)
     throw new Error("Missing inputs");
-  const response = await User.findByIdAndUpdate(_id, data, {
+  const response = await User.findByIdAndUpdate(_id, req.body, {
     new: true,
   }).select("-password -role -refreshToken");
   return res.status(200).json({
     success: response ? true : false,
-    mes: response ? "Updated" : "Can not update",
+    updateddUsers: response ? response : "Can not update",
   });
 });
 const updateUsersByAdmin = asyncHandler(async (req, res) => {
@@ -451,126 +285,12 @@ const updateUsersByAdmin = asyncHandler(async (req, res) => {
   }).select("-password -role -refreshToken");
   return res.status(200).json({
     success: response ? true : false,
-    mes: response ? "Updated" : "Can not update",
-  });
-});
-const createUsers = asyncHandler(async (req, res) => {
-  const response = await User.create(users);
-  return res.status(200).json({
-    success: response ? true : false,
-    createUsers: response ? response : "Can not create list of user",
-  });
-});
-
-const BookingPitch = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-  const { pitchId, bookedDate, shifts, hours, total, namePitch } = req.body;
-  // check hour
-  if (
-    !pitchId ||
-    !bookedDate ||
-    !Array.isArray(shifts) ||
-    shifts.length === 0 ||
-    !Array.isArray(hours) ||
-    hours.length !== shifts.length
-  )
-    throw new Error("Missing input");
-  const currentDate = new Date();
-  // await Booking.deleteMany({ bookedDate: { $lt: currentDate } });
-
-  const bookingDate = new Date(bookedDate);
-
-  if (
-    bookingDate < currentDate.setHours(0, 0, 0, 0) ||
-    (bookingDate.getTime() === currentDate.setHours(0, 0, 0, 0) &&
-      hours.some((hour) => hour <= new Date().getHours()))
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "Cannot book a pitch for a past date or time.",
-    });
-  }
-
-  const existingBooking = await Booking.findOne({
-    pitch: pitchId,
-    bookedDate: bookedDate,
-    shift: { $in: shifts },
-  });
-  if (existingBooking) {
-    // Kiểm tra trường shift
-    return res.status(400).json({
-      success: false,
-      message: `This pitch already booked for the selected shift(s) ${shifts}}`,
-    });
-  } else {
-    const pitchInfo = await Pitch.findById(pitchId);
-    const bookingDataArray = shifts.map((shift, index) => ({
-      bookingBy: _id,
-      pitch: pitchId,
-      bookedDate: bookedDate,
-      shift: shift,
-      hour: hours[index], // Gán giá trị giờ tương ứng với mỗi shift
-      total: total,
-      owner: pitchInfo.owner,
-      namePitch: namePitch,
-    }));
-    const response = await Promise.all(
-      bookingDataArray.map((data) => Booking.create(data))
-    );
-    return res.status(200).json({
-      success: response.every(Boolean),
-      message: response.every(Boolean)
-        ? "Booked"
-        : "Something went wrong with one or more bookings.",
-    });
-  }
-});
-
-const updateWishlist = asyncHandler(async (req, res) => {
-  const { pid } = req.params;
-  const { _id } = req.user;
-  const user = await User.findById(_id);
-  const alreadyInWishlist = user.wishlist?.find((el) => el.toString() === pid);
-  if (alreadyInWishlist) {
-    const response = await User.findByIdAndUpdate(
-      _id,
-      {
-        $pull: { wishlist: pid },
-      },
-      { new: true }
-    );
-    return res.status(200).json({
-      success: response ? true : false,
-      message: response ? "Update your wishlist" : "Failed to update wishlist",
-    });
-  } else {
-    const response = await User.findByIdAndUpdate(
-      _id,
-      {
-        $push: { wishlist: pid },
-      },
-      { new: true }
-    );
-    return res.status(200).json({
-      success: response ? true : false,
-      message: response ? "Update your wishlist" : "Failed to update wishlist",
-    });
-  }
-});
-
-const getWishListById = asyncHandler(async (req, res) => {
-  const { uid } = req.params;
-  const user = await User.findById(uid)
-    .select("-refreshToken -password")
-    .populate("wishlist", "title thumb price category");
-  return res.status(200).json({
-    success: user ? true : false,
-    rs: user ? user : "User not found",
+    updatedUser: response ? response : "Can not update",
   });
 });
 
 module.exports = {
-  register,
+  createUser,
   login,
   getCurrent,
   refreshAccessToken,
@@ -581,9 +301,5 @@ module.exports = {
   deleteUsers,
   updateUsers,
   updateUsersByAdmin,
-  finalRegister,
-  createUsers,
-  BookingPitch,
-  updateWishlist,
-  getWishListById,
+  //   finalRegister,
 };

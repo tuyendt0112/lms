@@ -15,20 +15,15 @@ import {
 } from "pages/public";
 import {
   AdminLayout,
-  CreatePitch,
   DashBoard,
-  ManageOrder,
-  ManagePitch,
   ManageUser,
-  ManageBrands,
-  ManageCategory,
   ManageDepartment,
   ManageMajor,
   CreateDepartment,
   CreateMajor,
-  CreateBrands,
-  CreateCategory,
-
+  CreateUser,
+  CreateTopic,
+  ManageTopic,
 } from "pages/admin";
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
@@ -100,19 +95,15 @@ function App() {
         </Route>
         {/*Admin Route*/}
         <Route path={path.ADMIN} element={<AdminLayout />}>
-          <Route path={path.CREATE_PITCH} element={<CreatePitch />} />
           <Route path={path.DASHBOARD} element={<DashBoard />} />
-          <Route path={path.MANAGE_ORDER} element={<ManageOrder />} />
-          <Route path={path.MANAGE_PITCH} element={<ManagePitch />} />
+          <Route path={path.CREATE_USER} element={<CreateUser />} />
           <Route path={path.MANAGE_USER} element={<ManageUser />} />
-          <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
-          <Route path={path.MANAGE_BRANDS} element={<ManageBrands />} />
-          <Route path={path.MANAGE_DEPARTMENT} element={<ManageDepartment />} />
-          <Route path={path.MANAGE_MAJOR} element={<ManageMajor />} />
-          <Route path={path.CREATE_CATEGORY} element={<CreateCategory />} />
-          <Route path={path.CREATE_BRANDS} element={<CreateBrands />} />
+          <Route path={path.CREATE_TOPIC} element={<CreateTopic />} />
+          <Route path={path.MANAGE_TOPIC} element={<ManageTopic />} />
           <Route path={path.CREATE_DEPARTMENT} element={<CreateDepartment />} />
+          <Route path={path.MANAGE_DEPARTMENT} element={<ManageDepartment />} />
           <Route path={path.CREATE_MAJOR} element={<CreateMajor />} />
+          <Route path={path.MANAGE_MAJOR} element={<ManageMajor />} />
         </Route>
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>

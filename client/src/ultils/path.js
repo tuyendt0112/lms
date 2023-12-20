@@ -19,19 +19,18 @@ const path = {
   // Admin Route
   ADMIN: "admin",
   DASHBOARD: "dashboard",
-  MANAGE_USER: "manage-user",
-  MANAGE_PITCH: "manage-pitch",
-  MANAGE_ORDER: "manage-order",
-  CREATE_PITCH: "create-pitch",
-  MANAGE_CATEGORY: "manage-category",
-  CREATE_CATEGORY: "create-category",
-  MANAGE_BRANDS: "manage-brands",
-  CREATE_BRANDS: "create-brands",
 
-  MANAGE_DEPARTMENT: "manage-department",
-  CREATE_DEPARTMENT: "create-department",
-  MANAGE_MAJOR: "manage-major",
+  CREATE_USER: "create-user",
+  MANAGE_USER: "manage-user",
+
+  CREATE_TOPIC: "create-topic",
+  MANAGE_TOPIC: "manage-topic",
+
   CREATE_MAJOR: "create-major",
+  MANAGE_MAJOR: "manage-major",
+
+  CREATE_DEPARTMENT: "create-department",
+  MANAGE_DEPARTMENT: "manage-department",
 
   // Member Route
   MEMBER: "member",

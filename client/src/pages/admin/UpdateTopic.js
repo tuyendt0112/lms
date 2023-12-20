@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { apiUpdatePitch } from "apis";
 import { showModal } from "store/app/appSilice";
 
-const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
+const UpdateTopic = ({ editPitch, render, setEditPitch }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.app);
   const {
@@ -239,4 +239,4 @@ const UpdatePitch = ({ editPitch, render, setEditPitch }) => {
   );
 };
 
-export default memo(UpdatePitch);
+export default memo(UpdateTopic);

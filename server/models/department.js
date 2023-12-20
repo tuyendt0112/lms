@@ -11,7 +11,7 @@ var departmentSchema = new mongoose.Schema(
     },
     major: {
       type: Array,
-      // require: true
+      
     },
   },
   {

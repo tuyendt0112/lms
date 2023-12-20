@@ -1,15 +1,16 @@
-export { default as AdminLayout } from './AdminLayout'
-export { default as DashBoard } from './DashBoard'
-export { default as CreatePitch } from './CreatePitch'
-export { default as CreateBrands } from './CreateBrands'
-export { default as CreateCategory } from './CreateCategory'
-export { default as ManageOrder } from './ManageOrder'
-export { default as ManagePitch } from './ManagePitch'
-export { default as ManageUser } from './ManageUser'
-export { default as ManageCategory } from './ManageCategory'
-export { default as ManageBrands } from './ManageBrands'
-export { default as UpdateBrand } from './UpdateBrand'
-export { default as CreateDepartment } from './CreateDepartment'
-export { default as ManageDepartment } from './ManageDepartment'
-export { default as CreateMajor } from './CreateMajor'
-export { default as ManageMajor } from './ManageMajor'
+export { default as AdminLayout } from "./AdminLayout";
+export { default as DashBoard } from "./DashBoard";
+
+export { default as CreateUser } from "./CreateUser";
+export { default as ManageUser } from "./ManageUser";
+
+export { default as CreateTopic } from "./CreateTopic";
+export { default as ManageTopic } from "./ManageTopic";
+
+export { default as CreateDepartment } from "./CreateDepartment";
+export { default as ManageDepartment } from "./ManageDepartment";
+
+export { default as CreateMajor } from "./CreateMajor";
+export { default as ManageMajor } from "./ManageMajor";
+
+export { default as UpdateTopic } from "./UpdateTopic";

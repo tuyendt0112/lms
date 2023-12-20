@@ -17,7 +17,6 @@ import { validate } from "ultils/helper";
 import { Link } from "react-router-dom";
 import { showModal } from "store/app/appSilice";
 import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
-import { IoMdLock } from "react-icons/io";
 import { MdLock } from "react-icons/md";
 import { FaStepBackward } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
@@ -69,9 +68,9 @@ const Login = () => {
     const invalids = isRegister
       ? validate(payload, setinvalidFields)
       : isRegisterPitchOwner
-        ? validate(payload, setinvalidFields)
-        : validate(data, setinvalidFields);
-    console.log(invalids);
+      ? validate(payload, setinvalidFields)
+      : validate(data, setinvalidFields);
+
     if (invalids === 0) {
       if (isRegister || isRegisterPitchOwner) {
         dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
@@ -85,8 +84,7 @@ const Login = () => {
       } else {
         const rs = await apiLogin(data);
         if (rs.success) {
-          console.log("rs.isBlocked", rs.isBlocked);
-          if (+rs.isBlocked === 2) {
+          if (+rs.userData?.isBlocked === 2) {
             dispatch(
               login({
                 isLoggedIn: true,
@@ -189,8 +187,8 @@ const Login = () => {
             {isRegister
               ? "SIGN UP"
               : isRegisterPitchOwner
-                ? "PITCH OWNER "
-                : "SIGN IN"}
+              ? "PITCH OWNER "
+              : "SIGN IN"}
           </h2>
           <div className=" flex py-1">
             {!isRegister && !isRegisterPitchOwner && (
@@ -336,8 +334,8 @@ const Login = () => {
             {isRegister
               ? "Register"
               : isRegisterPitchOwner
-                ? "Register"
-                : "Login"}
+              ? "Register"
+              : "Login"}
           </Button>
           <div className="flex items-center justify-between my-2 w-full">
             {isRegister && !isRegisterPitchOwner && (

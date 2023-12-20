@@ -35,7 +35,6 @@ const {
   AiOutlineSafety,
   FaWifi,
   IoFastFood,
-  // AiFillEye,
   BsFillTelephoneFill,
 } = icons;
 const { BsReplyFill, BsShieldShaded, FaTty, AiFillGift } = icons;
@@ -80,7 +79,7 @@ export const pitchInforTabs = [
   },
   {
     id: 2,
-    name: "FACILITIES",
+    name: "OWNER",
     content: [
       "Chào mừng bạn đến với Sân , nơi đặt trích tâm lý tưởng cho mọi đội bóng và người yêu thể thao! Cơ sở vật chất tại đây đáp ứng mọi tiêu chuẩn và đảm bảo trải nghiệm tuyệt vời:",
       "🌱 Thảm Cỏ Mềm Mại: Sân Bóng Xanh tự hào sở hữu thảm cỏ mềm mại, tạo nên bề mặt chơi lý tưởng cho mọi trận đấu. Đây không chỉ là nơi thi đấu, mà còn là không gian xanh mát để đội bóng và người hâm mộ tận hưởng.",
@@ -170,88 +169,41 @@ export const adminSideBar = [
   },
   {
     id: 2,
-    type: "SINGLE",
-    text: "Manage users",
-    path: `/${path.ADMIN}/${path.MANAGE_USER}`,
-    icon: <MdGroups />,
+    type: "PARENT",
+    text: "User",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create User",
+        path: `/${path.ADMIN}/${path.CREATE_USER}`,
+      },
+      {
+        text: "Manage User",
+        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+      },
+    ],
   },
   {
     id: 3,
-    type: "SINGLE",
-    text: "Manage Orders",
-    path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
-    icon: <FaMoneyBill />,
+    type: "PARENT",
+    text: "Topic",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create Topic",
+        path: `/${path.ADMIN}/${path.CREATE_TOPIC}`,
+      },
+      {
+        text: "Manage Topic",
+        path: `/${path.ADMIN}/${path.MANAGE_TOPIC}`,
+      },
+    ],
   },
   {
     id: 4,
     type: "PARENT",
-    text: "Pitches",
-    icon: <FaProductHunt />,
-    submenu: [
-      {
-        text: "Create Pitch",
-        path: `/${path.ADMIN}/${path.CREATE_PITCH}`,
-      },
-      {
-        text: "Manage Pitches",
-        path: `/${path.ADMIN}/${path.MANAGE_PITCH}`,
-      },
-    ],
-  },
-
-  {
-    id: 5,
-    type: "PARENT",
-    text: "Category",
-    icon: <MdCategory />,
-    submenu: [
-      {
-        text: "Create Category",
-        path: `/${path.ADMIN}/${path.CREATE_CATEGORY}`,
-      },
-      {
-        text: "Manage Category",
-        path: `/${path.ADMIN}/${path.MANAGE_CATEGORY}`,
-      },
-    ],
-  },
-  {
-    id: 6,
-    type: "PARENT",
-    text: "Brands",
-    icon: <SiBrandfolder />,
-    submenu: [
-      {
-        text: "Create Brands",
-        path: `/${path.ADMIN}/${path.CREATE_BRANDS}`,
-      },
-      {
-        text: "Manage Brands",
-        path: `/${path.ADMIN}/${path.MANAGE_BRANDS}`,
-      },
-    ],
-  },
-  {
-    id: 7,
-    type: "PARENT",
-    text: "Department",
-    icon: <SiBrandfolder />,
-    submenu: [
-      {
-        text: "Create Department",
-        path: `/${path.ADMIN}/${path.CREATE_DEPARTMENT}`,
-      },
-      {
-        text: "Manage Department",
-        path: `/${path.ADMIN}/${path.MANAGE_DEPARTMENT}`,
-      },
-    ],
-  },
-  {
-    id: 8,
-    type: "PARENT",
     text: "Major",
-    icon: <SiBrandfolder />,
+    icon: <FaProductHunt />,
     submenu: [
       {
         text: "Create Major",
@@ -260,6 +212,22 @@ export const adminSideBar = [
       {
         text: "Manage Major",
         path: `/${path.ADMIN}/${path.MANAGE_MAJOR}`,
+      },
+    ],
+  },
+  {
+    id: 5,
+    type: "PARENT",
+    text: "Department",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create department",
+        path: `/${path.ADMIN}/${path.CREATE_DEPARTMENT}`,
+      },
+      {
+        text: "Manage department",
+        path: `/${path.ADMIN}/${path.MANAGE_DEPARTMENT}`,
       },
     ],
   },
@@ -334,11 +302,11 @@ export const roles = [
   },
   {
     code: 2,
-    value: "PitchOwner",
+    value: "Teacher",
   },
   {
     code: 3,
-    value: "User",
+    value: "Student",
   },
 ];
 
@@ -377,24 +345,24 @@ export const voteOptions = [
 ];
 
 export const shifts = [
-  { value: 1, time: "6:00 AM - 7:00 AM", hour: 6 },
-  { value: 2, time: "7:00 AM - 8:00 AM", hour: 7 },
-  { value: 3, time: "8:00 AM - 9:00 AM", hour: 8 },
-  { value: 4, time: "9:00 AM - 10:00 AM", hour: 9 },
-  { value: 5, time: "10:00 AM - 11:00 AM", hour: 10 },
-  { value: 6, time: "11:00 AM - 12:00 PM", hour: 11 },
-  { value: 7, time: "12:00 PM - 1:00 PM", hour: 12 },
-  { value: 8, time: "1:00 PM - 2:00 PM", hour: 13 },
-  { value: 9, time: "2:00 PM - 3:00 PM", hour: 14 },
-  { value: 10, time: "3:00 PM - 4:00 PM", hour: 15 },
-  { value: 11, time: "4:00 PM - 5:00 PM", hour: 16 },
-  { value: 12, time: "5:00 PM - 6:00 PM", hour: 17 },
-  { value: 13, time: "6:00 PM - 7:00 PM", hour: 18 },
-  { value: 14, time: "7:00 PM - 8:00 PM", hour: 19 },
-  { value: 15, time: "8:00 PM - 9:00 PM", hour: 20 },
-  { value: 16, time: "9:00 PM - 10:00 PM", hour: 21 },
-  { value: 17, time: "10:00 PM - 11:00 PM", hour: 22 },
-  { value: 18, time: "11:00 PM - 12:00 AM", hour: 23 },
+  { value: 1, time: "6:00 AM - 7:00 AM", hour: 6, isDisabled: false },
+  { value: 2, time: "7:00 AM - 8:00 AM", hour: 7, isDisabled: false },
+  { value: 3, time: "8:00 AM - 9:00 AM", hour: 8, isDisabled: false },
+  { value: 4, time: "9:00 AM - 10:00 AM", hour: 9, isDisabled: false },
+  { value: 5, time: "10:00 AM - 11:00 AM", hour: 10, isDisabled: false },
+  { value: 6, time: "11:00 AM - 12:00 PM", hour: 11, isDisabled: false },
+  { value: 7, time: "12:00 PM - 1:00 PM", hour: 12, isDisabled: false },
+  { value: 8, time: "1:00 PM - 2:00 PM", hour: 13, isDisabled: false },
+  { value: 9, time: "2:00 PM - 3:00 PM", hour: 14, isDisabled: false },
+  { value: 10, time: "3:00 PM - 4:00 PM", hour: 15, isDisabled: false },
+  { value: 11, time: "4:00 PM - 5:00 PM", hour: 16, isDisabled: false },
+  { value: 12, time: "5:00 PM - 6:00 PM", hour: 17, isDisabled: false },
+  { value: 13, time: "6:00 PM - 7:00 PM", hour: 18, isDisabled: false },
+  { value: 14, time: "7:00 PM - 8:00 PM", hour: 19, isDisabled: false },
+  { value: 15, time: "8:00 PM - 9:00 PM", hour: 20, isDisabled: false },
+  { value: 16, time: "9:00 PM - 10:00 PM", hour: 21, isDisabled: false },
+  { value: 17, time: "10:00 PM - 11:00 PM", hour: 22, isDisabled: false },
+  { value: 18, time: "11:00 PM - 12:00 AM", hour: 23, isDisabled: false },
 ];
 
 export const PitchExtraInformation = [
@@ -454,5 +422,6 @@ export const locations = [
   "Bình Tân",
   "Tân Bình",
   "Bình Chánh",
+  "Tân Phú",
   // Thêm thông tin cho các quận/huyện khác ở Tp. Hồ Chí Minh
 ];
