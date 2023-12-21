@@ -97,8 +97,25 @@ const deleteMajor = asyncHandler(async (req, res) => {
     message: response ? "Deleted" : "Can not delete major",
   });
 });
+const updateMajor = asyncHandler(async (req, res) => {
+  const { mid, title } = req.body;
+  console.log(req.body);
+  console.log("mid", mid);
+  const response = await Major.findByIdAndUpdate(
+    mid,
+    { title: title },
+    {
+      new: true,
+    }
+  );
+  return res.json({
+    success: response ? true : false,
+    message: response ? "Updated" : "Fail !!!",
+  });
+});
 module.exports = {
   createMajor,
   getAllMajor,
   deleteMajor,
+  updateMajor,
 };

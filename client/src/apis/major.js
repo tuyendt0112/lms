@@ -19,3 +19,9 @@ export const apiDeleteMajor = (mid) =>
     url: "/major/" + mid,
     method: "delete",
   });
+export const apiUpdateMajor = (data) =>
+  axios({
+    url: "/major",
+    method: "put",
+    data,
+  });
