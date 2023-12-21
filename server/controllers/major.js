@@ -29,7 +29,6 @@ const createMajor = asyncHandler(async (req, res) => {
     createdMajor: response ? response : "Cannot create new Major",
   });
 });
-
 const getAllMajor = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
   // tách các trường đặc biệt ra khỏi query
@@ -90,25 +89,16 @@ const getAllMajor = asyncHandler(async (req, res) => {
     });
   });
 });
-// const deleteMajor = asyncHandler(async (req, res) => {
-//   const { mid } = req.params;
-//   const response = await Major.findByIdAndDelete(mid);
-//   return res.json({
-//     success: response ? true : false,
-//     message: response ? "Deleted" : "Can not delete major",
-//   });
-// });
-
 const deleteMajor = asyncHandler(async (req, res) => {
   const { mid } = req.params;
 
   // find old title
   const deletedMajor = await Major.findById(mid);
   // delete topic
-  // const deletedTopic = await Topic.findOne({ major: deletedMajor.title });
-  // if (deletedTopic) {
-  //   await Topic.deleteMany({ major: deletedMajor.title });
-  // }
+  const deletedTopic = await Topic.findOne({ major: deletedMajor.title });
+  if (deletedTopic) {
+    await Topic.deleteMany({ major: deletedMajor.title });
+  }
   const deletedTitle = deletedMajor.title;
   // update department
   const departments = deletedMajor.departments;
@@ -129,7 +119,6 @@ const deleteMajor = asyncHandler(async (req, res) => {
     message: response ? "Deleted" : "Cannot delete major",
   });
 });
-
 const updateMajor = asyncHandler(async (req, res) => {
   const { mid, title } = req.body;
   const newTitle = title;
@@ -146,16 +135,16 @@ const updateMajor = asyncHandler(async (req, res) => {
   //   req.body.departments = DepartmentArray;
   // }
 
-  // if (req.body && req.body?.title) {
-  //   // update slug
-  //   const updatedTopic = await Topic.findOne({ major: oldTitle });
-  //   if (updatedTopic) {
-  //     await Topic.updateMany(
-  //       { major: oldTitle }, // Điều kiện để chỉnh sửa
-  //       { $set: { major: req.body?.title } } // Giá trị mới
-  //     );
-  //   }
-  // }
+  if (req.body && req.body?.title) {
+    // update slug
+    const updatedTopic = await Topic.findOne({ major: oldTitle });
+    if (updatedTopic) {
+      await Topic.updateMany(
+        { major: oldTitle }, // Điều kiện để chỉnh sửa
+        { $set: { major: req.body?.title } } // Giá trị mới
+      );
+    }
+  }
 
   const updatedMajor = await Major.findByIdAndUpdate(
     mid,

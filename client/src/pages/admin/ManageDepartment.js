@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { InputForm, Pagination } from "components";
 import { useForm } from "react-hook-form";
-import { apiGetAllDepartment, apiDeleteMajor, apiDeleteDepartment } from "apis";
+import { apiGetAllDepartment, apiDeleteDepartment } from "apis";
 import {
   useSearchParams,
   createSearchParams,

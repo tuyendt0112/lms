@@ -1,6 +1,7 @@
 const Major = require("../models/major");
 const Department = require("../models/department");
 const asyncHandler = require("express-async-handler");
+const department = require("../models/department");
 
 const createDepartment = asyncHandler(async (req, res) => {
   const response = await Department.create(req.body);
@@ -80,10 +81,12 @@ const deleteDepartment = asyncHandler(async (req, res) => {
   // find old title
   const deletedDepartment = await Department.findById(did);
   // delete topic
-  // const deletedTopic = await Topic.findOne({ major: deletedMajor.title });
-  // if (deletedTopic) {
-  //   await Topic.deleteMany({ major: deletedMajor.title });
-  // }
+  const deletedTopic = await Topic.findOne({
+    department: deletedDepartment.title,
+  });
+  if (deletedTopic) {
+    await Topic.deleteMany({ department: deletedDepartment.title });
+  }
   const deletedTitle = deletedDepartment.title;
   // update department
   const majors = deletedDepartment.majors;
@@ -121,16 +124,16 @@ const updateDepartment = asyncHandler(async (req, res) => {
   //   req.body.departments = DepartmentArray;
   // }
 
-  // if (req.body && req.body?.title) {
-  //   // update slug
-  //   const updatedTopic = await Topic.findOne({ major: oldTitle });
-  //   if (updatedTopic) {
-  //     await Topic.updateMany(
-  //       { major: oldTitle }, // Điều kiện để chỉnh sửa
-  //       { $set: { major: req.body?.title } } // Giá trị mới
-  //     );
-  //   }
-  // }
+  if (req.body && req.body?.title) {
+    // update slug
+    const updatedTopic = await Topic.findOne({ department: oldTitle });
+    if (updatedTopic) {
+      await Topic.updateMany(
+        { department: oldTitle }, // Điều kiện để chỉnh sửa
+        { $set: { department: newTitle } } // Giá trị mới
+      );
+    }
+  }
 
   const updatedDepartment = await Department.findByIdAndUpdate(
     did,
@@ -155,10 +158,19 @@ const updateDepartment = asyncHandler(async (req, res) => {
     message: updatedDepartment ? "Updated" : "Cannot update department",
   });
 });
+const getMajorByTitle = asyncHandler(async (req, res) => {
+  const { title } = req.params;
+  const response = await Department.findOne({ title: title });
+  return res.status(200).json({
+    success: response ? true : false,
+    data: response ? response : "Cannot get major",
+  });
+});
 
 module.exports = {
   createDepartment,
   getDepartments,
   updateDepartment,
   deleteDepartment,
+  getMajorByTitle,
 };

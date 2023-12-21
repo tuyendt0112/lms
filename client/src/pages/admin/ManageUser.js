@@ -202,10 +202,10 @@ const ManageUser = () => {
                         register={register}
                         fullWidth
                         errors={errors}
-                        id={"ID"}
+                        id={"codeId"}
                         placeholder="ID"
                         validate={{
-                          required: "Enter your ID",
+                          required: "Enter ID",
                           //   pattern: {
                           //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                           //     message: "Invalid email address",

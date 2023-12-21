@@ -10,6 +10,7 @@ var topicSchema = new mongoose.Schema(
     },
     topicId: {
       type: String,
+      uppercase: true,
     },
     instructors: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     students: [{ type: mongoose.Types.ObjectId, ref: "User" }],
@@ -17,19 +18,15 @@ var topicSchema = new mongoose.Schema(
     //   type: Array,
     // },
     major: {
-      type: mongoose.Types.ObjectId,
-      ref: "Major",
-      require: true,
+      type: String,
     },
     department: {
-      type: mongoose.Types.ObjectId,
-      ref: "Department",
-      require: true,
+      type: String,
     },
-    timeEnd: {
+    DateEnd: {
       type: Date,
     },
-    timeStart: {
+    DateStart: {
       type: Date,
     },
     files: {

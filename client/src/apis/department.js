@@ -31,3 +31,8 @@ export const apiUpdateDepartment = (data) =>
     method: "put",
     data,
   });
+export const apiGetMajorByDepartment = (title) =>
+  axios({
+    url: "/department/" + title,
+    method: "get",
+  });
