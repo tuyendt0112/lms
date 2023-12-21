@@ -3,9 +3,8 @@ const Department = require("../models/department");
 const asyncHandler = require("express-async-handler");
 
 const createMajor = asyncHandler(async (req, res) => {
-  const { title, department, } = req.body;
-  if (!title || !department)
-    throw new Error("Missing inputs!!");
+  const { title, department } = req.body;
+  if (!title || !department) throw new Error("Missing inputs!!");
 
   const response = await Major.create(req.body);
   if (response) {
@@ -43,9 +42,6 @@ const getAllMajor = asyncHandler(async (req, res) => {
     (matchedEl) => `$${matchedEl}`
   );
   const formartedQueries = JSON.parse(queryString);
-  // formartedQueries['$or'] = [
-  //     { role: { $regex: queries.q, $options: 'i' } }
-  // ]
   // Filtering
   // regex: tìm từ bắt đầu bằng chữ truyền vào
   // options: 'i' không phân biệt viết hoa viết thường
@@ -55,9 +51,7 @@ const getAllMajor = asyncHandler(async (req, res) => {
 
   if (req.query.q) {
     delete formartedQueries.q;
-    formartedQueries["$or"] = [
-      { title: { $regex: queries.q, $options: "i" } },
-    ];
+    formartedQueries["$or"] = [{ title: { $regex: queries.q, $options: "i" } }];
   }
   let queryCommand = Major.find(formartedQueries);
 
@@ -95,7 +89,16 @@ const getAllMajor = asyncHandler(async (req, res) => {
     });
   });
 });
+const deleteMajor = asyncHandler(async (req, res) => {
+  const { mid } = req.params;
+  const response = await Major.findByIdAndDelete(mid);
+  return res.json({
+    success: response ? true : false,
+    message: response ? "Deleted" : "Can not delete major",
+  });
+});
 module.exports = {
   createMajor,
-  getAllMajor
+  getAllMajor,
+  deleteMajor,
 };

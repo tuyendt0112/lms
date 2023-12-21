@@ -12,5 +12,6 @@ export { default as ManageDepartment } from "./ManageDepartment";
 
 export { default as CreateMajor } from "./CreateMajor";
 export { default as ManageMajor } from "./ManageMajor";
+export { default as UpdateMajor } from "./UpdateMajor";
 
 export { default as UpdateTopic } from "./UpdateTopic";

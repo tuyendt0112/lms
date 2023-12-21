@@ -1,14 +1,21 @@
 import axios from "../axios";
 
-export const apiCreateMajor = (data) => axios({
+export const apiCreateMajor = (data) =>
+  axios({
     url: "/major/",
     method: "post",
-    data
-});
+    data,
+  });
 
 export const apiGetAllMajor = (params) =>
-    axios({
-        url: "/major/all/",
-        method: "get",
-        params,
-    });
+  axios({
+    url: "/major/all/",
+    method: "get",
+    params,
+  });
+
+export const apiDeleteMajor = (mid) =>
+  axios({
+    url: "/major/" + mid,
+    method: "delete",
+  });

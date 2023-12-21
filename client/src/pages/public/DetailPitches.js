@@ -10,10 +10,10 @@ import {
   Map,
 } from "components";
 import Slider from "react-slick";
-import ReactImageMagnify from "react-image-magnify";
+
 import { formatMoney, formatPrice, renderStarFromNumber } from "ultils/helper";
 import { pitchExtraInformation } from "ultils/constant";
-import DOMPurify, { clearConfig } from "dompurify";
+import DOMPurify from "dompurify";
 import clsx from "clsx";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
