@@ -130,7 +130,7 @@ const ManageMajor = () => {
               <td className="text-center py-2">{el.title}</td>
               <td className="text-center py-2">
                 <div className="flex flex-col items-center justify-center">
-                  {el.department.map((dp, index) => (
+                  {el.departments?.map((dp, index) => (
                     <sm key={index + 1}>{dp}</sm>
                   ))}
                 </div>

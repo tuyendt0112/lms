@@ -9,7 +9,7 @@ var majorSchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
-    department: {
+    departments: {
       type: Array,
     },
   },

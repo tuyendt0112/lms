@@ -1,31 +1,32 @@
 const Major = require("../models/major");
+const Topic = require("../models//topic");
 const Department = require("../models/department");
 const asyncHandler = require("express-async-handler");
 
 const createMajor = asyncHandler(async (req, res) => {
-  const { title, department } = req.body;
-  if (!title || !department) throw new Error("Missing inputs!!");
+  const { title, departments } = req.body;
+  if (!title || !departments) throw new Error("Missing inputs!!");
 
   const response = await Major.create(req.body);
   if (response) {
-    // Chờ cho brand được tạo xong rồi mới thực hiện cập nhật category
+    // Chờ cho major được tạo xong rồi mới thực hiện cập nhật department
     await Promise.all(
-      department.map(async (departmentTitle) => {
-        // Tìm category có title tương ứng
-        const departmnet = await Department.findOne({
+      departments.map(async (departmentTitle) => {
+        // Tìm department có title tương ứng trong data
+        const departmentRs = await Department.findOne({
           title: departmentTitle,
         });
-        if (departmnet) {
-          // Cập nhật mảng brands của category
-          departmnet.major.push(response.title);
-          await departmnet.save();
+        if (departmentRs) {
+          // Cập nhật mảng majors của department
+          departmentRs.majors.push(response.title);
+          await departmentRs.save();
         }
       })
     );
   }
   return res.status(200).json({
     success: response ? true : false,
-    createdMajor: response ? response : "Cannot create new brand",
+    createdMajor: response ? response : "Cannot create new Major",
   });
 });
 
@@ -89,30 +90,97 @@ const getAllMajor = asyncHandler(async (req, res) => {
     });
   });
 });
+// const deleteMajor = asyncHandler(async (req, res) => {
+//   const { mid } = req.params;
+//   const response = await Major.findByIdAndDelete(mid);
+//   return res.json({
+//     success: response ? true : false,
+//     message: response ? "Deleted" : "Can not delete major",
+//   });
+// });
+
 const deleteMajor = asyncHandler(async (req, res) => {
   const { mid } = req.params;
+
+  // find old title
+  const deletedMajor = await Major.findById(mid);
+  // delete topic
+  // const deletedTopic = await Topic.findOne({ major: deletedMajor.title });
+  // if (deletedTopic) {
+  //   await Topic.deleteMany({ major: deletedMajor.title });
+  // }
+  const deletedTitle = deletedMajor.title;
+  // update department
+  const departments = deletedMajor.departments;
+  await Promise.all(
+    departments.map(async (categoryTitle) => {
+      // Tìm category có title tương ứng
+      const updatedDepartment = await Department.findOneAndUpdate(
+        { majors: { $in: [deletedTitle] } },
+        { $pull: { majors: deletedTitle } },
+        { new: true }
+      );
+    })
+  );
+
   const response = await Major.findByIdAndDelete(mid);
-  return res.json({
+  return res.status(200).json({
     success: response ? true : false,
-    message: response ? "Deleted" : "Can not delete major",
+    message: response ? "Deleted" : "Cannot delete major",
   });
 });
+
 const updateMajor = asyncHandler(async (req, res) => {
   const { mid, title } = req.body;
-  console.log(req.body);
-  console.log("mid", mid);
-  const response = await Major.findByIdAndUpdate(
+  const newTitle = title;
+  const oldMajor = await Major.findById(mid);
+  const oldTitle = oldMajor.title;
+  // const oldDepartments = oldMajor.departments;
+
+  // if (req.body.departments === "null") {
+  //   req.body.departments = oldDepartments;
+  // } else if (typeof req.body.departments === "string") {
+  //   const Cate = req.body.departments;
+  //   let DepartmentArray = [];
+  //   DepartmentArray = Cate.split(",");
+  //   req.body.departments = DepartmentArray;
+  // }
+
+  // if (req.body && req.body?.title) {
+  //   // update slug
+  //   const updatedTopic = await Topic.findOne({ major: oldTitle });
+  //   if (updatedTopic) {
+  //     await Topic.updateMany(
+  //       { major: oldTitle }, // Điều kiện để chỉnh sửa
+  //       { $set: { major: req.body?.title } } // Giá trị mới
+  //     );
+  //   }
+  // }
+
+  const updatedMajor = await Major.findByIdAndUpdate(
     mid,
-    { title: title },
+    { title: newTitle },
     {
       new: true,
     }
   );
-  return res.json({
-    success: response ? true : false,
-    message: response ? "Updated" : "Fail !!!",
+
+  const departmentsList = updatedMajor?.departments;
+  await Promise.all(
+    departmentsList?.map(async (departmentTitle) => {
+      const updatedDepartment = await Department.findOneAndUpdate(
+        { majors: { $all: [oldTitle] } },
+        { $set: { "majors.$": updatedMajor.title } },
+        { new: true }
+      );
+    })
+  );
+  return res.status(200).json({
+    success: updatedMajor ? true : false,
+    message: updatedMajor ? "Updated" : "Cannot update major",
   });
 });
+
 module.exports = {
   createMajor,
   getAllMajor,

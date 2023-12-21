@@ -16,16 +16,16 @@ const CreateDepartment = () => {
     handleSubmit,
     watch,
   } = useForm();
-  const handleCreatePitch = async (data) => {
+  const handleCreateDepartment = async (data) => {
     dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
     const response = await apiCreateDepartment(data);
     dispatch(showModal({ isShowModal: false, modalChildren: null }));
     if (response.success) {
       reset();
 
-      toast.success(response.mes);
+      toast.success(response.message);
     } else {
-      toast.error(response.mes);
+      toast.error(response.message);
     }
   };
 
@@ -35,7 +35,7 @@ const CreateDepartment = () => {
         <h1 className="text-3xl font-bold tracking-tight">Create Department</h1>
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit(handleCreatePitch)}>
+        <form onSubmit={handleSubmit(handleCreateDepartment)}>
           <div className="w-full pt-5 pb-10 flex gap-4">
             <InputForm
               label="Name department"

@@ -4,7 +4,7 @@ import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { apiCreateMajor, apiGetDepartment } from "apis";
+import { apiCreateMajor, apiGetAllDepartment } from "apis";
 import { showModal } from "store/app/appSilice";
 
 const CreateMajor = () => {
@@ -18,7 +18,7 @@ const CreateMajor = () => {
   const handleCreateMajor = async (data) => {
     const finalPayload = {
       ...data,
-      department: selectedDepartment,
+      departments: selectedDepartment,
     };
     console.log(finalPayload);
     const formData = new FormData();
@@ -32,7 +32,7 @@ const CreateMajor = () => {
     dispatch(showModal({ isShowModal: false, modalChildren: null }));
     if (response.success) {
       reset();
-      // console.log("CHECK NOTIFICATION");
+
       toast.success("Create Major Success !");
     } else {
       toast.error("Fail!!!");
@@ -42,8 +42,8 @@ const CreateMajor = () => {
   const [departmentData, setDepartmentData] = useState(null);
 
   const fetchDepartment = async () => {
-    const response = await apiGetDepartment();
-    if (response.success) setDepartmentData(response.department);
+    const response = await apiGetAllDepartment();
+    if (response.success) setDepartmentData(response.Departments);
   };
   useEffect(() => {
     fetchDepartment();
