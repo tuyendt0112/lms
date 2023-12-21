@@ -12,7 +12,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import useDebounce from "hooks/useDebounce";
-import UpdatePitch from "pages/admin/UpdateTopic";
+import UpdatePitch from "pages/admin/topic/UpdateTopic";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";

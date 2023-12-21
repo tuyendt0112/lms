@@ -10,8 +10,8 @@ const crypto = require("crypto");
 const makeToken = require("uniqid");
 
 const createUser = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname, role, major, department } =
-    req.body;
+  const { email, password, firstname, lastname, role, major, department, schoolyear } = req.body;
+  console.log(req.body)
   if (
     !email ||
     !password ||
@@ -19,17 +19,19 @@ const createUser = asyncHandler(async (req, res) => {
     !firstname ||
     !role ||
     !major ||
-    !department
+    !department ||
+    !schoolyear
   )
     return res.status(400).json({
       success: false,
-      mes: "Missing inputs",
+      mes: "Missing input",
     });
   // not a student
-  if (!role === "3") {
+  if (!+role === 4) {
     req.body.schoolYear = "";
-  } else {
-    if (!req.body.codeId) throw new Error("Missing studentID");
+  }
+  else {
+    if (!req.body.codeid) throw new Error("Missing studentID");
   }
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
@@ -38,7 +40,7 @@ const createUser = asyncHandler(async (req, res) => {
     return res.status(200).json({
       success: newUser ? true : false,
       mes: newUser
-        ? "create is sucessfully. Please login"
+        ? "Create is sucessfully"
         : "Something went wrong",
     });
   }

@@ -37,26 +37,24 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: [1, 2, 3], // 1 admin 2 teacher 3 student
-      default: 3,
+      enum: [1, 2, 3, 4], // 1 admin 2 tbm 3 teacher 4 student
+      default: 4,
     },
     phoneNumber: {
       type: String,
     },
-    position: {
+    // position: {
+    //   type: String,
+    //   required: true,
+    //   default: "None",
+    // },
+    major: {
       type: String,
       required: true,
-      default: "None",
-    },
-    major: {
-      type: mongoose.Types.ObjectId,
-      ref: "Major",
-      require: true,
     },
     department: {
-      type: mongoose.Types.ObjectId,
-      ref: "Department",
-      require: true,
+      type: String,
+      required: true,
     },
     isBlocked: {
       type: String,

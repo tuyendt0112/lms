@@ -20,14 +20,20 @@ const path = {
   ADMIN: "admin",
   DASHBOARD: "dashboard",
 
-  CREATE_USER: "create-user",
-  MANAGE_USER: "manage-user",
+  CREATE_STUDENT: "create-student",
+  MANAGE_STUDENT: "manage-student",
+
+  CREATE_LECTURER: "create-lecturer",
+  MANAGE_LECTURER: "manage-lecturer",
 
   CREATE_TOPIC: "create-topic",
   MANAGE_TOPIC: "manage-topic",
 
   CREATE_MAJOR: "create-major",
   MANAGE_MAJOR: "manage-major",
+
+  CREATE_SCHOOLYEAR: "create-schoolyear",
+  MANAGE_SCHOOLYEAR: "manage-schoolyear",
 
   CREATE_DEPARTMENT: "create-department",
   MANAGE_DEPARTMENT: "manage-department",

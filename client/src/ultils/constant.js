@@ -159,32 +159,49 @@ const {
   MdCategory,
   SiBrandfolder,
 } = icons;
+
 export const adminSideBar = [
-  {
-    id: 1,
-    type: "SINGLE",
-    text: "Dashboard",
-    path: `/${path.ADMIN}/${path.DASHBOARD}`,
-    icon: <MdSpaceDashboard />,
-  },
+  // {
+  //   id: 1,
+  //   type: "SINGLE",
+  //   text: "Dashboard",
+  //   path: `/${path.ADMIN}/${path.DASHBOARD}`,
+  //   icon: <MdSpaceDashboard />,
+  // },
   {
     id: 2,
     type: "PARENT",
-    text: "User",
+    text: "Student",
     icon: <FaProductHunt />,
     submenu: [
       {
-        text: "Create User",
-        path: `/${path.ADMIN}/${path.CREATE_USER}`,
+        text: "Create Student",
+        path: `/${path.ADMIN}/${path.CREATE_STUDENT}`,
       },
       {
-        text: "Manage User",
-        path: `/${path.ADMIN}/${path.MANAGE_USER}`,
+        text: "Manage Student",
+        path: `/${path.ADMIN}/${path.MANAGE_STUDENT}`,
       },
     ],
   },
   {
     id: 3,
+    type: "PARENT",
+    text: "Lecturer",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create Lecturer",
+        path: `/${path.ADMIN}/${path.CREATE_LECTURER}`,
+      },
+      {
+        text: "Manage Lecturer",
+        path: `/${path.ADMIN}/${path.MANAGE_LECTURER}`,
+      },
+    ],
+  },
+  {
+    id: 4,
     type: "PARENT",
     text: "Topic",
     icon: <FaProductHunt />,
@@ -200,7 +217,7 @@ export const adminSideBar = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     type: "PARENT",
     text: "Major",
     icon: <FaProductHunt />,
@@ -216,7 +233,7 @@ export const adminSideBar = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     type: "PARENT",
     text: "Department",
     icon: <FaProductHunt />,
@@ -228,6 +245,22 @@ export const adminSideBar = [
       {
         text: "Manage department",
         path: `/${path.ADMIN}/${path.MANAGE_DEPARTMENT}`,
+      },
+    ],
+  },
+  {
+    id: 7,
+    type: "PARENT",
+    text: "School Year",
+    icon: <FaProductHunt />,
+    submenu: [
+      {
+        text: "Create School Year",
+        path: `/${path.ADMIN}/${path.CREATE_SCHOOLYEAR}`,
+      },
+      {
+        text: "Manage School Year",
+        path: `/${path.ADMIN}/${path.MANAGE_SCHOOLYEAR}`,
       },
     ],
   },
@@ -396,7 +429,6 @@ export const PitchExtraInformation = [
     sub: "Available Food and Drink",
     icon: <IoFastFood />,
   },
-
   {
     id: 6,
     title: "Hotline",

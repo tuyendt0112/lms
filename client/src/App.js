@@ -15,15 +15,16 @@ import {
 } from "pages/public";
 import {
   AdminLayout,
-  DashBoard,
-  ManageUser,
+  ManageStudent,
   ManageDepartment,
   ManageMajor,
   CreateDepartment,
   CreateMajor,
-  CreateUser,
+  CreateStudent,
   CreateTopic,
   ManageTopic,
+  CreateSchoolYear,
+  ManageSchoolYear,
 } from "pages/admin";
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
@@ -95,11 +96,12 @@ function App() {
         </Route>
         {/*Admin Route*/}
         <Route path={path.ADMIN} element={<AdminLayout />}>
-          <Route path={path.DASHBOARD} element={<DashBoard />} />
-          <Route path={path.CREATE_USER} element={<CreateUser />} />
-          <Route path={path.MANAGE_USER} element={<ManageUser />} />
+          <Route path={path.CREATE_STUDENT} element={<CreateStudent />} />
+          <Route path={path.MANAGE_STUDENT} element={<ManageStudent />} />
           <Route path={path.CREATE_TOPIC} element={<CreateTopic />} />
           <Route path={path.MANAGE_TOPIC} element={<ManageTopic />} />
+          <Route path={path.CREATE_SCHOOLYEAR} element={<CreateSchoolYear />} />
+          <Route path={path.MANAGE_SCHOOLYEAR} element={<ManageSchoolYear />} />
           <Route path={path.CREATE_DEPARTMENT} element={<CreateDepartment />} />
           <Route path={path.MANAGE_DEPARTMENT} element={<ManageDepartment />} />
           <Route path={path.CREATE_MAJOR} element={<CreateMajor />} />

@@ -22,7 +22,7 @@ import Swal from "sweetalert2";
 import icons from "ultils/icons";
 
 const { FaRegEdit, MdDeleteForever, FaSave, TiCancel } = icons;
-const ManageUser = () => {
+const ManageStudent = () => {
   const [open, setOpen] = useOutletContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,6 +41,7 @@ const ManageUser = () => {
     const response = await apiGetUsers({
       ...params,
       limit: process.env.REACT_APP_PITCH_LIMIT,
+      role: 4,
     });
     if (response.success) setUsers(response);
   };
@@ -359,4 +360,4 @@ const ManageUser = () => {
   );
 };
 
-export default ManageUser;
+export default ManageStudent;

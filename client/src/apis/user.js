@@ -135,3 +135,10 @@ export const apiGetOrderByAdmin = () =>
         url: "/booking/all-order/",
         method: "get",
     });
+
+export const apiCreateUserByAdmin = (data) =>
+    axios({
+        url: "/user/create/",
+        method: "post",
+        data
+    });
