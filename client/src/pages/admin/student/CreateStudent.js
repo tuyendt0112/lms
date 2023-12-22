@@ -15,8 +15,8 @@ const CreateStudent = () => {
   const [Users, setUsers] = useState(null);
   const [Major, setMajor] = useState(null);
   const [SchoolYear, setSchoolYear] = useState(null);
-  const [Department, setDepartment] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [Department, setDepartment] = useState(null);
   const [selectedMajor, setSelectedMajor] = useState(null);
   const [selectedSchoolYear, setSelectedSchoolYear] = useState(null);
   const {
@@ -70,7 +70,7 @@ const CreateStudent = () => {
 
   useEffect(() => {
     fetchDepartment()
-    fetchSchoolYear()
+    fetchSchoolYear({ sort: 'title' })
   }, []);
   useEffect(() => {
     if (selectedDepartment) {
@@ -166,6 +166,7 @@ const CreateStudent = () => {
                   code: el._id,
                   label: `${el.title}`,
                 }))}
+
                 id="department"
                 placeholder={"Select Department"}
                 onChange={(selectedOptions) => {
@@ -182,6 +183,7 @@ const CreateStudent = () => {
                 options={Major?.map((el) => ({
                   label: el,
                 }))}
+
                 id="major"
                 onChange={(selectedOptions) => {
                   setSelectedMajor(selectedOptions.label);

@@ -54,6 +54,13 @@ export const apiGetUsers = (params) =>
         params,
     });
 
+export const apiGetLecturer = (params) =>
+    axios({
+        url: "/user/lecturer/",
+        method: "get",
+        params,
+    });
+
 export const apiUpdateUserByAdmin = (data, uid) =>
     axios({
         url: "/user/" + uid,

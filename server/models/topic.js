@@ -8,11 +8,7 @@ var topicSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    topicId: {
-      type: String,
-      uppercase: true,
-    },
-    instructors: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+    instructors: { type: mongoose.Types.ObjectId, ref: "User" },
     students: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     // instructor: {
     //   type: Array,
@@ -29,19 +25,13 @@ var topicSchema = new mongoose.Schema(
     DateStart: {
       type: Date,
     },
-    files: {
-      type: Array,
-    },
-    tasks: {
-      type: Array,
-    },
     description: {
       type: Array,
     },
     status: {
       type: String,
-      enum: ["Wait", "Cancel", "Approve", "Pending"], //Pending:chờ phản biện , Wait : chờ chấp thuận , Cancel: hủy,  Approve : chấp thuận, Success: done
-      default: "Wait",
+      enum: ["Pending", "Validated"],
+      default: "Pending",
     },
   },
   {

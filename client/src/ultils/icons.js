@@ -1,9 +1,10 @@
-import { RiPhoneFill } from "react-icons/ri";
-import { TiCancel } from "react-icons/ti";
-import { IoIosArrowForward } from "react-icons/io";
-import { SiBrandfolder } from "react-icons/si";
-import { BsCart } from "react-icons/bs";
-import { IoFastFood } from "react-icons/io5";
+import { RiPhoneFill } from "react-icons/ri"
+import { TiCancel } from "react-icons/ti"
+import { PiStudent } from "react-icons/pi"
+import { IoIosArrowForward } from "react-icons/io"
+import { SiBrandfolder } from "react-icons/si"
+import { BsCart } from "react-icons/bs"
+import { IoFastFood } from "react-icons/io5"
 import {
     MdEmail,
     MdSpaceDashboard,
@@ -13,7 +14,8 @@ import {
     MdCategory,
     MdEdit,
     MdDeleteForever,
-} from "react-icons/md";
+    MdTopic
+} from "react-icons/md"
 
 import {
     FaUserCircle,
@@ -21,7 +23,6 @@ import {
     FaProductHunt,
     FaMoneyBill,
     FaStarHalfAlt,
-    FaCalendarAlt,
     FaRegEdit,
     FaSave,
     FaStar,
@@ -32,7 +33,11 @@ import {
     FaShieldAlt,
     FaCar,
     FaWifi,
-} from "react-icons/fa";
+    FaChalkboardTeacher,
+    FaCity,
+    FaBook,
+    FaCalendarAlt
+} from "react-icons/fa"
 
 import {
     AiFillHome,
@@ -45,14 +50,14 @@ import {
     AiOutlineDown,
     AiFillLike,
     AiOutlineSafety,
-} from "react-icons/ai";
+} from "react-icons/ai"
 
 import {
     BsFillSuitHeartFill,
     BsReplyFill,
     BsShieldShaded,
     BsFillTelephoneFill,
-} from "react-icons/bs";
+} from "react-icons/bs"
 
 const icons = {
     RiPhoneFill,
@@ -99,6 +104,11 @@ const icons = {
     AiOutlineSafety,
     IoFastFood,
     BsFillTelephoneFill,
-};
+    FaChalkboardTeacher,
+    FaCity,
+    FaBook,
+    PiStudent,
+    MdTopic,
+}
 
-export default icons;
+export default icons

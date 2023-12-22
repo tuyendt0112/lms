@@ -150,14 +150,19 @@ export const sorts = [
 
 const {
   MdSpaceDashboard,
-  MdGroups,
   FaProductHunt,
   FaMoneyBill,
   MdPersonalInjury,
   MdHistory,
   AiFillLike,
-  MdCategory,
   SiBrandfolder,
+  FaChalkboardTeacher,
+  FaCity,
+  FaBook,
+  PiStudent,
+  MdTopic,
+  FaCalendarAlt
+
 } = icons;
 
 export const adminSideBar = [
@@ -172,7 +177,7 @@ export const adminSideBar = [
     id: 2,
     type: "PARENT",
     text: "Student",
-    icon: <FaProductHunt />,
+    icon: <PiStudent />,
     submenu: [
       {
         text: "Create Student",
@@ -188,7 +193,7 @@ export const adminSideBar = [
     id: 3,
     type: "PARENT",
     text: "Lecturer",
-    icon: <FaProductHunt />,
+    icon: <FaChalkboardTeacher />,
     submenu: [
       {
         text: "Create Lecturer",
@@ -204,7 +209,7 @@ export const adminSideBar = [
     id: 4,
     type: "PARENT",
     text: "Topic",
-    icon: <FaProductHunt />,
+    icon: <MdTopic />,
     submenu: [
       {
         text: "Create Topic",
@@ -220,7 +225,7 @@ export const adminSideBar = [
     id: 5,
     type: "PARENT",
     text: "Major",
-    icon: <FaProductHunt />,
+    icon: <FaBook />,
     submenu: [
       {
         text: "Create Major",
@@ -236,7 +241,7 @@ export const adminSideBar = [
     id: 6,
     type: "PARENT",
     text: "Department",
-    icon: <FaProductHunt />,
+    icon: <FaCity />,
     submenu: [
       {
         text: "Create department",
@@ -252,7 +257,7 @@ export const adminSideBar = [
     id: 7,
     type: "PARENT",
     text: "School Year",
-    icon: <FaProductHunt />,
+    icon: <FaCalendarAlt />,
     submenu: [
       {
         text: "Create School Year",
@@ -335,10 +340,14 @@ export const roles = [
   },
   {
     code: 2,
-    value: "Teacher",
+    value: "Head Teacher",
   },
   {
     code: 3,
+    value: "Teacher",
+  },
+  {
+    code: 4,
     value: "Student",
   },
 ];

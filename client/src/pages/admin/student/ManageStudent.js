@@ -199,17 +199,17 @@ const ManageStudent = () => {
                 <th className="px-4 py-2 text-center h-[60px] w-[130px]">
                   Last name
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[210px]">ID</th>
+                <th className="px-4 py-2 text-center h-[60px] w-[10px]">ID</th>
                 <th className="px-4 py-2 text-center h-[60px] w-[10px]">
                   Email
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                <th className="px-4 py-2 text-center h-[60px] w-[10px]">
                   School year
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                <th className="px-4 py-2 text-center h-[60px] w-[10px]">
                   Department
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                <th className="px-4 py-2 text-center h-[60px] w-[10px]">
                   Major
                 </th>
                 <th className="px-4 py-2 text-center h-[60px] w-[130px]">

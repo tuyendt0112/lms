@@ -7,6 +7,9 @@ export { default as CreateTopic } from "./topic/CreateTopic";
 export { default as ManageTopic } from "./topic/ManageTopic";
 export { default as UpdateTopic } from "./topic/UpdateTopic";
 
+export { default as CreateLecturer } from "./lecturer/CreateLecturer";
+export { default as ManageLecturer } from "./lecturer/ManageLecturer";
+
 export { default as CreateDepartment } from "./department/CreateDepartment";
 export { default as ManageDepartment } from "./department/ManageDepartment";
 export { default as UpdateDepartment } from "./department/UpdateDepartment";

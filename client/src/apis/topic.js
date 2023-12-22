@@ -5,3 +5,14 @@ export const apiCreateTopic = (data) =>
     method: "post",
     data,
   });
+
+export const apiGetTopics = (params) => axios({
+  url: '/topic/',
+  method: 'get',
+  params
+})
+
+export const apiDeleteTopic = (pid) => axios({
+  url: '/topic/' + pid,
+  method: 'delete',
+})

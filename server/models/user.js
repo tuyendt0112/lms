@@ -30,6 +30,7 @@ var userSchema = new mongoose.Schema(
     },
     schoolYear: {
       type: String,
+      default: "None"
     },
     password: {
       type: String,
@@ -42,6 +43,7 @@ var userSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
+      default: "None"
     },
     // position: {
     //   type: String,
