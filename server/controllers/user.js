@@ -10,7 +10,7 @@ const crypto = require("crypto");
 const makeToken = require("uniqid");
 
 const createUser = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname, role, major, department, schoolyear } = req.body;
+  const { email, password, firstname, lastname, role, major, department, schoolYear } = req.body;
   console.log(req.body)
   if (
     !email ||
@@ -20,7 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
     !role ||
     !major ||
     !department ||
-    !schoolyear
+    !schoolYear
   )
     return res.status(400).json({
       success: false,
@@ -29,9 +29,6 @@ const createUser = asyncHandler(async (req, res) => {
   // not a student
   if (!+role === 4) {
     req.body.schoolYear = "";
-  }
-  else {
-    if (!req.body.codeid) throw new Error("Missing studentID");
   }
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
@@ -256,13 +253,13 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 const deleteUsers = asyncHandler(async (req, res) => {
-  const { _id } = req.query;
-  if (!_id) throw new Error("User not match");
-  const response = await User.findByIdAndDelete(_id);
+  const { uid } = req.params;
+  if (!uid) throw new Error("User not match");
+  const response = await User.findByIdAndDelete(uid);
   return res.status(200).json({
     success: response ? true : false,
-    deletedUser: response
-      ? `User with role ${response.role} has email ${response.email} , name : ${response.name} has been deleted `
+    mes: response
+      ? `User with email ${response.email} has been deleted `
       : "No user deleted",
   });
 });
@@ -287,7 +284,7 @@ const updateUsersByAdmin = asyncHandler(async (req, res) => {
   }).select("-password -role -refreshToken");
   return res.status(200).json({
     success: response ? true : false,
-    updatedUser: response ? response : "Can not update",
+    mes: response ? "Update success" : "Can not update",
   });
 });
 

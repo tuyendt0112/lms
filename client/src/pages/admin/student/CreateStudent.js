@@ -27,13 +27,13 @@ const CreateStudent = () => {
   } = useForm();
 
   const handleCreateStudent = async (data) => {
-
+    console.log(data)
     const finalPayload = {
       ...data,
       role: 4,
       // password: generatePassword(),
       password: 123456,
-      schoolyear: selectedSchoolYear,
+      schoolYear: selectedSchoolYear,
       department: selectedDepartment,
       major: selectedMajor,
     };
@@ -77,7 +77,7 @@ const CreateStudent = () => {
       fetchMajorByDepartment(selectedDepartment);
     }
   }, [selectedDepartment]);
-
+  console.log("CHECK: ", selectedSchoolYear)
   return (
     <div className="w-full flex flex-col gap-4 px-4 ">
       <div className="p-4 border-b w-full flex items-center ">
@@ -116,7 +116,7 @@ const CreateStudent = () => {
               label="Student code"
               register={register}
               errors={errors}
-              id="codeid"
+              id="codeId"
               validate={{
                 required: "Need to be fill",
               }}
@@ -145,12 +145,12 @@ const CreateStudent = () => {
                 label="School Year"
                 options={SchoolYear?.map((el) => ({
                   code: el._id,
-                  label: `${el.title} `,
+                  label: `${el.title}`,
                 }))}
-                id="schoolyear"
+                id="schoolYear"
                 placeholder={"Select School Year"}
                 onChange={(selectedOptions) => {
-                  setSelectedSchoolYear(selectedOptions.code);
+                  setSelectedSchoolYear(selectedOptions.label);
                 }}
                 errors={errors}
               />

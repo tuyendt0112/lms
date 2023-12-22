@@ -3,12 +3,15 @@ import {
   apiGetUsers,
   apiUpdateUserByAdmin,
   apiDeleteUserByAdmin,
-} from "apis/user";
+  apiGetAllDepartment,
+  apiGetMajorByDepartment,
+  apiGetSchoolYears
+} from "apis";
 import { roles, blockStatus } from "ultils/constant";
 import moment from "moment";
 import { Pagination, InputForm, Select } from "components";
 import useDebounce from "hooks/useDebounce";
-import defaultImg from "assets/default.png";
+import defaultImg from "assets/defaultava.png";
 import {
   useSearchParams,
   createSearchParams,
@@ -23,6 +26,12 @@ import icons from "ultils/icons";
 
 const { FaRegEdit, MdDeleteForever, FaSave, TiCancel } = icons;
 const ManageStudent = () => {
+  const [Major, setMajor] = useState(null);
+  const [SchoolYear, setSchoolYear] = useState(null);
+  const [Department, setDepartment] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedMajor, setSelectedMajor] = useState(null);
+  const [selectedSchoolYear, setSelectedSchoolYear] = useState(null);
   const [open, setOpen] = useOutletContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,7 +45,7 @@ const ManageStudent = () => {
   } = useForm();
   const [user, setUsers] = useState(null);
   const [update, setUpdate] = useState(false);
-  const [editUser, setEditUser] = useState(null);
+  const [editStudent, setEditStudent] = useState(null);
   const fetchUsers = async (params) => {
     const response = await apiGetUsers({
       ...params,
@@ -62,7 +71,7 @@ const ManageStudent = () => {
         search: createSearchParams({ q: queryDebounce }).toString(),
       });
     } else {
-      if (!editUser)
+      if (!editStudent)
         navigate({
           pathname: location.pathname,
         });
@@ -72,13 +81,16 @@ const ManageStudent = () => {
   useEffect(() => {
     const searchParams = Object.fromEntries([...params]);
     fetchUsers(searchParams);
-    setEditUser(null);
+    setEditStudent(null);
   }, [params, update]);
 
   const handleUpdate = async (data) => {
-    const response = await apiUpdateUserByAdmin(data, editUser._id);
+    console.log("Update Data", data)
+
+    const response = await apiUpdateUserByAdmin(data, editStudent._id);
+    console.log(response)
     if (response.success) {
-      setEditUser(null);
+      setEditStudent(null);
       render();
       toast.success(response.mes);
     } else {
@@ -104,22 +116,58 @@ const ManageStudent = () => {
   };
 
   useEffect(() => {
-    if (editUser) {
+    if (editStudent) {
+      setSelectedDepartment(editStudent.department)
       reset({
-        email: editUser.email,
-        firstname: editUser.firstname,
-        lastname: editUser.lastname,
-        role: editUser.role,
-        codeId: editUser.codeId,
-        isBlocked: editUser.isBlocked,
+        firstname: editStudent.firstname,
+        lastname: editStudent.lastname,
+        codeId: editStudent.codeId,
+        email: editStudent.email,
+        schoolYear: editStudent.schoolYear,
+        department: editStudent.department,
+        major: editStudent.major,
+        isBlocked: editStudent.isBlocked,
       });
     }
-  }, [editUser]);
 
+  }, [editStudent]);
+  const handleSelect = (data) => {
+    setSelectedDepartment(data)
+  }
+  const fetchDepartment = async () => {
+    const response = await apiGetAllDepartment({ limit: 99 });
+    if (response.success) setDepartment(response.Departments);
+  };
+  const fetchMajorByDepartment = async (data) => {
+    const response = await apiGetMajorByDepartment(data);
+    if (response.success) {
+      setMajor(response.data.majors);
+    }
+  };
+  const fetchSchoolYear = async (data) => {
+    const response = await apiGetSchoolYears(data);
+    if (response.success) {
+      setSchoolYear(response.SchoolYears);
+    }
+  };
+  useEffect(() => {
+    fetchDepartment()
+    fetchSchoolYear()
+  }, []);
+  useEffect(() => {
+    if (selectedDepartment) {
+      fetchMajorByDepartment(selectedDepartment);
+    }
+  }, [selectedDepartment]);
+
+
+  console.log("Major", Major)
+  console.log("Department", Department)
+  console.log("Selected Department", selectedDepartment)
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       <div className="p-4 border-b w-full flex items-center ">
-        <h1 className="text-3xl font-bold tracking-tight">Manage User</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Manage Student</h1>
       </div>
       <div className="w-full p-4">
         <div className="flex w-full justify-end items-center px-1 pb-4">
@@ -137,32 +185,35 @@ const ManageStudent = () => {
         </div>
         <form onSubmit={handleSubmit(handleUpdate)}>
           <table className="table-auto w-full ">
-            <thead className="text-md  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr className="bg-sky-900 text-white  py-2">
+            <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr className="bg-sky-900 text-white py-2">
                 <th className="px-4 py-2 text-center h-[60px] w-[45px] rounded-tl-lg">
                   #
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[210px]">
+                <th className="px-4 py-2 text-center h-[80px] w-[100px]">
                   Avatar
-                </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[210px]">ID</th>
-                <th className="px-4 py-2 text-center h-[60px] w-[210px]">
-                  Email
                 </th>
                 <th className="px-4 py-2 text-center h-[60px] w-[120px]">
                   First name
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                <th className="px-4 py-2 text-center h-[60px] w-[130px]">
                   Last name
                 </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[130px]">
-                  Role
+                <th className="px-4 py-2 text-center h-[60px] w-[210px]">ID</th>
+                <th className="px-4 py-2 text-center h-[60px] w-[10px]">
+                  Email
+                </th>
+                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                  School year
+                </th>
+                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                  Department
+                </th>
+                <th className="px-4 py-2 text-center h-[60px] w-[120px]">
+                  Major
                 </th>
                 <th className="px-4 py-2 text-center h-[60px] w-[130px]">
                   Status
-                </th>
-                <th className="px-4 py-2 text-center h-[60px] w-[140px]">
-                  Create At
                 </th>
                 {/* <th>Address</th> */}
                 <th className="px-4 py-2 w-[140px] rounded-tr-lg">Actions</th>
@@ -186,32 +237,56 @@ const ManageStudent = () => {
                         <img
                           src={el.avatar}
                           alt="thumb"
-                          className="w-[80px] h-[70px] object-fill "
+                          className="w-[40px] h-[40px]  object-fill"
                         />
                       ) : (
                         <img
                           src={defaultImg}
                           alt="avatar"
-                          className="w-20 h-[70px] object-cover"
+                          className="w-[40px] h-[40px] object-cover rounded-full"
                         />
                       )}
                     </div>
                   </td>
                   <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
+                    {editStudent?._id === el._id ? (
+                      <InputForm
+                        register={register}
+                        fullWidth
+                        errors={errors}
+                        id={"firstname"}
+                        placeholder="First name"
+                        validate={{ required: "Enter your first name" }}
+                        txtSmall
+                      />
+                    ) : (
+                      <span>{el.firstname}</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-5 text-center">
+                    {editStudent?._id === el._id ? (
+                      <InputForm
+                        register={register}
+                        fullWidth
+                        errors={errors}
+                        id={"lastname"}
+                        placeholder="Last name"
+                        validate={{ required: "Enter your last name" }}
+                        txtSmall
+                      />
+                    ) : (
+                      <span>{el.lastname}</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-5 text-center">
+                    {editStudent?._id === el._id ? (
                       <InputForm
                         register={register}
                         fullWidth
                         errors={errors}
                         id={"codeId"}
-                        placeholder="ID"
-                        validate={{
-                          required: "Enter ID",
-                          //   pattern: {
-                          //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          //     message: "Invalid email address",
-                          //   },
-                        }}
+                        placeholder="Student id..."
+                        validate={{ required: "Enter your last name" }}
                         txtSmall
                       />
                     ) : (
@@ -219,7 +294,7 @@ const ManageStudent = () => {
                     )}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
+                    {editStudent?._id === el._id ? (
                       <InputForm
                         register={register}
                         fullWidth
@@ -240,56 +315,75 @@ const ManageStudent = () => {
                     )}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
-                      <InputForm
+                    {editStudent?._id === el._id ? (
+                      <select
+                        id={"schoolYear"}
+                        className='form-select text-sm rounded-lg'
                         register={register}
-                        fullWidth
-                        errors={errors}
-                        id={"firstname"}
-                        placeholder="First name"
-                        validate={{ required: "Enter your first name" }}
-                        txtSmall
-                      />
+                      >
+                        {SchoolYear?.map(el => (
+                          el.title === editStudent?.schoolYear
+                            ?
+                            <option selected="selected" value={el._id}>{el.title}</option>
+                            :
+                            <option value={el._id}>{el.title}</option>
+                        ))}
+                      </select>
                     ) : (
-                      <span>{el.firstname}</span>
+                      <span>
+                        {el.schoolYear}
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="px-6 py-5 text-center">
+                    {editStudent?._id === el._id ? (
+                      <select
+                        id={"department"}
+                        className='form-select text-sm rounded-lg'
+                        register={register}
+                        onChange={(e) => setSelectedDepartment(e.target.value)}
+                      >
+                        {Department?.map(el => (
+                          el.title === editStudent?.department
+                            ?
+                            <option selected="selected" value={el.title}>{el.title}</option>
+                            :
+                            <option value={el.title}>{el.title}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span>
+                        {el.department}
+                      </span>
                     )}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
-                      <InputForm
+                    {editStudent?._id === el._id ? (
+                      <select
+                        id={"major"}
+                        className='form-select text-sm rounded-lg'
                         register={register}
-                        fullWidth
-                        errors={errors}
-                        id={"lastname"}
-                        placeholder="Last name"
-                        validate={{ required: "Enter your last name" }}
-                        txtSmall
-                      />
+                      >
+                        {Major?.map((el, index) => (
+                          el === editStudent?.major
+                            ?
+                            <option selected="selected" value={index}>{el}</option>
+                            :
+                            <option value={index}>{el}</option>
+                        ))}
+                      </select>
                     ) : (
-                      <span>{el.lastname}</span>
+                      <span>
+                        {el.major}
+                      </span>
                     )}
                   </td>
                   {/*
                    * Tìm trong list roles (bên ultili) nếu có thì trả về object nên trỏ tiếp tới value để in
                    */}
                   <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
-                      <Select
-                        register={register}
-                        fullWidth
-                        errors={errors}
-                        id={"role"}
-                        validate={{ required: "Please Select" }}
-                        options={roles}
-                      />
-                    ) : (
-                      <span>
-                        {roles.find((role) => role.code === +el.role)?.value}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-5 text-center">
-                    {editUser?._id === el._id ? (
+                    {editStudent?._id === el._id ? (
                       <Select
                         register={register}
                         fullWidth
@@ -308,12 +402,9 @@ const ManageStudent = () => {
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-5 text-center">
-                    {moment(el.createdAt).format("DD/MM/YYYY")}
-                  </td>
                   <td className="text-center">
                     <div className="flex items-center justify-center ">
-                      {editUser?._id === el._id ? (
+                      {editStudent?._id === el._id ? (
                         <>
                           <button
                             className="px-2 text-2xl text-green-500 hover:text-green-700 cursor-pointer"
@@ -322,7 +413,7 @@ const ManageStudent = () => {
                             <FaSave />
                           </button>
                           <span
-                            onClick={() => setEditUser(null)}
+                            onClick={() => setEditStudent(null)}
                             className="px-2 text-2xl text-red-500 hover:text-red-700 cursor-pointer"
                           >
                             <TiCancel />
@@ -331,7 +422,7 @@ const ManageStudent = () => {
                       ) : (
                         <>
                           <span
-                            onClick={() => setEditUser(el)}
+                            onClick={() => setEditStudent(el)}
                             className="px-2 text-2xl text-green-500 hover:text-green-700 cursor-pointer"
                           >
                             <FaRegEdit />

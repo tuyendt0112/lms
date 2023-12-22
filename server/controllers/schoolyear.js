@@ -71,10 +71,29 @@ const getSchoolYears = asyncHandler(async (req, res) => {
         .catch((err) => {
             if (err) throw new Error(err, message);
         });
-});
+})
 
+const updateSchoolYear = asyncHandler(async (req, res) => {
+    const { sid } = req.params
+    const updateSchoolYear = await SchoolYear.findByIdAndUpdate(sid, req.body, { new: true })
+    return res.status(200).json({
+        success: updateSchoolYear ? true : false,
+        mes: updateSchoolYear ? "Updated school year success" : 'Can not update school year'
+    })
+})
+
+const deleteSchoolYear = asyncHandler(async (req, res) => {
+    const { sid } = req.params
+    const deleteSchoolYear = await SchoolYear.findByIdAndDelete(sid)
+    return res.status(200).json({
+        success: deleteSchoolYear ? true : false,
+        mes: deleteSchoolYear ? "Deleted school year success" : 'Can not delete school year'
+    })
+})
 
 module.exports = {
     createSchoolYear,
-    getSchoolYears
+    getSchoolYears,
+    updateSchoolYear,
+    deleteSchoolYear
 }

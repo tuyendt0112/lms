@@ -1,9 +1,9 @@
-import { RiPhoneFill } from 'react-icons/ri'
+import { RiPhoneFill } from "react-icons/ri";
 import { TiCancel } from "react-icons/ti";
-import { IoIosArrowForward } from 'react-icons/io'
+import { IoIosArrowForward } from "react-icons/io";
 import { SiBrandfolder } from "react-icons/si";
 import { BsCart } from "react-icons/bs";
-
+import { IoFastFood } from "react-icons/io5";
 import {
     MdEmail,
     MdSpaceDashboard,
@@ -12,8 +12,8 @@ import {
     MdHistory,
     MdCategory,
     MdEdit,
-    MdDeleteForever
-} from 'react-icons/md'
+    MdDeleteForever,
+} from "react-icons/md";
 
 import {
     FaUserCircle,
@@ -25,8 +25,14 @@ import {
     FaRegEdit,
     FaSave,
     FaStar,
-    FaRegStar
-} from 'react-icons/fa'
+    FaRegStar,
+    FaFacebook,
+    FaDiscord,
+    FaYoutube,
+    FaShieldAlt,
+    FaCar,
+    FaWifi,
+} from "react-icons/fa";
 
 import {
     AiFillHome,
@@ -37,14 +43,16 @@ import {
     AiOutlineLogout,
     AiFillGift,
     AiOutlineDown,
-    AiFillLike
-} from 'react-icons/ai'
+    AiFillLike,
+    AiOutlineSafety,
+} from "react-icons/ai";
 
 import {
     BsFillSuitHeartFill,
     BsReplyFill,
-    BsShieldShaded
-} from 'react-icons/bs'
+    BsShieldShaded,
+    BsFillTelephoneFill,
+} from "react-icons/bs";
 
 const icons = {
     RiPhoneFill,
@@ -82,7 +90,15 @@ const icons = {
     FaStar,
     FaRegStar,
     MdEdit,
+    FaFacebook,
+    FaDiscord,
+    FaYoutube,
+    FaShieldAlt,
+    FaCar,
+    FaWifi,
+    AiOutlineSafety,
+    IoFastFood,
+    BsFillTelephoneFill,
+};
 
-}
-
-export default icons
+export default icons;
