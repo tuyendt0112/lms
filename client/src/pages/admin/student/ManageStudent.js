@@ -85,10 +85,8 @@ const ManageStudent = () => {
   }, [params, update]);
 
   const handleUpdate = async (data) => {
-    console.log("Update Data", data)
 
     const response = await apiUpdateUserByAdmin(data, editStudent._id);
-    console.log(response)
     if (response.success) {
       setEditStudent(null);
       render();
@@ -161,9 +159,7 @@ const ManageStudent = () => {
   }, [selectedDepartment]);
 
 
-  console.log("Major", Major)
-  console.log("Department", Department)
-  console.log("Selected Department", selectedDepartment)
+
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       <div className="p-4 border-b w-full flex items-center ">

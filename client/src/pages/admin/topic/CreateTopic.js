@@ -55,11 +55,7 @@ const CreateTopic = () => {
         students: selectedStudents,
         instructors: selectedLecturer
       }
-      console.log(finalPayload)
-      // const formData = new FormData()
-      // for (let i of Object.entries(finalPayload)) {
-      //   formData.append(i[0], i[1])
-      // }
+
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
       window.scrollTo(0, 0)
       const response = await apiCreateTopic(finalPayload)
@@ -132,8 +128,7 @@ const CreateTopic = () => {
       fetchMajorByDepartment(selectedDepartment)
     }
   }, [selectedDepartment])
-  console.log(user)
-  console.log(lecturer)
+
   return (
     <div className="w-full flex flex-col gap-4 px-4 ">
       <div className="p-4 border-b w-full flex items-center ">

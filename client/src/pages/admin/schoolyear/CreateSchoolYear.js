@@ -1,54 +1,55 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, InputForm, MarkDownEditor, Loading } from "components";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { validate } from "ultils/helper";
-import { toast } from "react-toastify";
+import React, { useCallback, useEffect, useState } from "react"
+import { Button, InputForm, MarkDownEditor, Loading } from "components"
+import { useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
+import { validate } from "ultils/helper"
+import { toast } from "react-toastify"
 import {
     apiCreateSchoolYear
-} from "apis";
-import { showModal } from "store/app/appSilice";
-import Select from "react-select";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import icons from "ultils/icons";
+} from "apis"
+import { showModal } from "store/app/appSilice"
+import Select from "react-select"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import icons from "ultils/icons"
 
 const CreateSchoolYear = () => {
-    const { FaCalendarAlt } = icons;
-    const dispatch = useDispatch();
-
-    const [selectedDateEnd, setSelectedDateEnd] = useState(null);
-    const [selectedDateStart, setSelectedDateStart] = useState(null);
+    const { FaCalendarAlt } = icons
+    const dispatch = useDispatch()
+    const [selectedDateEnd, setSelectedDateEnd] = useState(null)
+    const [selectedDateStart, setSelectedDateStart] = useState(null)
     const {
         register,
         formState: { errors },
         reset,
         handleSubmit,
-    } = useForm();
+    } = useForm()
 
     const handleCreateTopic = async (data) => {
         const finalPayload = {
             ...data,
             start: selectedDateStart,
             end: selectedDateEnd,
-        };
-        dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
-        window.scrollTo(0, 0);
-        const response = await apiCreateSchoolYear(finalPayload);
-        dispatch(showModal({ isShowModal: false, modalChildren: null }));
+        }
+        dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
+        window.scrollTo(0, 0)
+        const response = await apiCreateSchoolYear(finalPayload)
+        dispatch(showModal({ isShowModal: false, modalChildren: null }))
         if (response.success) {
-            reset();
-            toast.success("Create School Year Success !");
+            reset()
+            setSelectedDateStart(null)
+            setSelectedDateEnd(null)
+            toast.success("Create School Year Success !")
         } else {
-            toast.error("Fail!!!");
+            toast.error("Fail!!!")
         }
 
-    };
+    }
 
     return (
         <div className="w-full flex flex-col gap-4 px-4 ">
             <div className="p-4 border-b w-full flex items-center ">
-                <h1 className="text-3xl font-bold tracking-tight">Create Topic</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Create School Year</h1>
             </div>
             <div className="p-4">
                 <form onSubmit={handleSubmit(handleCreateTopic)}>
@@ -106,7 +107,7 @@ const CreateSchoolYear = () => {
                 </form>
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default CreateSchoolYear

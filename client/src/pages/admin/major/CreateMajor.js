@@ -32,7 +32,7 @@ const CreateMajor = () => {
     dispatch(showModal({ isShowModal: false, modalChildren: null }));
     if (response.success) {
       reset();
-
+      setSelectedDepartment(null)
       toast.success("Create Major Success !");
     } else {
       toast.error("Fail!!!");

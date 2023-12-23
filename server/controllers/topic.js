@@ -1,12 +1,12 @@
-const Pitch = require("../models/pitch");
-const Brand = require("../models/brand");
-const asyncHandler = require("express-async-handler");
+const Pitch = require("../models/pitch")
+const Brand = require("../models/brand")
+const asyncHandler = require("express-async-handler")
 
-const Topic = require("../models/topic");
+const Topic = require("../models/topic")
 
 const createTopic = asyncHandler(async (req, res) => {
   const { title, description, department, major, DateEnd, DateStart } =
-    req.body;
+    req.body
   if (
     !title ||
     !description ||
@@ -15,13 +15,13 @@ const createTopic = asyncHandler(async (req, res) => {
     !DateEnd ||
     !DateStart
   )
-    throw new Error("Missing inputs");
-  const newTopic = await Topic.create(req.body);
+    throw new Error("Missing inputs")
+  const newTopic = await Topic.create(req.body)
   return res.status(200).json({
     success: newTopic ? true : false,
     createPitch: newTopic ? newTopic : "Can not create new topic",
-  });
-});
+  })
+})
 
 const getTopics = asyncHandler(async (req, res) => {
   const queries = { ...req.query }
@@ -104,15 +104,28 @@ const getTopics = asyncHandler(async (req, res) => {
 
 })
 const deleteTopic = asyncHandler(async (req, res) => {
-  const { pid } = req.params;
-  const deleteTopic = await Topic.findByIdAndDelete(pid);
+  const { pid } = req.params
+  const deleteTopic = await Topic.findByIdAndDelete(pid)
   return res.status(200).json({
     success: deleteTopic ? true : false,
     mes: deleteTopic ? "Deleted" : "Can not delete pitch",
-  });
-});
+  })
+})
+
+const updateTopic = asyncHandler(async (req, res) => {
+  const { pid } = req.params
+  //if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
+  const updateTopic = await Topic.findByIdAndUpdate(pid, req.body, {
+    new: true,
+  })
+  return res.status(200).json({
+    success: updateTopic ? true : false,
+    mes: updateTopic ? "Updated" : "Can not update pitch",
+  })
+})
 module.exports = {
   createTopic,
   getTopics,
-  deleteTopic
-};
+  deleteTopic,
+  updateTopic
+}

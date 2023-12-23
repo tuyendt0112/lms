@@ -1,56 +1,84 @@
 import React, { useCallback, useEffect, useState, memo } from "react";
-import { Button, InputForm, MarkDownEditor, Select, Loading } from "components";
+import { Button, InputForm, MarkDownEditor, Loading } from "components";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { validate, getBase64 } from "ultils/helper";
 import { toast } from "react-toastify";
-import { apiUpdatePitch } from "apis";
+import {
+  apiUpdatePitch,
+  apiUpdateTopic,
+  apiGetAllDepartment,
+  apiGetMajorByDepartment,
+  apiCreateTopic,
+  apiGetSchoolYears,
+  apiGetUsers,
+  apiGetLecturer
+} from "apis";
 import { showModal } from "store/app/appSilice";
+import icons from "ultils/icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
 
-const UpdateTopic = ({ editPitch, render, setEditPitch }) => {
+
+const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
+  const { FaCalendarAlt } = icons;
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.app);
   const {
     register,
     formState: { errors },
     reset,
     handleSubmit,
     watch,
-  } = useForm();
+  } = useForm()
+  const [user, setUsers] = useState(null)
+  const [lecturer, setLecturer] = useState(null)
+  const [Major, setMajor] = useState(null)
+  // const [SchoolYear, setSchoolYear] = useState(null)
+  const [Department, setDepartment] = useState(null)
+  const [selectedDepartment, setSelectedDepartment] = useState(null)
+  const [selectedMajor, setSelectedMajor] = useState(null)
+  const [selectedDateEnd, setSelectedDateEnd] = useState(null)
+  const [selectedDateStart, setSelectedDateStart] = useState(null)
+  const [selectedSchoolYear, setSelectedSchoolYear] = useState(null)
+  const [selectedStudents, setSelectedStudents] = useState(null)
+  const [selectedLecturer, setSelectedLecturer] = useState(null)
+
 
   const handleUpdatePitch = async (data) => {
     const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
-      if (data.category)
-        data.category = categories?.find(
-          (el) => el.title === data.category
-        )?.title;
-      const finalPayload = { ...data, ...payload };
-      finalPayload.thumb =
-        data?.thumb?.length === 0 ? preview.thumb : data.thumb[0];
-      const formData = new FormData();
-      for (let i of Object.entries(finalPayload)) formData.append(i[0], i[1]);
-      finalPayload.images =
-        data.images?.length === 0 ? preview.images : data.images;
-      for (let image of finalPayload.images) formData.append("images", image);
+      // if (data.departmentData)
+      //   data.departmentData = departmentData?.find(
+      //     (el) => el.title === data.departmentData
+      //   )?.title;
+      const finalPayload = {
+        ...data,
+        ...payload,
+        department: selectedDepartment,
+        major: selectedMajor,
+        SchoolYear: selectedSchoolYear,
+        DateStart: selectedDateStart,
+        DateEnd: selectedDateEnd,
+        students: selectedStudents,
+        instructors: selectedLecturer
+      }
+      console.log("finalPayload", finalPayload)
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
       window.scrollTo(0, 0);
-      const response = await apiUpdatePitch(formData, editPitch._id);
+      const response = await apiUpdateTopic(finalPayload, editTopic._id);
       dispatch(showModal({ isShowModal: false, modalChildren: null }));
       if (response.success) {
         toast.success(response.mes);
         render();
-        setEditPitch(null);
+        setEditTopic(null);
       } else toast.error(response.mes);
     }
   };
   const [payload, setPayload] = useState({
     description: "",
   });
-  const [preview, setPreview] = useState({
-    thumb: null,
-    images: [],
-  });
+
 
   const [invalidFields, setInvalidFields] = useState([]);
   const changeValue = useCallback(
@@ -60,73 +88,90 @@ const UpdateTopic = ({ editPitch, render, setEditPitch }) => {
     [payload]
   );
 
-  const handlePreviewThumb = async (file) => {
-    const base64Thumb = await getBase64(file);
-    setPreview((prev) => ({ ...prev, thumb: base64Thumb }));
+  const fetchUsers = async (params) => {
+    const response = await apiGetUsers({
+      ...params,
+      limit: process.env.REACT_APP_PITCH_LIMIT,
+      role: 4,
+    })
+    if (response.success) setUsers(response)
+  }
+  const fetchLecturer = async (params) => {
+    const response = await apiGetLecturer({
+      ...params,
+      limit: process.env.REACT_APP_PITCH_LIMIT,
+    });
+    if (response.success) setLecturer(response);
   };
+  const fetchDepartment = async () => {
+    const response = await apiGetAllDepartment()
+    if (response.success) setDepartment(response.Departments)
+  }
 
-  const handlePreviewImages = async (files) => {
-    const imagesPreview = [];
-    for (let file of files) {
-      if (file.type !== "image/png" && file.type !== "image/jpeg") {
-        toast.warning("File type not correct");
-        return;
-      }
-      const base64 = await getBase64(file);
-      imagesPreview.push(base64);
+  // const fetchSchoolYear = async (data) => {
+  //   const response = await apiGetSchoolYears(data)
+  //   if (response.success) {
+  //     setSchoolYear(response.SchoolYears)
+  //   }
+  // }
+  const fetchMajorByDepartment = async (data) => {
+    const response = await apiGetMajorByDepartment(data)
+    if (response.success) {
+      setMajor(response.data.majors)
     }
-    setPreview((prev) => ({ ...prev, images: imagesPreview }));
-  };
-
+  }
   useEffect(() => {
-    if (watch("thumb") instanceof FileList && watch("thumb").length > 0) {
-      handlePreviewThumb(watch("thumb")[0]);
-    }
-  }, [watch("thumb")]);
-
+    fetchUsers()
+    fetchDepartment()
+    fetchLecturer()
+    // fetchSchoolYear({ sort: "title" })
+  }, [])
   useEffect(() => {
-    if (watch("images") instanceof FileList && watch("images").length > 0) {
-      handlePreviewImages(watch("images"));
+    if (selectedDepartment) {
+      fetchMajorByDepartment(selectedDepartment)
     }
-  }, [watch("images")]);
+  }, [selectedDepartment])
 
   useEffect(() => {
     reset({
-      title: editPitch?.title || "",
-      price: editPitch?.price || "",
-      address: editPitch?.address || "",
-      category: editPitch?.category || "",
-      brand: editPitch?.brand || "",
+      title: editTopic?.title || "",
     });
+    setSelectedDateStart(new Date(editTopic?.DateStart))
+    setSelectedDateEnd(new Date(editTopic?.DateEnd))
+    // setSelectedDepartment(editTopic?.department)
+    // setSelectedMajor(editTopic?.major)
+    // setSelectedMajor(editTopic?.major)
+    // setSelectedMajor(editTopic?.major)
+    // setSelectedMajor(editTopic?.major)
+    // setSelectedMajor(editTopic?.major)
+
     setPayload({
       description:
-        typeof editPitch?.description === "object"
-          ? editPitch?.description?.join(", ")
-          : editPitch?.description,
+        typeof editTopic?.description === "object"
+          ? editTopic?.description?.join(", ")
+          : editTopic?.description,
     });
 
-    setPreview({
-      ...preview,
-      thumb: editPitch?.thumb,
-      images: editPitch?.images,
-    });
-  }, [editPitch]);
+  }, [editTopic]);
+  console.log(Major)
+  console.log("CHECK ", selectedDepartment)
+  console.log("CHECK EDIT TOPIC", editTopic)
   return (
     <div className="w-full flex flex-col gap-4 px-4 relative">
       <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">
-        <h1 className="text-3xl font-bold tracking-tight">Update Pitch</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Update Topic</h1>
         <span
           className="text-main hover:underline cursor-pointer"
-          onClick={() => setEditPitch(null)}
+          onClick={() => setEditTopic(null)}
         >
           Cancel
         </span>
       </div>
       <div className="p-4">
         <form onSubmit={handleSubmit(handleUpdatePitch)}>
-          <div className="w-full pt-5 pb-10">
+          <div className="w-full py-5 ">
             <InputForm
-              label="Name pitch"
+              label="Title of Topic"
               register={register}
               errors={errors}
               id="title"
@@ -134,48 +179,122 @@ const UpdateTopic = ({ editPitch, render, setEditPitch }) => {
                 required: "Need to be fill",
               }}
               fullWidth
-              placeholder="Name of new pitch"
+              style="flex-1"
+              placeholder="Title of new Topic"
             />
           </div>
-          <div className="w-full pt-5 pb-10 flex gap-4">
-            <InputForm
-              label="Price pitch"
-              register={register}
-              errors={errors}
-              id="price"
-              validate={{
-                required: "Need to be fill",
-              }}
-              style="flex-1"
-              placeholder="Price of new pitch"
-              type="number"
-            />
-            <Select
-              label="Category"
-              options={categories?.map((el) => ({
-                code: el.title,
-                value: el.title,
-              }))}
-              register={register}
-              id="category"
-              validate={{ required: "Nedd to be fill" }}
-              style="flex-1"
-              errors={errors}
-            />
+          <div className="w-full flex gap-2 pt-10 pb-5">
+            <div className="mt-1">
+              <div className="flex items-center">
+                <h2 className="font-semibold">Date Start </h2>
+                <FaCalendarAlt className="ml-2" />
+              </div>
+              <div className="w-full pb-5 gap-4">
+                <DatePicker
+                  selected={selectedDateStart}
+                  onChange={(date) => setSelectedDateStart(date)}
+                  dateFormat="dd/MM/yyyy"
+                  minDate={new Date()}
+                  placeholderText="Select Date Start"
+                />
+              </div>
+            </div>
+            <div className="mt-1">
+              <div>
+                <div className="flex items-center">
+                  <h2 className="font-semibold">Date End </h2>
+                  <FaCalendarAlt className="ml-2" />
+                </div>
+              </div>
+              <div className="w-full pb-5 gap-4 ">
+                <DatePicker
+                  selected={selectedDateEnd}
+                  onChange={(date) => setSelectedDateEnd(date)}
+                  dateFormat="dd/MM/yyyy"
+                  minDate={new Date()}
+                  placeholderText="Select Date End"
+                />
+              </div>
+            </div>
           </div>
-          <div className="w-full pt-5 pb-10 flex gap-4">
-            <InputForm
-              label="Address"
-              register={register}
-              errors={errors}
-              id="address"
-              validate={{
-                required: "Need to be fill",
-              }}
-              style="flex-1"
-              placeholder="Address of new pitch"
-            />
+
+          <div className="w-full pb-5 flex items-center gap-4">
+            <div className="flex-1 items-center">
+              <h2 className="font-bold pb-2">Department:</h2>
+              <Select
+                defaultValue={{ value: editTopic?.department, label: editTopic?.department }}
+                maxMenuHeight={150}
+                label="Department"
+                options={Department?.map((el) => ({
+                  value: el.title,
+                  label: el.title,
+                }))}
+                id="department"
+                placeholder={"Select Department"}
+                onChange={(selectedOptions) => {
+                  setSelectedDepartment(selectedOptions.label)
+                }}
+                errors={errors}
+              />
+            </div>
+            <div className="flex-1 items-center">
+              <h2 className="font-bold pb-2">Major:</h2>
+              <Select
+                defaultValue={{ value: editTopic?.major, label: editTopic?.major }}
+                maxMenuHeight={150}
+                label="Major"
+                options={Major?.map((el) => ({
+                  value: el,
+                  label: el,
+                }))}
+                id="major"
+                onChange={(selectedOptions) => {
+                  setSelectedMajor(selectedOptions.label)
+                }}
+                errors={errors}
+              />
+            </div>
           </div>
+          <div className="w-full pb-5 flex items-center gap-4">
+            <div className="flex-1 items-center">
+              <h2 className="font-bold pb-2">Lecturer:</h2>
+              <Select
+                // defaultValue={{ value: editTopic?.instructors, label: editTopic?.instructors }}
+                maxMenuHeight={150}
+                label="Lecturer"
+                options={lecturer?.users?.map((el) => ({
+                  value: el._id,
+                  label: el.email,
+                }))}
+                id="lecturer"
+                placeholder={"Select Lecturer"}
+                onChange={(selectedOptions) => {
+                  setSelectedLecturer(selectedOptions.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="w-full pb-5 flex items-center gap-4">
+            <div className="flex-1 items-center">
+              <h2 className="font-bold pb-2">Students:</h2>
+              <Select
+                maxMenuHeight={90}
+                label="Students"
+                options={user?.users?.map((el) => ({
+                  value: el._id,
+                  label: el.email,
+                }))}
+                isMulti
+                id="students"
+                placeholder={"Select Students"}
+                isOptionDisabled={() => selectedStudents?.length >= 3}
+                onChange={(selectedOptions) => {
+                  setSelectedStudents(selectedOptions.map((option) => option.value));
+                }}
+              />
+            </div>
+          </div>
+
           <div className="w-full pt-5 ">
             <MarkDownEditor
               name="description"
@@ -186,52 +305,9 @@ const UpdateTopic = ({ editPitch, render, setEditPitch }) => {
               value={payload.description}
             />
           </div>
-          <div className="flex flex-col gap-2 mt-8">
-            <label className="font-semibold" htmlFor="thumb">
-              Upload thumb
-            </label>
-            <input type="file" id="thumb" {...register("thumb")} />
-            {errors["thumb"] && (
-              <small className="text-sx text-red-500">
-                {errors["thumb"]?.message}
-              </small>
-            )}
-          </div>
-          {preview?.thumb && (
-            <div className="my-4">
-              <img
-                src={preview.thumb}
-                alt="thumbnail"
-                className="w-[200px] object-contain"
-              />
-            </div>
-          )}
-          <div className="flex flex-col gap-2 mt-8">
-            <label className="font-semibold" htmlFor="pitches">
-              Upload Image Of Pitch
-            </label>
-            <input type="file" id="pitches" {...register("images")} multiple />
-            {errors["images"] && (
-              <small className="text-sx text-red-500">
-                {errors["images"]?.message}
-              </small>
-            )}
-          </div>
-          {preview?.images?.length > 0 && (
-            <div className="my-4 flex w-full gap-3 flex-wrap">
-              {preview?.images?.map((el) => (
-                <div key={el.name} className="w-fit relative">
-                  <img
-                    src={el}
-                    alt="thumbnail"
-                    className="w-[200px] object-contain"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+
           <div className="my-8">
-            <Button type="submit">Update new pitch</Button>
+            <Button type="submit">Create new Topic</Button>
           </div>
         </form>
       </div>

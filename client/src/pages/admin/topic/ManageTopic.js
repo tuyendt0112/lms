@@ -96,7 +96,7 @@ const ManageTopic = () => {
         </div>
       )}
       <div className="p-4 border-b w-full flex items-center ">
-        <h1 className="text-3xl font-bold tracking-tight">Manage Pitches</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Manage Topic</h1>
       </div>
       <div className="flex w-full justify-end items-center px-1">
         {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}
@@ -156,13 +156,13 @@ const ManageTopic = () => {
               <td className="text-center py-2">
                 <div className="flex flex-col items-center justify-center">
                   {el.students?.map((el, index) => (
-                    <sm key={index + 1}>{el.firstname} {el.lastname}</sm>
+                    <sm key={index + 1}>{el?.firstname} {el?.lastname}</sm>
                   ))}
                 </div>
               </td>
               <td className="text-center py-2">
                 <div className="flex flex-col items-center justify-center">
-                  <sm >{el.instructors.firstname} {el.instructors.lastname} </sm>
+                  <sm >{el?.instructors?.firstname} {el?.instructors?.lastname} </sm>
                 </div>
               </td>
               <td className="text-center py-2">

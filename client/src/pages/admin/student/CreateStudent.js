@@ -27,7 +27,6 @@ const CreateStudent = () => {
   } = useForm();
 
   const handleCreateStudent = async (data) => {
-    console.log(data)
     const finalPayload = {
       ...data,
       role: 4,
@@ -42,7 +41,6 @@ const CreateStudent = () => {
     window.scrollTo(0, 0);
     const response = await apiCreateUserByAdmin(finalPayload);
     dispatch(showModal({ isShowModal: false, modalChildren: null }));
-    console.log(response)
     if (response.success) {
       reset();
       toast.success("Create User Success !");
@@ -77,7 +75,6 @@ const CreateStudent = () => {
       fetchMajorByDepartment(selectedDepartment);
     }
   }, [selectedDepartment]);
-  console.log("CHECK: ", selectedSchoolYear)
   return (
     <div className="w-full flex flex-col gap-4 px-4 ">
       <div className="p-4 border-b w-full flex items-center ">
