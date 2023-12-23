@@ -14,7 +14,8 @@ import {
     MdCategory,
     MdEdit,
     MdDeleteForever,
-    MdTopic
+    MdTopic,
+    MdNotifications
 } from "react-icons/md"
 
 import {
@@ -109,6 +110,7 @@ const icons = {
     FaBook,
     PiStudent,
     MdTopic,
+    MdNotifications
 }
 
 export default icons

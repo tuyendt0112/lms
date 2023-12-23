@@ -38,6 +38,8 @@ const path = {
   CREATE_DEPARTMENT: "create-department",
   MANAGE_DEPARTMENT: "manage-department",
 
+  CREATE_NOTIFICATION: "create-notification",
+  MANAGE_NOTIFICATION: "manage-notification",
   // Member Route
   MEMBER: "member",
   PERSONAL: "personal",

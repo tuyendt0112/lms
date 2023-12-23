@@ -7,6 +7,10 @@ export { default as CreateTopic } from "./topic/CreateTopic";
 export { default as ManageTopic } from "./topic/ManageTopic";
 export { default as UpdateTopic } from "./topic/UpdateTopic";
 
+export { default as CreateNotification } from "./notification/CreateNotification";
+export { default as ManageNotification } from "./notification/ManageNotification";
+export { default as UpdateNotification } from "./notification/UpdateNotification";
+
 export { default as CreateLecturer } from "./lecturer/CreateLecturer";
 export { default as ManageLecturer } from "./lecturer/ManageLecturer";
 

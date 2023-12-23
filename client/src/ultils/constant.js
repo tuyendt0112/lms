@@ -4,26 +4,26 @@ import icons from "./icons";
 export const navigation = [
   {
     id: 1,
-    value: "HOME",
-    path: `/${path.HOME}`,
+    value: "NOTIFICATION",
+    path: `/${path.PITCHES}`,
   },
   {
     id: 2,
-    value: "PITCHES",
+    value: "INSTRUCTION",
     path: `/${path.PITCHES}`,
   },
-  // {
-  //     id: 3,
-  //     value: 'BLOGS',
-  //     path: `/${path.BLOGS}`
-  // },
-  // {
-  //     id: 4,
-  //     value: 'OUR SERVICES',
-  //     path: `/${path.OUR_SERVICE}`
-  // },
   {
     id: 3,
+    value: "REFERENCE TOPIC",
+    path: `/${path.FAQ}`,
+  },
+  {
+    id: 4,
+    value: "LECTURER LIST",
+    path: `/${path.FAQ}`,
+  },
+  {
+    id: 5,
     value: "FAQs",
     path: `/${path.FAQ}`,
   },
@@ -161,7 +161,8 @@ const {
   FaBook,
   PiStudent,
   MdTopic,
-  FaCalendarAlt
+  FaCalendarAlt,
+  MdNotifications
 
 } = icons;
 
@@ -266,6 +267,22 @@ export const adminSideBar = [
       {
         text: "Manage School Year",
         path: `/${path.ADMIN}/${path.MANAGE_SCHOOLYEAR}`,
+      },
+    ],
+  },
+  {
+    id: 8,
+    type: "PARENT",
+    text: "Notification",
+    icon: <MdNotifications />,
+    submenu: [
+      {
+        text: "Create Notification",
+        path: `/${path.ADMIN}/${path.CREATE_NOTIFICATION}`,
+      },
+      {
+        text: "Manage Notification",
+        path: `/${path.ADMIN}/${path.MANAGE_NOTIFICATION}`,
       },
     ],
   },

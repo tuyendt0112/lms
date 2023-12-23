@@ -108,12 +108,6 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
     if (response.success) setDepartment(response.Departments)
   }
 
-  // const fetchSchoolYear = async (data) => {
-  //   const response = await apiGetSchoolYears(data)
-  //   if (response.success) {
-  //     setSchoolYear(response.SchoolYears)
-  //   }
-  // }
   const fetchMajorByDepartment = async (data) => {
     const response = await apiGetMajorByDepartment(data)
     if (response.success) {
@@ -138,13 +132,10 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
     });
     setSelectedDateStart(new Date(editTopic?.DateStart))
     setSelectedDateEnd(new Date(editTopic?.DateEnd))
-    // setSelectedDepartment(editTopic?.department)
-    // setSelectedMajor(editTopic?.major)
-    // setSelectedMajor(editTopic?.major)
-    // setSelectedMajor(editTopic?.major)
-    // setSelectedMajor(editTopic?.major)
-    // setSelectedMajor(editTopic?.major)
-
+    setSelectedDepartment(editTopic?.department)
+    setSelectedMajor(editTopic?.major)
+    setSelectedLecturer(editTopic?.instructors)
+    setSelectedStudents(editTopic?.students)
     setPayload({
       description:
         typeof editTopic?.description === "object"
@@ -153,9 +144,12 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
     });
 
   }, [editTopic]);
-  console.log(Major)
-  console.log("CHECK ", selectedDepartment)
-  console.log("CHECK EDIT TOPIC", editTopic)
+  console.log("CHECK Date Start", selectedDateStart)
+  console.log("CHECK Date End", selectedDateEnd)
+  console.log("CHECK Department", selectedDepartment)
+  console.log("CHECK Major", selectedMajor)
+  console.log("CHECK Lecturer", selectedLecturer)
+  console.log("CHECK Students List", selectedStudents)
   return (
     <div className="w-full flex flex-col gap-4 px-4 relative">
       <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">
@@ -259,7 +253,7 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Lecturer:</h2>
               <Select
-                // defaultValue={{ value: editTopic?.instructors, label: editTopic?.instructors }}
+                defaultValue={{ value: editTopic?.instructors?._id, label: editTopic?.instructors?.email }}
                 maxMenuHeight={150}
                 label="Lecturer"
                 options={lecturer?.users?.map((el) => ({
@@ -278,6 +272,10 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Students:</h2>
               <Select
+                defaultValue={editTopic?.students?.map(student => ({
+                  value: student._id,
+                  label: student.email
+                }))}
                 maxMenuHeight={90}
                 label="Students"
                 options={user?.users?.map((el) => ({

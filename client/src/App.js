@@ -27,6 +27,8 @@ import {
   ManageSchoolYear,
   CreateLecturer,
   ManageLecturer,
+  CreateNotification,
+  ManageNotification,
 } from "pages/admin";
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
@@ -101,6 +103,8 @@ function App() {
           <Route path={path.MANAGE_LECTURER} element={<ManageLecturer />} />
           <Route path={path.CREATE_TOPIC} element={<CreateTopic />} />
           <Route path={path.MANAGE_TOPIC} element={<ManageTopic />} />
+          <Route path={path.CREATE_NOTIFICATION} element={<CreateNotification />} />
+          <Route path={path.MANAGE_NOTIFICATION} element={<ManageNotification />} />
           <Route path={path.CREATE_SCHOOLYEAR} element={<CreateSchoolYear />} />
           <Route path={path.MANAGE_SCHOOLYEAR} element={<ManageSchoolYear />} />
           <Route path={path.CREATE_DEPARTMENT} element={<CreateDepartment />} />

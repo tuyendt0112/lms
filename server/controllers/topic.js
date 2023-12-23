@@ -58,10 +58,10 @@ const getTopics = asyncHandler(async (req, res) => {
   }
   let queryCommand = Topic.find(formartedQueries).populate({
     path: "students",
-    select: "firstname lastname",
+    select: "firstname lastname email",
   }).populate({
     path: "instructors",
-    select: "firstname lastname",
+    select: "firstname lastname email",
   })
 
   //Sorting 

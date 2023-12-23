@@ -7,6 +7,8 @@ const brand = require("./brand");
 const bookingRouter = require("./booking");
 const topicRouter = require("./topic");
 const schoolyearRouter = require("./schoolyear");
+const notificationRouter = require("./notification");
+
 const { notFound, errHandler } = require("../middlewares/errorHandler");
 
 const initRoutes = (app) => {
@@ -19,6 +21,7 @@ const initRoutes = (app) => {
   app.use("/api/booking", bookingRouter);
   app.use("/api/topic", topicRouter);
   app.use("/api/schoolyear", schoolyearRouter);
+  app.use("/api/notification", notificationRouter);
 
   app.use(notFound);
   app.use(errHandler);
