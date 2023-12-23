@@ -123,9 +123,20 @@ const updateTopic = asyncHandler(async (req, res) => {
     mes: updateTopic ? "Updated" : "Can not update pitch",
   })
 })
+const getTopic = asyncHandler(async (req, res) => {
+  const { pid } = req.params
+  const pitch = await Topic.findById(pid).populate({
+    path: "instructors",
+  })
+  return res.status(200).json({
+    success: pitch ? true : false,
+    pitchData: pitch ? pitch : 'Can not get pitch'
+  })
+})
 module.exports = {
   createTopic,
   getTopics,
   deleteTopic,
-  updateTopic
+  updateTopic,
+  getTopic
 }

@@ -11,6 +11,11 @@ export const apiGetTopics = (params) => axios({
   params
 })
 
+export const apiGetTopic = (pid) => axios({
+  url: '/topic/' + pid,
+  method: 'get',
+})
+
 export const apiDeleteTopic = (pid) => axios({
   url: '/topic/' + pid,
   method: 'delete',

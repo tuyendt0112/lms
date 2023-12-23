@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, InputForm, Loading } from 'components'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,10 +19,15 @@ const Personal = () => {
             firstname: current?.firstname,
             lastname: current?.lastname,
             email: current?.email,
+            codeId: current?.codeId,
+            major: current?.major,
+            department: current?.department,
+            phoneNumber: current?.phoneNumber,
             avatar: current?.avatar
         })
     }, [current])
     const handleUpdateInfor = async (data) => {
+        console.log(data)
         const formData = new FormData()
         if (data.avatar.length > 0) { } formData.append('avatar', data.avatar[0])
         delete data.avatar
@@ -42,39 +47,158 @@ const Personal = () => {
                 Personal
             </header>
             <form onSubmit={handleSubmit(handleUpdateInfor)} className='w-4/5 mx-auto py-8 flex flex-col gap-4'>
-                <InputForm
-                    label='Firstname'
-                    register={register}
-                    errors={errors}
-                    id='firstname'
-                    validate={{ required: 'Need fill this field' }}
-                />
-                <InputForm
-                    label='Lastname'
-                    register={register}
-                    errors={errors}
-                    id='lastname'
-                    validate={{ required: 'Need fill this field' }}
-                    style='mt-8'
-                />
-                <InputForm
-                    label='Email address'
-                    register={register}
-                    errors={errors}
-                    id='email'
-                    validate={{
-                        required: 'Need fill this field',
-                        pattern: { value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Email invalid.' }
-                    }}
-                    style='mt-8'
-                />
+                {+current.role !== 4 ?
+                    <div className='flex flex-col gap-4'>
+                        <InputForm
+                            label='User ID'
+                            register={register}
+                            errors={errors}
+                            id='codeId'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                        />
+                        <InputForm
+                            label='Firstname'
+                            register={register}
+                            errors={errors}
+
+                            id='firstname'
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Lastname'
+                            register={register}
+                            errors={errors}
+                            id='lastname'
+
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Email address'
+                            register={register}
+                            errors={errors}
+                            id='email'
+
+                            validate={{
+                                required: 'Need fill this field',
+                                pattern: { value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Email invalid.' }
+                            }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Phone number'
+                            register={register}
+                            errors={errors}
+                            id='phoneNumber'
+                            validate={{
+                                required: 'Need fill this field',
+                            }}
+                            style='mt-8'
+                        />
+
+                        <InputForm
+                            label='Major'
+                            register={register}
+                            errors={errors}
+                            id='major'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+
+                        />
+                        <InputForm
+                            label='Department'
+                            register={register}
+                            errors={errors}
+                            id='department'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+                        />
+                    </div>
+                    :
+                    <div className='flex flex-col gap-4'>
+                        <InputForm
+                            label='User ID'
+                            register={register}
+                            errors={errors}
+                            id='codeId'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                        />
+                        <InputForm
+                            label='Firstname'
+                            register={register}
+                            errors={errors}
+                            disable
+                            id='firstname'
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Lastname'
+                            register={register}
+                            errors={errors}
+                            id='lastname'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Email address'
+                            register={register}
+                            errors={errors}
+                            id='email'
+                            disable
+                            validate={{
+                                required: 'Need fill this field',
+                                pattern: { value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Email invalid.' }
+                            }}
+                            style='mt-8'
+                        />
+                        <InputForm
+                            label='Phone number'
+                            register={register}
+                            errors={errors}
+                            id='phoneNumber'
+                            validate={{
+                                required: 'Need fill this field',
+                            }}
+                            style='mt-8'
+                        />
+
+                        <InputForm
+                            label='Major'
+                            register={register}
+                            errors={errors}
+                            id='major'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+
+                        />
+                        <InputForm
+                            label='Department'
+                            register={register}
+                            errors={errors}
+                            id='department'
+                            disable
+                            validate={{ required: 'Need fill this field' }}
+                            style='mt-8'
+
+                        />
+                    </div>
+                }
+
                 <div className='flex items-center gap-2 mt-8'>
                     <span className='font-semibold'>Account status:</span>
                     <span>{current?.isBlocked === 1 ? 'Blocked' : 'Actived'}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                     <span className='font-semibold'>Role:</span>
-                    <span>{+current?.role === 1 ? 'Admin' : +current?.role === 2 ? 'Pitch Owner' : 'User'}</span>
+                    <span>{+current?.role === 1 ? 'Admin' : +current?.role === 2 ? 'Head Teacher' : +current?.role === 3 ? 'Lecturer' : +current?.role === 4 ? 'Student' : ''}</span>
                 </div>
                 <div className='flex items-center gap-2'>
                     <span className='font-semibold'>Created At:</span>
@@ -83,7 +207,7 @@ const Personal = () => {
                 <div className='flex flex-col gap-2'>
                     <span className='font-semibold'>Profile image:</span>
                     <label htmlFor='file'>
-                        <img src={current?.avatar || avatar} alt='avatar' className='w-20 h-20 ml-8 object-cover rounded-full'></img>
+                        <img src={current?.avatar || avatar} alt='avatar' className='w-20 h-20 ml-8 object-cover rounded-full cursor-pointer'></img>
                     </label>
                     <input type='file' id='file' {...register('avatar')} hidden></input>
                 </div>

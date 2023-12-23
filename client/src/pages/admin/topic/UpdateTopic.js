@@ -63,7 +63,6 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
         students: selectedStudents,
         instructors: selectedLecturer
       }
-      console.log("finalPayload", finalPayload)
       dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
       window.scrollTo(0, 0);
       const response = await apiUpdateTopic(finalPayload, editTopic._id);
@@ -144,12 +143,6 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
     });
 
   }, [editTopic]);
-  console.log("CHECK Date Start", selectedDateStart)
-  console.log("CHECK Date End", selectedDateEnd)
-  console.log("CHECK Department", selectedDepartment)
-  console.log("CHECK Major", selectedMajor)
-  console.log("CHECK Lecturer", selectedLecturer)
-  console.log("CHECK Students List", selectedStudents)
   return (
     <div className="w-full flex flex-col gap-4 px-4 relative">
       <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">

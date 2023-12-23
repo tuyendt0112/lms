@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useState } from 'react'
-import logo from 'assets/logo.png'
+import logo from 'assets/logohcmute2.png'
 import { adminSideBar } from 'ultils/constant'
 import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'

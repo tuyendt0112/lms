@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiGetPitch, apiGetPitches, apiBooking } from "apis";
+import { apiGetTopic, apiGetPitches, apiBooking } from "apis";
 import {
   Breadcrumb,
   Button,
@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import path from "ultils/path";
 import { toast } from "react-toastify";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
+import moment from "moment";
 
 const settings = {
   dots: false,
@@ -82,10 +83,10 @@ const DetailPitches = ({ isQuickView, data }) => {
   };
 
   const fetchPitchData = async () => {
-    const response = await apiGetPitch(pid);
+    const response = await apiGetTopic(pid);
+    console.log(response)
     if (response.success) {
       setpitch(response.pitchData);
-      setcurrentImage(response.pitchData?.images[0]);
     }
   };
 
@@ -107,19 +108,6 @@ const DetailPitches = ({ isQuickView, data }) => {
       fetchPitchData();
     }
   }, [update]);
-
-  useEffect(() => {
-    if (pitch) {
-      const getCoords = async () => {
-        const result = await geocodeByAddress(pitch?.address[0]);
-        const latLng = await getLatLng(result[0]);
-        console.log(result);
-        console.log(pitch?.address[0]);
-        setCoords(latLng);
-      };
-      pitch && getCoords();
-    }
-  }, [pitch]);
 
   useEffect(() => {
     if (data) {
@@ -164,42 +152,24 @@ const DetailPitches = ({ isQuickView, data }) => {
         <div
           className={clsx("flex flex-col gap-3 w-2/5 ", isQuickView && "w-1/2")}
         >
-          <img
-            src={currentImage}
-            alt="pitch"
-            className="border h-[458px] w-[470px] object-cover"
-          />
-          <div className="w-[458px] ml-2">
-            <Slider className="image-slider" {...settings}>
-              {pitch?.images?.map((el) => (
-                <div className="flex w-full gap-2" key={el}>
-                  <img
-                    onClick={(e) => handleClickimage(e, el)}
-                    src={el}
-                    alt="sub-pitch"
-                    className="h-[143px] w-[150px] cursor-pointer border object-cover"
-                  ></img>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-        <div className="w-2/5 pr-[24px] gap-4">
           <h2 className="text-[30px] font-semibold">{pitch?.title}</h2>
-          <h3 className="text-[30px] font-semibold">{`${formatMoney(
-            formatPrice(pitch?.price)
-          )} VNĐ`}</h3>
-          <div className="flex items-center mt-2">
-            {renderStarFromNumber(pitch?.totalRatings, 24)?.map((el, index) => (
-              <span key={index}>{el}</span>
-            ))}
-          </div>
-          <h2 className="font-semibold pt-2">Brand:</h2>
-          <span>{pitch?.brand} </span>
+
+          <h2 className="font-semibold pt-2">Major:</h2>
+          <span>{pitch?.major} </span>
+          <h2 className="font-semibold pt-2">Department:</h2>
+          <span>{pitch?.department}</span>
+          <h2 className="font-semibold pt-2">Instructor:</h2>
+          <span>{pitch?.instructors?.firstname} {pitch?.instructors?.lastname}</span>
+          <span className="line-clamp-1">
+            <label className='font-bold'>Date Start: </label>
+            {moment(pitch?.DateStart).format("DD/MM/YYYY")}
+            <label className='font-bold ml-2'>Date End: </label>
+            {moment(pitch?.DateEnd).format("DD/MM/YYYY")}
+          </span>
           <h2 className="font-semibold pt-2  ">Description:</h2>
           {/* <ul className='list-item'>
-            <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}></div>
-          </ul> */}
+  <div className='text-sm' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pitch?.description) }}></div>
+</ul> */}
           <ul className="list-square text-sm text-gray-500">
             {pitch?.description?.length > 1 &&
               pitch?.description?.map((el) => (
@@ -216,47 +186,16 @@ const DetailPitches = ({ isQuickView, data }) => {
               ></div>
             )}
           </ul>
-          <h2 className="font-semibold pt-2">Address:</h2>
-          <ul className="list-item text-sm text-gray-500">{pitch?.address}</ul>
-          <div>
-            <h2 className="font-semibold">Shift:</h2>
-            <Select
-              id="shift"
-              options={shifts?.map((st) => ({
-                label: st.time,
-                value: st.value,
-                hour: st.hour,
-              }))}
-              isMulti
-              placeholder={"Select Shift Book"}
-              onChange={(selectedOptions) => {
-                setSelectedShift(selectedOptions.map((option) => option.value));
-                setSelectedHour(selectedOptions.map((option) => option.hour));
-              }}
-            />
-          </div>
-          <div>
-            <h2 className="font-semibold">Date:</h2>
-            <div className="border font-bold mb-4 p-2 flex items-center">
-              <FaCalendarAlt className="mr-2" />
-              {/* <ChooseDate /> */}
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                dateFormat="dd/MM/yyyy"
-                // minDate={new Date()}
-                placeholderText="Select Date Book"
-              // showPopperArrow={false}
-              // className="w-full border-none outline-none"
-              // popperClassName="datepicker-popper"
-              />
+
+          <div className="w-[458px] ml-2">
+            <div>
+              <Button fw handleOnClick={handleClickBooking}>
+                Register
+              </Button>
             </div>
           </div>
-          <div>
-            <Button fw handleOnClick={handleClickBooking}>
-              Booking
-            </Button>
-          </div>
+        </div>
+        <div className="w-2/5 pr-[24px] gap-4">
         </div>
         {!isQuickView && (
           <div className="w-1/5">
@@ -271,27 +210,11 @@ const DetailPitches = ({ isQuickView, data }) => {
           </div>
         )}
       </div>
-      {!isQuickView && (
-        <div>
-          <div className="w-main m-auto mt-8">
-            <Map coords={coords} address={pitch?.address[0]} />
 
-            <PitchInformation
-              totalRatings={pitch?.totalRatings}
-              ratings={pitch?.ratings}
-              namePitch={pitch?.title}
-              pid={pitch?._id}
-              rerender={rerender}
-            />
-            {/* {!isQuickView && <Map coords={coords} address={pitch?.address[0]} />} */}
-          </div>
-        </div>
-      )}
       {!isQuickView && (
         <>
           <div className="w-main m-auto mt-8">
             <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-blue-500">
-              OTHER PITCHES
             </h3>
             <CustomSlider pitches={relatedPitches} normal={true} />
           </div>

@@ -88,8 +88,6 @@ const CreateTopic = () => {
   const fetchUsers = async (params) => {
     const response = await apiGetUsers({
       ...params,
-      limit: process.env.REACT_APP_PITCH_LIMIT,
-      role: 4,
     })
     if (response.success) setUsers(response)
   }
@@ -118,11 +116,13 @@ const CreateTopic = () => {
     }
   }
   useEffect(() => {
-    fetchUsers()
     fetchDepartment()
-    fetchLecturer()
     fetchSchoolYear({ sort: "title" })
   }, [])
+  useEffect(() => {
+    fetchUsers({ role: 4, schoolYear: `${selectedSchoolYear}`, major: `${selectedMajor}`, department: `${selectedDepartment}` })
+    fetchLecturer({ major: `${selectedMajor}`, department: `${selectedDepartment}` })
+  }, [selectedDepartment, selectedMajor, selectedSchoolYear])
   useEffect(() => {
     if (selectedDepartment) {
       fetchMajorByDepartment(selectedDepartment)
@@ -157,7 +157,7 @@ const CreateTopic = () => {
                 maxMenuHeight={150}
                 label="School Year"
                 options={SchoolYear?.map((el) => ({
-                  code: el._id,
+                  value: el._id,
                   label: `${el.title}`,
                 }))}
                 id="schoolYear"
@@ -209,7 +209,7 @@ const CreateTopic = () => {
                 maxMenuHeight={150}
                 label="Department"
                 options={Department?.map((el) => ({
-                  code: el._id,
+                  value: el._id,
                   label: `${el.title}`,
                 }))}
                 id="department"
@@ -226,6 +226,7 @@ const CreateTopic = () => {
                 maxMenuHeight={150}
                 label="Major"
                 options={Major?.map((el) => ({
+                  value: el,
                   label: el,
                 }))}
                 id="major"
@@ -246,6 +247,7 @@ const CreateTopic = () => {
                   value: el._id,
                   label: el.email,
                 }))}
+                isDisabled={true ? !selectedDepartment || !selectedMajor : false}
                 id="lecturer"
                 placeholder={"Select Lecturer"}
                 onChange={(selectedOptions) => {
@@ -267,6 +269,7 @@ const CreateTopic = () => {
                 isMulti
                 id="students"
                 placeholder={"Select Students"}
+                isDisabled={true ? !selectedSchoolYear || !selectedDepartment || !selectedMajor : false}
                 isOptionDisabled={() => selectedStudents?.length >= 3}
                 onChange={(selectedOptions) => {
                   setSelectedStudents(selectedOptions.map((option) => option.value));

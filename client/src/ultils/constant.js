@@ -5,22 +5,22 @@ export const navigation = [
   {
     id: 1,
     value: "NOTIFICATION",
-    path: `/${path.PITCHES}`,
+    path: `/${path.NOTIFICATION}`,
   },
   {
     id: 2,
     value: "INSTRUCTION",
-    path: `/${path.PITCHES}`,
+    path: `/${path.INSTRUCTION}`,
   },
   {
     id: 3,
     value: "REFERENCE TOPIC",
-    path: `/${path.FAQ}`,
+    path: `/${path.TOPIC}`,
   },
   {
     id: 4,
     value: "LECTURER LIST",
-    path: `/${path.FAQ}`,
+    path: `/${path.LECTURER}`,
   },
   {
     id: 5,
@@ -335,20 +335,7 @@ export const memberSidebar = [
     path: `/${path.MEMBER}/${path.PERSONAL}`,
     icon: <MdPersonalInjury />,
   },
-  {
-    id: 2,
-    type: "SINGLE",
-    text: "Booking histories",
-    path: `/${path.MEMBER}/${path.HISTORY}`,
-    icon: <MdHistory />,
-  },
-  {
-    id: 3,
-    type: "SINGLE",
-    text: "Wishlist",
-    path: `/${path.MEMBER}/${path.WISHLIST}`,
-    icon: <AiFillLike />,
-  },
+
 ];
 export const roles = [
   {

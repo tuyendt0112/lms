@@ -3,11 +3,17 @@ const asyncHandler = require("express-async-handler");
 
 const createNotification = asyncHandler(async (req, res) => {
     const { title, content } = req.body;
+    const file = req.files["file"][0];
+    console.log(file);
     if (!title || !content) throw new Error("Missing inputs!!");
+    //   const modifiedFilePath = file.path.slice(0, -3) + "jpg";
+    if (file?.path) req.body.file = file?.path;
     const response = await Notification.create(req.body);
     return res.status(200).json({
         success: response ? true : false,
-        mes: response ? "Create notification success" : "Cannot create new Notification",
+        mes: response
+            ? "Create notification success"
+            : "Cannot create new Notification",
     });
 });
 const getAllNotification = asyncHandler(async (req, res) => {
@@ -79,8 +85,8 @@ const deleteNotification = asyncHandler(async (req, res) => {
     });
 });
 const updateNotification = asyncHandler(async (req, res) => {
-    const { nid } = req.body
-    const updateNotification = await Pitch.findByIdAndUpdate(nid, req.body, { new: true })
+    const { nid } = req.params
+    const updateNotification = await Notification.findByIdAndUpdate(nid, req.body, { new: true })
     return res.status(200).json({
         success: updateNotification ? true : false,
         mes: updateNotification ? "Updated" : 'Can not update notification'

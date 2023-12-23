@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import UpdateNotification from "./UpdateNotification";
 
 const ManageNotification = () => {
     const navigate = useNavigate()
@@ -81,7 +82,15 @@ const ManageNotification = () => {
     console.log(notifications)
     return (
         <div className="w-full flex flex-col gap-4 px-4 relative">
-
+            {editNotification && (
+                <div className="absolute inset-0 win-h-screen bg-gray-100 z-50">
+                    <UpdateNotification
+                        render={render}
+                        editNotification={editNotification}
+                        setEditNotification={setEditNotification}
+                    />
+                </div>
+            )}
             <div className="p-4 border-b w-full  flex justify-between items-center ">
                 <h1 className="text-3xl font-bold tracking-tight">Manage Notifications</h1>
             </div>
@@ -102,7 +111,6 @@ const ManageNotification = () => {
                     <tr className="bg-sky-900 text-white  py-2">
                         <th className="px-4 py-2 text-center h-[60px] rounded-tl-lg">#</th>
                         <th className="px-4 py-2 text-center h-[60px]  ">Title</th>
-                        <th className="px-4 py-2 text-center h-[60px]  ">Content</th>
                         <th className="px-4 py-2 text-center h-[60px]  ">File</th>
                         <th className="px-4 py-2 text-center h-[60px] rounded-tr-lg">
                             Actions
@@ -122,7 +130,6 @@ const ManageNotification = () => {
                                     1}
                             </td>
                             <td className="text-center py-2">{el.title}</td>
-                            <td className="text-center py-2">{el.content}</td>
                             <td className="text-center py-2">{el.file}</td>
                             <td className="text-center py-2">
                                 <div className="flex items-center justify-center">

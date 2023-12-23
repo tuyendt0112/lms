@@ -12,6 +12,11 @@ import {
   FinalRegister,
   ResetPassword,
   DetailBrand,
+  Notification,
+  Instruction,
+  Topic,
+  Lecturer,
+  DetailNotification
 } from "pages/public";
 import {
   AdminLayout,
@@ -43,7 +48,7 @@ import path from "ultils/path";
 import { getCategories } from "store/app/asyncAction";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { Modal, Order } from "components";
+import { Modal, Order, Pitch } from "components";
 import { showOrder } from "store/app/appSilice";
 import DetailOrder from "pages/public/DetailOrder";
 import Checkout from "pages/member/CheckOut";
@@ -86,10 +91,15 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.BLOGS} element={<Blog />} />
+          <Route path={path.NOTIFICATION} element={<Notification />} />
+          <Route path={path.INSTRUCTION} element={<Instruction />} />
+          <Route path={path.TOPIC} element={<Topic />} />
+          <Route path={path.LECTURER} element={<Lecturer />} />
           <Route path={path.DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE} element={<DetailPitches />} />
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
-          <Route path={path.PITCHES__CATEGORY} element={<Pitches />} />
+          <Route path={path.DETAIL_NOTIFICATION} element={<DetailNotification />} />
+          {/* <Route path={path.PITCHES__CATEGORY} element={<Pitches />} /> */}
           <Route path={path.DETAIL_ORDER} element={<DetailOrder />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={path.ALL} element={<Home />} />

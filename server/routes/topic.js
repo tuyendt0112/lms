@@ -7,5 +7,6 @@ router.post("/", [verifyAccessToken, isAdmin], ctrls.createTopic);
 router.get("/", ctrls.getTopics);
 router.delete('/:pid', [verifyAccessToken, isAdmin], ctrls.deleteTopic)
 router.put('/:pid', [verifyAccessToken, isAdmin], ctrls.updateTopic)
+router.get('/:pid', ctrls.getTopic)
 
 module.exports = router;

@@ -5,16 +5,21 @@ const path = {
   ALL: "*",
   LOGIN: "login",
   BLOGS: "blogs",
-  PITCHES: "pitches",
+  TOPIC: "topic",
+  INSTRUCTION: "instruction",
   OUR_SERVICE: "services",
   FAQ: "faqs",
+  NOTIFICATION: "notification",
+  LECTURER: "lecturer",
   DETAIL_ORDER: "my-order",
   CHECKOUT: "checkout",
+  DETAIL_NOTIFICATION: 'notification/:notification',
   PITCHES__CATEGORY: ":category",
   FINAL_REGISTER: "finalregister/:status",
   RESET_PASSWORD: "reset-password/:token",
   DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE: ":category/:brand/:pid/:title",
   CATEGORY__BRAND: ":category/:brand",
+
 
   // Admin Route
   ADMIN: "admin",

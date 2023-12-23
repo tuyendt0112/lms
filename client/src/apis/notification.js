@@ -17,8 +17,8 @@ export const apiDeleteNotification = (nid) => axios({
     method: "delete",
 });
 
-export const apiUpdateNotification = (data) => axios({
-    url: "/notification",
+export const apiUpdateNotification = (data, nid) => axios({
+    url: "/notification/" + nid,
     method: "put",
     data,
 });
