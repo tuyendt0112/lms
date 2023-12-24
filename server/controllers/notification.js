@@ -76,6 +76,15 @@ const getAllNotification = asyncHandler(async (req, res) => {
         });
     });
 });
+
+const getNotification = asyncHandler(async (req, res) => {
+    const { nid } = req.params
+    const response = await Notification.findById(nid)
+    return res.status(200).json({
+        success: response ? true : false,
+        mes: response ? response : 'Can not get notification'
+    })
+})
 const deleteNotification = asyncHandler(async (req, res) => {
     const { nid } = req.params;
     const response = await Notification.findByIdAndDelete(nid);
@@ -98,4 +107,5 @@ module.exports = {
     getAllNotification,
     deleteNotification,
     updateNotification,
+    getNotification,
 };

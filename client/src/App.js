@@ -14,8 +14,8 @@ import {
   DetailBrand,
   Notification,
   Instruction,
-  Topic,
-  Lecturer,
+  Topics,
+  Lecturers,
   DetailNotification
 } from "pages/public";
 import {
@@ -35,6 +35,14 @@ import {
   CreateNotification,
   ManageNotification,
 } from "pages/admin";
+import {
+  CreateTopicHeadTeacher,
+  HeadTeacherLayout,
+  ManageTopicHeadTeacher,
+  UpdateTopicHeadTeacher,
+  VerifyTopicHeadTeacher
+} from "pages/headteacher";
+
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
   PitchOwnerLayout,
@@ -93,8 +101,8 @@ function App() {
           <Route path={path.BLOGS} element={<Blog />} />
           <Route path={path.NOTIFICATION} element={<Notification />} />
           <Route path={path.INSTRUCTION} element={<Instruction />} />
-          <Route path={path.TOPIC} element={<Topic />} />
-          <Route path={path.LECTURER} element={<Lecturer />} />
+          <Route path={path.TOPIC} element={<Topics />} />
+          <Route path={path.LECTURER} element={<Lecturers />} />
           <Route path={path.DETAIL_PITCH__CATEGORY__BRAND__PITCHID__TITLE} element={<DetailPitches />} />
           <Route path={path.FAQ} element={<FAQ />} />
           <Route path={path.OUR_SERVICE} element={<Services />} />
@@ -121,6 +129,12 @@ function App() {
           <Route path={path.MANAGE_DEPARTMENT} element={<ManageDepartment />} />
           <Route path={path.CREATE_MAJOR} element={<CreateMajor />} />
           <Route path={path.MANAGE_MAJOR} element={<ManageMajor />} />
+        </Route>
+        {/*Head Teacher Route*/}
+        <Route path={path.HEADERTEACHER} element={<HeadTeacherLayout />}>
+          <Route path={path.CREATE_TOPIC_HEADTEACHER} element={<CreateTopicHeadTeacher />} />
+          <Route path={path.MANAGE_TOPIC_HEADTEACHER} element={<ManageTopicHeadTeacher />} />
+          <Route path={path.VERIFY_TOPIC_HEADTEACHER} element={<VerifyTopicHeadTeacher />} />
         </Route>
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>

@@ -10,8 +10,8 @@ export { default as FinalRegister } from './FinalRegister';
 export { default as ResetPassword } from './ResetPassword';
 export { default as DetailBrand } from './DetailBrand';
 export { default as Notification } from './Notification';
-export { default as Topic } from './Topic';
+export { default as Topics } from './Topics';
 export { default as Instruction } from './Instruction';
-export { default as Lecturer } from './Lecturer';
+export { default as Lecturers } from './Lecturers';
 export { default as DetailNotification } from './DetailNotification';
 

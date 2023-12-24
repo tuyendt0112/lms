@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Button, InputForm, MarkDownEditor, Loading } from "components"
 import { useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { validate } from "ultils/helper"
 import { toast } from "react-toastify"
 import {
@@ -17,7 +17,9 @@ import Select from "react-select"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import icons from "ultils/icons"
-const CreateTopic = () => {
+
+const CreateTopicHeadTeacher = () => {
+  const { current } = useSelector(state => state.user)
   const { FaCalendarAlt } = icons
   const dispatch = useDispatch()
   const [user, setUsers] = useState(null)
@@ -89,19 +91,10 @@ const CreateTopic = () => {
     const response = await apiGetUsers({
       ...params,
     })
+    console.log(response)
     if (response.success) setUsers(response)
   }
-  const fetchLecturer = async (params) => {
-    const response = await apiGetLecturer({
-      ...params,
-      limit: process.env.REACT_APP_PITCH_LIMIT,
-    });
-    if (response.success) setLecturer(response);
-  };
-  const fetchDepartment = async () => {
-    const response = await apiGetAllDepartment()
-    if (response.success) setDepartment(response.Departments)
-  }
+
 
   const fetchSchoolYear = async (data) => {
     const response = await apiGetSchoolYears(data)
@@ -109,30 +102,22 @@ const CreateTopic = () => {
       setSchoolYear(response.SchoolYears)
     }
   }
-  const fetchMajorByDepartment = async (data) => {
-    const response = await apiGetMajorByDepartment(data)
-    if (response.success) {
-      setMajor(response.data.majors)
-    }
-  }
+
   useEffect(() => {
-    fetchDepartment()
+    setSelectedDepartment(current?.department)
+    setSelectedMajor(current?.major)
+    setSelectedLecturer(current?._id)
     fetchSchoolYear({ sort: "title" })
   }, [])
   useEffect(() => {
     fetchUsers({ role: 4, schoolYear: `${selectedSchoolYear}`, major: `${selectedMajor}`, department: `${selectedDepartment}` })
-    fetchLecturer({ major: `${selectedMajor}`, department: `${selectedDepartment}` })
   }, [selectedDepartment, selectedMajor, selectedSchoolYear])
-  useEffect(() => {
-    if (selectedDepartment) {
-      fetchMajorByDepartment(selectedDepartment)
-    }
-  }, [selectedDepartment])
 
+  console.log(current)
   return (
     <div className="w-full flex flex-col gap-4 px-4 ">
       <div className="p-4 border-b w-full flex items-center ">
-        <h1 className="text-3xl font-bold tracking-tight">Create Topic</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Create Topic Head Teacher</h1>
       </div>
       <div className="p-4">
         <form onSubmit={handleSubmit(handleCreateTopic)}>
@@ -206,13 +191,11 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Department:</h2>
               <Select
+                defaultValue={{ value: current?.department, label: current?.department }}
                 maxMenuHeight={150}
                 label="Department"
-                options={Department?.map((el) => ({
-                  value: el._id,
-                  label: `${el.title}`,
-                }))}
                 id="department"
+                isDisabled={true}
                 placeholder={"Select Department"}
                 onChange={(selectedOptions) => {
                   setSelectedDepartment(selectedOptions.label)
@@ -223,13 +206,11 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Major:</h2>
               <Select
+                defaultValue={{ value: current?.major, label: current?.major }}
                 maxMenuHeight={150}
                 label="Major"
-                options={Major?.map((el) => ({
-                  value: el,
-                  label: el,
-                }))}
                 id="major"
+                isDisabled={true}
                 onChange={(selectedOptions) => {
                   setSelectedMajor(selectedOptions.label)
                 }}
@@ -241,13 +222,10 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Lecturer:</h2>
               <Select
+                defaultValue={{ value: current?._id, label: current?.email }}
                 maxMenuHeight={150}
                 label="Lecturer"
-                options={lecturer?.users?.map((el) => ({
-                  value: el._id,
-                  label: el.email,
-                }))}
-                isDisabled={true ? !selectedDepartment || !selectedMajor : false}
+                isDisabled={true}
                 id="lecturer"
                 placeholder={"Select Lecturer"}
                 onChange={(selectedOptions) => {
@@ -297,4 +275,4 @@ const CreateTopic = () => {
   )
 }
 
-export default CreateTopic
+export default CreateTopicHeadTeacher

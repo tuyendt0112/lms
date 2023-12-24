@@ -162,7 +162,8 @@ const {
   PiStudent,
   MdTopic,
   FaCalendarAlt,
-  MdNotifications
+  MdNotifications,
+  MdApproval
 
 } = icons;
 
@@ -287,7 +288,31 @@ export const adminSideBar = [
     ],
   },
 ];
+export const headTeacherSideBar = [
 
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Create Topic",
+    path: `/${path.HEADERTEACHER}/${path.CREATE_TOPIC_HEADTEACHER}`,
+    icon: <MdTopic />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "Moderater Topic",
+    path: `/${path.HEADERTEACHER}/${path.VERIFY_TOPIC_HEADTEACHER}`,
+    icon: <MdApproval />,
+  },
+  {
+    id: 3,
+    type: "SINGLE",
+    text: "Manage Topic",
+    path: `/${path.HEADERTEACHER}/${path.MANAGE_TOPIC_HEADTEACHER}`,
+    icon: <MdSpaceDashboard />,
+  },
+
+];
 export const pitchOwnerSideBar = [
   {
     id: 1,

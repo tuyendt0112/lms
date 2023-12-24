@@ -1,10 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 import banner4 from 'assets/banner4.jpg';
 import emailjs from '@emailjs/browser';
-
+import {
+  Map,
+} from "components";
+import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
 const FAQ = () => {
+
+  const [coords, setCoords] = useState(null);
+
 
   const form = useRef();
 
@@ -23,13 +29,22 @@ const FAQ = () => {
       });
   };
 
+  const getCoords = async () => {
+    const result = await geocodeByAddress('1 Võ Văn Ngân, Phường Linh Chiểu, Thành phố Thủ Đức, Thành phố Hồ Chí Minh');
+    const latLng = await getLatLng(result[0]);
+
+    setCoords(latLng);
+  };
+  getCoords();
+
   return (
 
     <div className='p-8 bg-white rounded-md min-w-[500px]'>
-      <img
-        src={banner4}
-        className="w-full h-[500px] object-cover"
-      />
+      <div>
+        <div className="w-main m-auto mt-8">
+          <Map coords={coords} address={'Trường Đại Học Sư Phạm Kỹ Thuật TP.HCM'} />
+        </div>
+      </div>
       <div className='h-[81px] flex justify-center items-center bg-gray-100 mt-6'>
 
         <div className='w-main'>

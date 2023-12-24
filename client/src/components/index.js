@@ -22,6 +22,8 @@ export { default as PitchCard } from "./products/PitchCard"
 export { default as PitchExtraInfo } from "./products/PitchExtraInfo"
 export { default as PitchInformation } from "./products/PitchInformation"
 export { default as Order } from "./products/Order"
+export { default as Topic } from "./products/Topic"
+
 // Seacrh
 export { default as SelectOption } from "./search/SelectOption"
 export { default as SearchItem } from "./search/SearchItem"
@@ -36,6 +38,10 @@ export { default as Sidebar } from "./sidebar/Sidebar"
 export { default as AdminSideBar } from "./sidebar/AdminSidebar"
 export { default as Membersidebar } from "./sidebar/Membersidebar"
 export { default as PitchOwnerSidebar } from "./sidebar/PitchOwnerSidebar"
+export { default as HeadTeacherSidebar } from "./sidebar/HeadTeacherSidebar"
+export { default as LecturerSidebar } from "./sidebar/LecturerSidebar"
+export { default as StudentSidebar } from "./sidebar/StudentSidebar"
+
 // Pagination
 export { default as Pagination } from "./pagination/Pagination"
 export { default as PagintaionItem } from "./pagination/PagintaionItem"

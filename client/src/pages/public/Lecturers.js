@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from 'react-router-dom'
 import { Breadcrumb, Pitch, SearchItem, InputSelect, Pagination, InputForm } from 'components'
-import { apiGetPitches, apiGetTopics } from 'apis'
+import { apiGetPitches, apiGetLecturers, apiGetLecturer } from 'apis'
 import Masonry from 'react-masonry-css'
 import { sorts } from 'ultils/constant'
 import useDebounce from 'hooks/useDebounce'
-const Topic = () => {
+import Lecturer from 'components/products/Lecturer'
+const Lecturers = () => {
     const navigate = useNavigate()
     const [pitches, setpitches] = useState(null)
     const [activeClick, setactiveClick] = useState(null)
@@ -13,12 +14,12 @@ const Topic = () => {
     const [sort, setSort] = useState('')
     const { category } = useParams()
     const [searching, setSearching] = useState('')
-    const [topics, setTopics] = useState(null);
+    const [Lecturers, setLecturers] = useState(null);
     const [counts, setCounts] = useState(0);
-    const fetchTopics = async (queries) => {
-        const response = await apiGetTopics(queries)
+    const fetchLecturers = async (queries) => {
+        const response = await apiGetLecturer(queries)
         if (response.success) {
-            setTopics(response);
+            setLecturers(response);
             setCounts(response.counts);
         }
     };
@@ -47,7 +48,7 @@ const Topic = () => {
         delete queries.to
         delete queries.from
         const q = { ...priceQuery, ...queries }
-        fetchTopics(q)
+        fetchLecturers(q)
         window.scrollTo(0, 0)
     }, [params])
 
@@ -59,32 +60,16 @@ const Topic = () => {
     const changeValue = useCallback((value) => {
         setSort(value)
     }, [sort])
-
+    console.log(Lecturers)
     return (
         <div className='w-full'>
             <div className='h-[81px] flex justify-center items-center bg-gray-100'>
                 <div className='w-main'>
-                    <h3 className='font-semibold uppercase'>Topics</h3>
-                    <Breadcrumb category='topics'></Breadcrumb>
+                    <h3 className='font-semibold uppercase'>Lecturers</h3>
+                    <Breadcrumb category='Lecturers'></Breadcrumb>
                 </div>
             </div>
             <div className='w-main border p-4 flex justify-between mt-8 m-auto gap-3'>
-                {/* <div className='w-3/5 flex-auto flex flex-col gap-3'>
-        <span className='font-semibold text-sm'>Filter by</span>
-        <div className="flex items-center gap-4">
-          <SearchItem
-            name="Price"
-            activeClick={activeClick}
-            changeActiveFilter={changeActiveFilter}
-            type="input"
-          ></SearchItem>
-          <SearchItem
-            name="Address"
-            activeClick={activeClick}
-            changeActiveFilter={changeActiveFilter}
-          ></SearchItem>
-        </div>
-      </div> */}
                 <div className='w-1/5 flex flex-col gap-3  '>
                     <span className='font-semibold text-sm '>Search</span>
                     <input
@@ -107,21 +92,21 @@ const Topic = () => {
                     breakpointCols={1}
                     className="my-masonry-grid flex mx-[-10px] pl-3"
                     columnClassName="my-masonry-grid_column">
-                    {topics?.pitches?.map(el => (
-                        <div className='cursor-pointer'>
-                            <Pitch
+                    {Lecturers?.users?.map(el => (
+                        <div >
+                            <Lecturer
                                 key={el._id}
                                 pid={el._id}
                                 pitchData={el}
                                 normal={true}
                             >
-                            </Pitch>
+                            </Lecturer>
                         </div>
                     ))}
                 </Masonry>
             </div>
             <div className='w-main m-auto my-4 flex justify-end'>
-                <Pagination totalCount={counts} type="topics" />
+                <Pagination totalCount={counts} type="Lecturers" />
             </div>
             <div className='w-full h-[500px]'></div>
         </div>
@@ -129,4 +114,4 @@ const Topic = () => {
 }
 
 
-export default Topic
+export default Lecturers

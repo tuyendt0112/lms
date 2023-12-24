@@ -12,6 +12,12 @@ export const apiGetAllNotification = (params) => axios({
     params,
 });
 
+export const apiGetNotification = (nid, params) => axios({
+    url: "/notification/" + nid,
+    method: "get",
+    params,
+});
+
 export const apiDeleteNotification = (nid) => axios({
     url: "/notification/" + nid,
     method: "delete",

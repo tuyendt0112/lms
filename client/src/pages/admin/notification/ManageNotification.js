@@ -110,8 +110,8 @@ const ManageNotification = () => {
                 <thead className="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr className="bg-sky-900 text-white  py-2">
                         <th className="px-4 py-2 text-center h-[60px] rounded-tl-lg">#</th>
-                        <th className="px-4 py-2 text-center h-[60px]  ">Title</th>
-                        <th className="px-4 py-2 text-center h-[60px]  ">File</th>
+                        <th className="px-4 py-2 text-center h-[60px] w-[600px]">Title</th>
+                        <th className="px-4 py-2 text-center h-[60px] w-[300px]">File</th>
                         <th className="px-4 py-2 text-center h-[60px] rounded-tr-lg">
                             Actions
                         </th>
@@ -129,7 +129,7 @@ const ManageNotification = () => {
                                     index +
                                     1}
                             </td>
-                            <td className="text-center py-2">{el.title}</td>
+                            <td className="line-clamp-1 text-center py-2 h-[30px]">{el.title}</td>
                             <td className="text-center py-2">{el.file}</td>
                             <td className="text-center py-2">
                                 <div className="flex items-center justify-center">

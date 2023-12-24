@@ -1,25 +1,36 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { Button, InputForm, MarkDownEditor, Loading } from "components"
-import { useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
-import { validate } from "ultils/helper"
-import { toast } from "react-toastify"
+import React, { useCallback, useEffect, useState, memo } from "react";
+import { Button, InputForm, MarkDownEditor, Loading } from "components";
+import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { validate, getBase64 } from "ultils/helper";
+import { toast } from "react-toastify";
 import {
+  apiUpdatePitch,
+  apiUpdateTopic,
   apiGetAllDepartment,
   apiGetMajorByDepartment,
   apiCreateTopic,
   apiGetSchoolYears,
   apiGetUsers,
   apiGetLecturer
-} from "apis"
-import { showModal } from "store/app/appSilice"
-import Select from "react-select"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import icons from "ultils/icons"
-const CreateTopic = () => {
-  const { FaCalendarAlt } = icons
-  const dispatch = useDispatch()
+} from "apis";
+import { showModal } from "store/app/appSilice";
+import icons from "ultils/icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
+
+
+const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
+  const { FaCalendarAlt } = icons;
+  const dispatch = useDispatch();
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+    watch,
+  } = useForm()
   const [user, setUsers] = useState(null)
   const [lecturer, setLecturer] = useState(null)
   const [Major, setMajor] = useState(null)
@@ -32,18 +43,16 @@ const CreateTopic = () => {
   const [selectedSchoolYear, setSelectedSchoolYear] = useState(null)
   const [selectedStudents, setSelectedStudents] = useState(null)
   const [selectedLecturer, setSelectedLecturer] = useState(null)
+  const [selectedReviewer, setSelectedReviewer] = useState(null)
 
-  const {
-    register,
-    formState: { errors },
-    reset,
-    handleSubmit,
-    watch,
-  } = useForm()
 
-  const handleCreateTopic = async (data) => {
-    const invalids = validate(payload, setInvalidFields)
+  const handleUpdatePitch = async (data) => {
+    const invalids = validate(payload, setInvalidFields);
     if (invalids === 0) {
+      // if (data.departmentData)
+      //   data.departmentData = departmentData?.find(
+      //     (el) => el.title === data.departmentData
+      //   )?.title;
       const finalPayload = {
         ...data,
         ...payload,
@@ -53,41 +62,45 @@ const CreateTopic = () => {
         DateStart: selectedDateStart,
         DateEnd: selectedDateEnd,
         students: selectedStudents,
-        instructors: selectedLecturer
+        instructors: selectedLecturer,
+        reviewer: selectedReviewer
       }
-
-      dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
-      window.scrollTo(0, 0)
-      const response = await apiCreateTopic(finalPayload)
-      dispatch(showModal({ isShowModal: false, modalChildren: null }))
+      dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }));
+      window.scrollTo(0, 0);
+      const response = await apiUpdateTopic(finalPayload, editTopic._id);
+      dispatch(showModal({ isShowModal: false, modalChildren: null }));
       if (response.success) {
-        reset()
-        setPayload({
-          description: "",
-        })
-        toast.success("Create Topic Success !")
-      } else {
-        toast.error("Fail!!!")
-      }
-      //   }
+        toast.success(response.mes);
+        render();
+        setEditTopic(null);
+      } else toast.error(response.mes);
     }
-  }
-
+  };
   const [payload, setPayload] = useState({
     description: "",
-  })
+  });
 
-  const [invalidFields, setInvalidFields] = useState([])
+
+  const [invalidFields, setInvalidFields] = useState([]);
   const changeValue = useCallback(
     (e) => {
-      setPayload(e)
+      setPayload(e);
     },
     [payload]
-  )
+  );
+
+  const fetchSchoolYear = async (data) => {
+    const response = await apiGetSchoolYears(data)
+    if (response.success) {
+      setSchoolYear(response.SchoolYears)
+    }
+  }
 
   const fetchUsers = async (params) => {
     const response = await apiGetUsers({
       ...params,
+      limit: process.env.REACT_APP_PITCH_LIMIT,
+      role: 4,
     })
     if (response.success) setUsers(response)
   }
@@ -103,12 +116,6 @@ const CreateTopic = () => {
     if (response.success) setDepartment(response.Departments)
   }
 
-  const fetchSchoolYear = async (data) => {
-    const response = await apiGetSchoolYears(data)
-    if (response.success) {
-      setSchoolYear(response.SchoolYears)
-    }
-  }
   const fetchMajorByDepartment = async (data) => {
     const response = await apiGetMajorByDepartment(data)
     if (response.success) {
@@ -116,26 +123,53 @@ const CreateTopic = () => {
     }
   }
   useEffect(() => {
+    fetchUsers()
     fetchDepartment()
+    fetchLecturer()
     fetchSchoolYear({ sort: "title" })
   }, [])
-  useEffect(() => {
-    fetchUsers({ role: 4, schoolYear: `${selectedSchoolYear}`, major: `${selectedMajor}`, department: `${selectedDepartment}` })
-    fetchLecturer({ major: `${selectedMajor}`, department: `${selectedDepartment}` })
-  }, [selectedDepartment, selectedMajor, selectedSchoolYear])
   useEffect(() => {
     if (selectedDepartment) {
       fetchMajorByDepartment(selectedDepartment)
     }
   }, [selectedDepartment])
 
+  useEffect(() => {
+    reset({
+      title: editTopic?.title || "",
+    });
+    setSelectedDateStart(new Date(editTopic?.DateStart))
+    setSelectedDateEnd(new Date(editTopic?.DateEnd))
+    setSelectedDepartment(editTopic?.department)
+    setSelectedSchoolYear(editTopic?.schoolYear)
+    setSelectedMajor(editTopic?.major)
+    setSelectedLecturer(editTopic?.instructors)
+    setSelectedStudents(editTopic?.students)
+    setPayload({
+      description:
+        typeof editTopic?.description === "object"
+          ? editTopic?.description?.join(", ")
+          : editTopic?.description,
+    });
+
+  }, [editTopic]);
+
+  useEffect(() => {
+    fetchUsers({ role: 4, schoolYear: `${selectedSchoolYear}`, major: `${selectedMajor}`, department: `${selectedDepartment}` })
+  }, [selectedDepartment, selectedMajor, selectedSchoolYear])
   return (
-    <div className="w-full flex flex-col gap-4 px-4 ">
-      <div className="p-4 border-b w-full flex items-center ">
-        <h1 className="text-3xl font-bold tracking-tight">Create Topic</h1>
+    <div className="w-full flex flex-col gap-4 px-4 relative">
+      <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">
+        <h1 className="text-3xl font-bold tracking-tight">Update Topic</h1>
+        <span
+          className="text-main hover:underline cursor-pointer"
+          onClick={() => setEditTopic(null)}
+        >
+          Cancel
+        </span>
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit(handleCreateTopic)}>
+        <form onSubmit={handleSubmit(handleUpdatePitch)}>
           <div className="w-full py-5 ">
             <InputForm
               label="Title of Topic"
@@ -154,11 +188,12 @@ const CreateTopic = () => {
             <div className="flex-1 items-center justify-center w-full">
               <h2 className="font-bold pb-2">School year:</h2>
               <Select
+                defaultValue={{ value: editTopic?.schoolYear, label: editTopic?.schoolYear }}
                 maxMenuHeight={150}
                 label="School Year"
                 options={SchoolYear?.map((el) => ({
-                  value: el._id,
-                  label: `${el.title}`,
+                  value: el.title,
+                  label: el.title,
                 }))}
                 id="schoolYear"
                 placeholder={"Select School Year"}
@@ -206,12 +241,15 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Department:</h2>
               <Select
+                defaultValue={{ value: editTopic?.department, label: editTopic?.department }}
                 maxMenuHeight={150}
                 label="Department"
                 options={Department?.map((el) => ({
-                  value: el._id,
-                  label: `${el.title}`,
+                  value: el.title,
+                  label: el.title,
+
                 }))}
+                isDisabled
                 id="department"
                 placeholder={"Select Department"}
                 onChange={(selectedOptions) => {
@@ -223,12 +261,14 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Major:</h2>
               <Select
+                defaultValue={{ value: editTopic?.major, label: editTopic?.major }}
                 maxMenuHeight={150}
                 label="Major"
                 options={Major?.map((el) => ({
                   value: el,
                   label: el,
                 }))}
+                isDisabled
                 id="major"
                 onChange={(selectedOptions) => {
                   setSelectedMajor(selectedOptions.label)
@@ -241,13 +281,13 @@ const CreateTopic = () => {
             <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Lecturer:</h2>
               <Select
+                defaultValue={{ value: editTopic?.instructors?._id, label: editTopic?.instructors?.email }}
                 maxMenuHeight={150}
                 label="Lecturer"
                 options={lecturer?.users?.map((el) => ({
                   value: el._id,
                   label: el.email,
                 }))}
-                isDisabled={true ? !selectedDepartment || !selectedMajor : false}
                 id="lecturer"
                 placeholder={"Select Lecturer"}
                 onChange={(selectedOptions) => {
@@ -258,8 +298,31 @@ const CreateTopic = () => {
           </div>
           <div className="w-full pb-5 flex items-center gap-4">
             <div className="flex-1 items-center">
+              <h2 className="font-bold pb-2">Reviewer:</h2>
+              <Select
+                defaultValue={{ value: editTopic?.reviewer?._id, label: editTopic?.reviewer?.email }}
+                maxMenuHeight={150}
+                label="Reviewer"
+                options={lecturer?.users?.map((el) => ({
+                  value: el._id,
+                  label: el.email,
+                }))}
+                id="reviewer"
+                placeholder={"Select Lecturer"}
+                onChange={(selectedOptions) => {
+                  setSelectedReviewer(selectedOptions.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="w-full pb-5 flex items-center gap-4">
+            <div className="flex-1 items-center">
               <h2 className="font-bold pb-2">Students:</h2>
               <Select
+                defaultValue={editTopic?.students?.map(student => ({
+                  value: student._id,
+                  label: student.email
+                }))}
                 maxMenuHeight={90}
                 label="Students"
                 options={user?.users?.map((el) => ({
@@ -269,7 +332,6 @@ const CreateTopic = () => {
                 isMulti
                 id="students"
                 placeholder={"Select Students"}
-                isDisabled={true ? !selectedSchoolYear || !selectedDepartment || !selectedMajor : false}
                 isOptionDisabled={() => selectedStudents?.length >= 3}
                 onChange={(selectedOptions) => {
                   setSelectedStudents(selectedOptions.map((option) => option.value));
@@ -278,13 +340,14 @@ const CreateTopic = () => {
             </div>
           </div>
 
-          <div className="w-full pt-20">
+          <div className="w-full pt-5 ">
             <MarkDownEditor
               name="description"
               changeValue={changeValue}
               label="Description"
               invalidFields={invalidFields}
               setInvalidFields={setInvalidFields}
+              value={payload.description}
             />
           </div>
 
@@ -294,7 +357,7 @@ const CreateTopic = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateTopic
+export default memo(UpdateTopicHeadTeacher);

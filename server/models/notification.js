@@ -7,7 +7,7 @@ var notificationSchema = new mongoose.Schema({
         required: true,
     },
     content: {
-        type: String,
+        type: Array,
         required: true,
     },
     file: {

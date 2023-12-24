@@ -8,7 +8,12 @@ var topicSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    schoolYear: {
+      type: String,
+      required: true,
+    },
     instructors: { type: mongoose.Types.ObjectId, ref: "User" },
+    reviewer: { type: mongoose.Types.ObjectId, ref: "User" },
     students: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     // instructor: {
     //   type: Array,

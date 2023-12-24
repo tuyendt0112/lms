@@ -35,7 +35,7 @@ const Notification = () => {
     }, [params])
 
     const handleOnClick = (data) => {
-        navigate(`/notification/${data.toLowerCase()}`)
+        navigate(`/notification/${data?._id}`)
     }
     console.log(notifications)
     return (
@@ -44,14 +44,14 @@ const Notification = () => {
             <div className='h-[81px] flex justify-center items-center bg-gray-100'>
                 <div className='w-main'>
                     <h3 className='font-semibold uppercase'>Notification</h3>
-                    <Breadcrumb category='notification'  ></Breadcrumb>
+                    <Breadcrumb category='notification' ></Breadcrumb>
                 </div>
             </div>
             <div className='flex justify-center items-center py-4'>
                 <div className='flex flex-col gap-4 w-main'>
                     {notifications?.map((el, index) => (
                         <div>
-                            <span onClick={() => handleOnClick(el.title)} className="font-bold text-xl cursor-pointer text-blue-700 hover:text-red-500 hover:text-2xl">{el.title}</span>
+                            <span onClick={() => handleOnClick(el)} className="font-bold text-xl cursor-pointer text-blue-700 hover:text-red-500 hover:text-2xl">{el.title}</span>
                         </div>
                     ))}
                 </div>
