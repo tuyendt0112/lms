@@ -118,7 +118,7 @@ const ManageSchoolYear = () => {
     return (
         <div className="w-full flex flex-col gap-4 px-4">
             <div className="p-4 border-b w-full flex items-center ">
-                <h1 className="text-3xl font-bold tracking-tight">Manage User</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Manage School Years</h1>
             </div>
             <div className="w-full p-4">
                 <div className="flex w-full justify-end items-center px-1 pb-4">

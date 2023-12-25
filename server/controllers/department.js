@@ -1,4 +1,5 @@
 const Major = require("../models/major");
+const Topic = require("../models/topic");
 const Department = require("../models/department");
 const asyncHandler = require("express-async-handler");
 const department = require("../models/department");

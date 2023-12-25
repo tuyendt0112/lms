@@ -31,13 +31,12 @@ const DetailTopicHeadTeacher = ({ onDetail, setOnDetail, render }) => {
     const [selectedDateStart, setSelectedDateStart] = useState(null)
     const [task, setTask] = useState(null)
     const [updateTask, setUpdateTask] = useState(false)
-    const fetchTask = async () => {
-        const response = await apiGetTasks()
-        console.log("TASK", response)
+    const fetchTask = async (data) => {
+        const response = await apiGetTasks(data)
         if (response.success) setTask(response.tasks)
     }
     useEffect(() => {
-        fetchTask()
+        fetchTask({ topic: onDetail._id })
     }, [updateTask])
     const {
         register,
@@ -62,9 +61,11 @@ const DetailTopicHeadTeacher = ({ onDetail, setOnDetail, render }) => {
         const finalPayload = {
             ...data,
             ...payload,
+            topic: onDetail._id,
             DateStart: selectedDateStart,
             DateEnd: selectedDateEnd,
         }
+        console.log(finalPayload)
         dispatch(showModal({ isShowModal: true, modalChildren: <Loading /> }))
         window.scrollTo(0, 0)
         const response = await apiCreateTask(finalPayload)
@@ -94,7 +95,6 @@ const DetailTopicHeadTeacher = ({ onDetail, setOnDetail, render }) => {
             }
         });
     }
-    console.log(task)
     return (
         <div className="w-full flex flex-col gap-4 px-4 relative">
             <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">
@@ -209,7 +209,6 @@ const DetailTopicHeadTeacher = ({ onDetail, setOnDetail, render }) => {
             <hr></hr>
             <div className="p-4">
                 <h1 className="text-2xl font-bold tracking-tight">Create Task</h1>
-
                 <form onSubmit={handleSubmit(handleCreateTopic)}>
                     <div className="w-full py-5 ">
                         <InputForm

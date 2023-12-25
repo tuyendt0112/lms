@@ -5,12 +5,13 @@ const asyncHandler = require("express-async-handler")
 const Task = require("../models/task")
 
 const createTask = asyncHandler(async (req, res) => {
-    const { title, description, DateEnd, DateStart } = req.body
+    const { title, description, DateEnd, DateStart, topic } = req.body
     if (
         !title ||
         !description ||
         !DateEnd ||
-        !DateStart
+        !DateStart ||
+        !topic
     )
         throw new Error("Missing inputs123")
     const newTask = await Task.create(req.body)

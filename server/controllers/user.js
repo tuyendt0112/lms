@@ -343,6 +343,7 @@ const updateUsers = asyncHandler(async (req, res) => {
 });
 const updateUsersByAdmin = asyncHandler(async (req, res) => {
   const { uid } = req.params
+  console.log(req.body, uid)
   if (Object.keys(req.body).length === 0) throw new Error("Missing inputs")
   const response = await User.findByIdAndUpdate(uid, req.body, {
     new: true,

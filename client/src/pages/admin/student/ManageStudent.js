@@ -85,8 +85,13 @@ const ManageStudent = () => {
   }, [params, update]);
 
   const handleUpdate = async (data) => {
-
-    const response = await apiUpdateUserByAdmin(data, editStudent._id);
+    const finalPayload = {
+      ...data,
+      department: selectedDepartment,
+      major: selectedMajor
+    };
+    console.log(finalPayload)
+    const response = await apiUpdateUserByAdmin(finalPayload, editStudent._id);
     if (response.success) {
       setEditStudent(null);
       render();
@@ -116,6 +121,7 @@ const ManageStudent = () => {
   useEffect(() => {
     if (editStudent) {
       setSelectedDepartment(editStudent.department)
+      setSelectedMajor(editStudent.major)
       reset({
         firstname: editStudent.firstname,
         lastname: editStudent.lastname,
@@ -159,7 +165,8 @@ const ManageStudent = () => {
   }, [selectedDepartment]);
 
 
-
+  console.log(selectedDepartment)
+  console.log(selectedMajor)
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       <div className="p-4 border-b w-full flex items-center ">
@@ -233,7 +240,7 @@ const ManageStudent = () => {
                         <img
                           src={el.avatar}
                           alt="thumb"
-                          className="w-[40px] h-[40px]  object-fill"
+                          className="w-[40px] h-[40px] object-fill rounded-full"
                         />
                       ) : (
                         <img
@@ -360,13 +367,14 @@ const ManageStudent = () => {
                         id={"major"}
                         className='form-select text-sm rounded-lg'
                         register={register}
+                        onChange={(e) => setSelectedMajor(e.target.value)}
                       >
                         {Major?.map((el, index) => (
                           el === editStudent?.major
                             ?
                             <option selected="selected" value={index}>{el}</option>
                             :
-                            <option value={index}>{el}</option>
+                            <option value={el}>{el}</option>
                         ))}
                       </select>
                     ) : (

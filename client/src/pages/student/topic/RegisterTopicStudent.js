@@ -119,7 +119,7 @@ const RegisterTopicStudent = () => {
         <div className="w-full flex flex-col gap-4 px-4 relative">
 
             <div className="p-4 border-b w-full flex items-center ">
-                <h1 className="text-3xl font-bold tracking-tight">Manage Topic</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Register Topic</h1>
             </div>
             <div className="flex w-full justify-end items-center px-1">
                 {/* <form className='w-[300px]' onSubmit={handleSubmit(handleManagePitch)}> */}

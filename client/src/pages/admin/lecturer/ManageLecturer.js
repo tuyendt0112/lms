@@ -138,6 +138,7 @@ const ManageLecturer = () => {
     }, []);
 
     useEffect(() => {
+        console.log(selectedDepartment)
         if (selectedDepartment) {
             fetchMajorByDepartment(selectedDepartment);
         }
@@ -165,6 +166,7 @@ const ManageLecturer = () => {
 
     }, [editStudent]);
 
+    console.log(Major)
     return (
         <div className="w-full flex flex-col gap-4 px-4">
             <div className="p-4 border-b w-full flex items-center ">
@@ -237,7 +239,7 @@ const ManageLecturer = () => {
                                                 <img
                                                     src={el.avatar}
                                                     alt="thumb"
-                                                    className="w-[40px] h-[40px]  object-fill"
+                                                    className="w-[40px] h-[40px]  object-fill rounded-full"
                                                 />
                                             ) : (
                                                 <img

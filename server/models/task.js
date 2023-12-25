@@ -7,6 +7,10 @@ var taskSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        topic: {
+            type: mongoose.Types.ObjectId,
+            ref: "Topic",
+        },
         description: {
             type: Array,
         },

@@ -80,7 +80,7 @@ const CreateLecturer = () => {
     return (
         <div className="w-full flex flex-col gap-4 px-4 ">
             <div className="p-4 border-b w-full flex items-center ">
-                <h1 className="text-3xl font-bold tracking-tight">Create Student</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Create Lecturer</h1>
             </div>
             <div className="p-4">
                 <form onSubmit={handleSubmit(handleCreateStudent)}>
@@ -143,7 +143,7 @@ const CreateLecturer = () => {
                                 maxMenuHeight={150}
                                 label="Department"
                                 options={Department?.map((el) => ({
-                                    code: el._id,
+                                    value: el._id,
                                     label: `${el.title}`,
                                 }))}
                                 id="department"
@@ -160,6 +160,7 @@ const CreateLecturer = () => {
                                 maxMenuHeight={150}
                                 label="Major"
                                 options={Major?.map((el) => ({
+                                    value: el,
                                     label: el,
                                 }))}
                                 id="major"
