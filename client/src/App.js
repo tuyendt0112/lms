@@ -103,7 +103,7 @@ function App() {
         {/*Public Route*/}
         <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.PUBLIC} element={<Public />}>
-          <Route path={path.HOME} element={<Home />} />
+          <Route path={path.HOME} element={<Notification />} />
           <Route path={path.BLOGS} element={<Blog />} />
           <Route path={path.NOTIFICATION} element={<Notification />} />
           <Route path={path.INSTRUCTION} element={<Instruction />} />

@@ -44,7 +44,7 @@ const Instruction = () => {
             <div className='h-[81px] flex justify-center items-center bg-gray-100'>
                 <div className='w-main'>
                     <h3 className='font-semibold uppercase'>Notification</h3>
-                    <Breadcrumb category='notification' ></Breadcrumb>
+                    <Breadcrumb category='instruction' ></Breadcrumb>
                 </div>
             </div>
             <div className='flex justify-center items-center py-4'>

@@ -92,7 +92,7 @@ const Login = () => {
                 userData: rs.userData,
               })
             );
-            navigate(`/${path.TOPIC}`);
+            navigate(`/${path.NOTIFICATION}`);
           } else if (+rs.isBlocked === 1) {
             Swal.fire({
               title: " You are blocked",
@@ -190,7 +190,7 @@ const Login = () => {
                 ? "PITCH OWNER "
                 : "SIGN IN"}
           </h2>
-          <div className=" flex py-1">
+          {/* <div className=" flex py-1">
             {!isRegister && !isRegisterPitchOwner && (
               <div>
                 <div className="flex">
@@ -213,7 +213,7 @@ const Login = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
           {isRegister && !isRegisterPitchOwner && (
             <div className="flex items-center gap-4 pb-1">
               <div style={{ position: "relative" }}>

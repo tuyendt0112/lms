@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 import banner4 from 'assets/banner4.jpg';
 import emailjs from '@emailjs/browser';
 import {
+  Breadcrumb,
   Map,
 } from "components";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
@@ -39,7 +40,13 @@ const FAQ = () => {
 
   return (
 
-    <div className='p-8 bg-white rounded-md min-w-[500px]'>
+    <div className=' w-full pb-2'>
+      <div className='h-[81px] flex justify-center items-center bg-gray-100'>
+        <div className='w-main'>
+          <h3 className='font-semibold uppercase'>Notification</h3>
+          <Breadcrumb category='instruction' ></Breadcrumb>
+        </div>
+      </div>
       <div>
         <div className="w-main m-auto mt-8">
           <Map coords={coords} address={'Trường Đại Học Sư Phạm Kỹ Thuật TP.HCM'} />
