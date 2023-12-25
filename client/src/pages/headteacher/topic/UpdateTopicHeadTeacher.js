@@ -95,7 +95,6 @@ const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
       setSchoolYear(response.SchoolYears)
     }
   }
-
   const fetchUsers = async (params) => {
     const response = await apiGetUsers({
       ...params,
@@ -122,6 +121,7 @@ const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
       setMajor(response.data.majors)
     }
   }
+
   useEffect(() => {
     fetchUsers()
     fetchDepartment()
@@ -145,6 +145,7 @@ const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
     setSelectedMajor(editTopic?.major)
     setSelectedLecturer(editTopic?.instructors)
     setSelectedStudents(editTopic?.students)
+    setSelectedReviewer(editTopic?.reviewer)
     setPayload({
       description:
         typeof editTopic?.description === "object"
@@ -287,6 +288,7 @@ const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
                 options={lecturer?.users?.map((el) => ({
                   value: el._id,
                   label: el.email,
+                  isDisabled: true ? el._id === selectedReviewer?._id : false
                 }))}
                 id="lecturer"
                 placeholder={"Select Lecturer"}
@@ -306,6 +308,7 @@ const UpdateTopicHeadTeacher = ({ editTopic, render, setEditTopic }) => {
                 options={lecturer?.users?.map((el) => ({
                   value: el._id,
                   label: el.email,
+                  isDisabled: true ? el._id === selectedLecturer?._id : false
                 }))}
                 id="reviewer"
                 placeholder={"Select Lecturer"}

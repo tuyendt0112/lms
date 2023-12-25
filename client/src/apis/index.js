@@ -7,4 +7,5 @@ export * from "./department";
 export * from "./topic";
 export * from "./schoolyear";
 export * from "./notification";
+export * from "./task";
 

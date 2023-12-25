@@ -54,12 +54,12 @@ const Header = () => {
                             {+current.role === 2 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.HEADERTEACHER}/${path.CREATE_TOPIC_HEADTEACHER}`}
                             >Head Teacher Workspace
                             </Link>}
-                            {/* {+current.role === 3 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.LECTURER}/${path.MANAGE_PITCHOWN}`}
+                            {+current.role === 3 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.LECTURER}/${path.CREATE_TOPIC_LECTURER}`}
                             >Lecturer Workspace
                             </Link>}
-                            {+current.role === 4 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.STUDENT}/${path.MANAGE_PITCHOWN}`}
+                            {+current.role === 4 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.STUDENT}/${path.MANAGE_TOPIC_STUDENT}`}
                             >Student Workspace
-                            </Link>} */}
+                            </Link>}
                         </div>}
                     </div>
                 }

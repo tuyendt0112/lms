@@ -38,6 +38,7 @@ var topicSchema = new mongoose.Schema(
       enum: ["Pending", "Validated"],
       default: "Pending",
     },
+    task: [{ type: mongoose.Types.ObjectId, ref: "Task" }],
   },
   {
     timestamps: true,

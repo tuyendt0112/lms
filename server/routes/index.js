@@ -8,6 +8,7 @@ const bookingRouter = require("./booking");
 const topicRouter = require("./topic");
 const schoolyearRouter = require("./schoolyear");
 const notificationRouter = require("./notification");
+const taskRouter = require("./task");
 
 const { notFound, errHandler } = require("../middlewares/errorHandler");
 
@@ -22,6 +23,7 @@ const initRoutes = (app) => {
   app.use("/api/topic", topicRouter);
   app.use("/api/schoolyear", schoolyearRouter);
   app.use("/api/notification", notificationRouter);
+  app.use("/api/task", taskRouter);
 
   app.use(notFound);
   app.use(errHandler);

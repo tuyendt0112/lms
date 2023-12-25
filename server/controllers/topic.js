@@ -109,6 +109,7 @@ const getTopics = asyncHandler(async (req, res) => {
   })
 
 })
+
 const deleteTopic = asyncHandler(async (req, res) => {
   const { pid } = req.params
   const deleteTopic = await Topic.findByIdAndDelete(pid)
@@ -129,6 +130,38 @@ const updateTopic = asyncHandler(async (req, res) => {
     mes: updateTopic ? "Updated" : "Can not update pitch",
   })
 })
+
+const registerTopic = asyncHandler(async (req, res) => {
+  const { pid, uid } = req.body
+  console.log(req.body)
+  //if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
+  const updateTopic = await Topic.findByIdAndUpdate(pid,
+    { $push: { students: uid } }
+    ,
+    {
+      new: true,
+    })
+  return res.status(200).json({
+    success: updateTopic ? true : false,
+    mes: updateTopic ? "Updated" : "Can not update pitch",
+  })
+})
+
+const unRegisterTopic = asyncHandler(async (req, res) => {
+  const { pid, uid } = req.body
+  console.log(req.body)
+  //if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
+  const updateTopic = await Topic.findByIdAndUpdate(pid,
+    { $pull: { students: uid } }
+    ,
+    {
+      new: true,
+    })
+  return res.status(200).json({
+    success: updateTopic ? true : false,
+    mes: updateTopic ? "Undo Register" : "Can not update pitch",
+  })
+})
 const getTopic = asyncHandler(async (req, res) => {
   const { pid } = req.params
   const pitch = await Topic.findById(pid).populate({
@@ -144,5 +177,7 @@ module.exports = {
   getTopics,
   deleteTopic,
   updateTopic,
-  getTopic
+  getTopic,
+  registerTopic,
+  unRegisterTopic
 }

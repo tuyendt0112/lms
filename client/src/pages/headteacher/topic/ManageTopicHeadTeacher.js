@@ -17,8 +17,9 @@ import { toast } from "react-toastify";
 import { FaRegEdit } from "react-icons/fa";
 import UpdateTopic from "./UpdateTopicHeadTeacher";
 import { useSelector } from "react-redux";
+import DetailTopicHeadTeacher from "./DetailTopicHeadTeacher";
 
-const { AiFillStar, MdEdit, MdDeleteForever } = icons;
+const { AiFillStar, MdEdit, MdDeleteForever, FaArrowRight } = icons;
 const ManageTopicHeadTeacher = () => {
   const { current } = useSelector(state => state.user)
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const ManageTopicHeadTeacher = () => {
     watch,
   } = useForm();
   const [topics, setTopics] = useState(null);
+  const [onDetail, setOnDetail] = useState(null)
   const [counts, setCounts] = useState(0);
   const [editTopic, setEditTopic] = useState(null);
   const [update, setUpdate] = useState(false);
@@ -95,6 +97,15 @@ const ManageTopicHeadTeacher = () => {
             editTopic={editTopic}
             render={render}
             setEditTopic={setEditTopic}
+          />
+        </div>
+      )}
+      {onDetail && (
+        <div className="absolute inset-0 win-h-screen bg-gray-100 z-50">
+          <DetailTopicHeadTeacher
+            render={render}
+            onDetail={onDetail}
+            setOnDetail={setOnDetail}
           />
         </div>
       )}
@@ -192,6 +203,12 @@ const ManageTopicHeadTeacher = () => {
                     className="text-red-500 hover:text-red-700 cursor-pointer px-2 text-2xl"
                   >
                     <MdDeleteForever />
+                  </span>
+                  <span
+                    onClick={() => setOnDetail(el)}
+                    className="text-yellow-500 hover:text-yellow-700 cursor-pointer px-2 text-2xl"
+                  >
+                    <FaArrowRight />
                   </span>
                 </div>
               </td>

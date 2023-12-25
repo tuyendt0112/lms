@@ -143,6 +143,7 @@ const UpdateTopic = ({ editTopic, render, setEditTopic }) => {
     });
 
   }, [editTopic]);
+  console.log(user)
   return (
     <div className="w-full flex flex-col gap-4 px-4 relative">
       <div className="p-4 border-b  bg-gray-100 flex justify-between items-center  top-0 left-[327px] right-0">

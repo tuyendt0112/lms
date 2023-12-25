@@ -4,3 +4,4 @@ export { default as CreateTopicHeadTeacher } from "./topic/CreateTopicHeadTeache
 export { default as ManageTopicHeadTeacher } from "./topic/ManageTopicHeadTeacher";
 export { default as UpdateTopicHeadTeacher } from "./topic/UpdateTopicHeadTeacher";
 export { default as VerifyTopicHeadTeacher } from "./topic/VerifyTopicHeadTeacher";
+export { default as DetailTopicHeadTeacher } from "./topic/DetailTopicHeadTeacher";

@@ -313,6 +313,38 @@ export const headTeacherSideBar = [
   },
 
 ];
+export const LecturerSideBar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Create Topic",
+    path: `/${path.LECTURER}/${path.CREATE_TOPIC_LECTURER}`,
+    icon: <MdTopic />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "Manage Topic",
+    path: `/${path.LECTURER}/${path.MANAGE_TOPIC_LECTURER}`,
+    icon: <MdSpaceDashboard />,
+  },
+];
+export const StudentSideBar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Manage Topic",
+    path: `/${path.STUDENT}/${path.MANAGE_TOPIC_STUDENT}`,
+    icon: <MdSpaceDashboard />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "Register Topic",
+    path: `/${path.STUDENT}/${path.REGISTER_TOPIC_STUDENT}`,
+    icon: <MdTopic />,
+  },
+];
 export const pitchOwnerSideBar = [
   {
     id: 1,
@@ -380,7 +412,6 @@ export const roles = [
     value: "Student",
   },
 ];
-
 export const blockStatus = [
   {
     code: 1,
@@ -391,7 +422,6 @@ export const blockStatus = [
     value: "Active",
   },
 ];
-
 export const voteOptions = [
   {
     id: 1,

@@ -42,6 +42,11 @@ import {
   UpdateTopicHeadTeacher,
   VerifyTopicHeadTeacher
 } from "pages/headteacher";
+import {
+  CreateTopicLecturer,
+  LecturerLayout,
+  ManageTopicLecturer
+} from "pages/lecturer";
 
 import { MemberLayout, Personal, History, Wishlist } from "pages/member";
 import {
@@ -61,6 +66,7 @@ import { showOrder } from "store/app/appSilice";
 import DetailOrder from "pages/public/DetailOrder";
 import Checkout from "pages/member/CheckOut";
 import "react-toastify/dist/ReactToastify.css";
+import { ManageTopicStudent, RegisterTopicStudent, SignUp, StudentLayout } from "pages/student";
 function App() {
   const dispatch = useDispatch();
   const { isShowModal, modalChildren, isShowOrder } = useSelector(
@@ -135,6 +141,16 @@ function App() {
           <Route path={path.CREATE_TOPIC_HEADTEACHER} element={<CreateTopicHeadTeacher />} />
           <Route path={path.MANAGE_TOPIC_HEADTEACHER} element={<ManageTopicHeadTeacher />} />
           <Route path={path.VERIFY_TOPIC_HEADTEACHER} element={<VerifyTopicHeadTeacher />} />
+        </Route>
+        {/*Lecturer Route*/}
+        <Route path={path.LECTURER} element={<LecturerLayout />}>
+          <Route path={path.CREATE_TOPIC_LECTURER} element={<CreateTopicLecturer />} />
+          <Route path={path.MANAGE_TOPIC_LECTURER} element={<ManageTopicLecturer />} />
+        </Route>
+        {/*Student Route*/}
+        <Route path={path.STUDENT} element={<StudentLayout />}>
+          <Route path={path.MANAGE_TOPIC_STUDENT} element={<ManageTopicStudent />} />
+          <Route path={path.REGISTER_TOPIC_STUDENT} element={<RegisterTopicStudent />} />
         </Route>
         {/*Member Route*/}
         <Route path={path.MEMBER} element={<MemberLayout />}>

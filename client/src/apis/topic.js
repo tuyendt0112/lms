@@ -1,4 +1,5 @@
 import axios from "../axios";
+
 export const apiCreateTopic = (data) => axios({
   url: "/topic/",
   method: "post",
@@ -23,6 +24,18 @@ export const apiDeleteTopic = (pid) => axios({
 
 export const apiUpdateTopic = (data, pid) => axios({
   url: '/topic/' + pid,
+  method: 'put',
+  data
+})
+
+export const apiRegisterTopic = (data, pid) => axios({
+  url: '/topic/register/' + pid,
+  method: 'put',
+  data
+})
+
+export const apiUndoRegisterTopic = (data, pid) => axios({
+  url: '/topic/undoregister/' + pid,
   method: 'put',
   data
 })

@@ -38,7 +38,8 @@ import {
     FaChalkboardTeacher,
     FaCity,
     FaBook,
-    FaCalendarAlt
+    FaCalendarAlt,
+    FaArrowRight
 } from "react-icons/fa"
 
 import {
@@ -112,7 +113,8 @@ const icons = {
     PiStudent,
     MdTopic,
     MdNotifications,
-    MdApproval
+    MdApproval,
+    FaArrowRight
 }
 
 export default icons

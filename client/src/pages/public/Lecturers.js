@@ -18,6 +18,7 @@ const Lecturers = () => {
     const [counts, setCounts] = useState(0);
     const fetchLecturers = async (queries) => {
         const response = await apiGetLecturer(queries)
+        console.log(response)
         if (response.success) {
             setLecturers(response);
             setCounts(response.counts);

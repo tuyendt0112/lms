@@ -90,7 +90,7 @@ const CreateNotification = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2 py-2">
-                        <h4>Upload Pdf </h4>
+                        <h4>Upload PDF </h4>
                         <form enctype="multipart/form-data">
                             <input
                                 type="file"
